@@ -1,7 +1,15 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import path from "path"
+import react from "@vitejs/plugin-react"
+import { defineConfig } from "vite"
+import { inspectAttr } from 'kimi-plugin-inspect-react'
 
-export default defineConfig(({ command }) => ({
-  plugins: [react()],
-  base: command === "build" ? "/JEN_PLANET_Source/" : "/",
-}));
+// https://vite.dev/config/
+export default defineConfig({
+  base: '/',
+  plugins: [inspectAttr(), react()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
+});
