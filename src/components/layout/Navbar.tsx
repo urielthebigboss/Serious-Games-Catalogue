@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, User, PlusCircle, Info, Home } from 'lucide-react';
+import { Menu, X, PlusCircle, Info, Home} from 'lucide-react';
+import img from '../../assets/Document.png';
 
 const navLinks = [
-  { path: '/', label: 'HOME', icon: Home },
-  { path: '/add', label: 'ADD', icon: PlusCircle },
-  { path: '/profile', label: 'PROFILE', icon: User },
+  { path: '/', label: 'SEARCH FOR GAME', icon: Home },
+  { path: '/add', label: 'CONTRIBUTE', icon: PlusCircle },
   { path: '/about', label: 'ABOUT', icon: Info },
 ];
 
@@ -21,14 +21,10 @@ export function Navbar() {
         
         {/* Logo Section - Aligné à gauche */}
         <Link to="/" className="flex flex-col items-center min-w-[100px]">
-          <div className="flex text-3xl font-black tracking-tighter leading-none">
-            <span className="text-[#0052CC]">S</span>
-            <span className="text-[#44AD44]">G</span>
-            <span className="text-[#0052CC]">S</span>
+          <div className="flex tracking-tighter leading-none">
+            <img src={img} alt="Logo" width={100} height={100} />
           </div>
-          <div className="text-[7px] font-bold uppercase text-gray-700 tracking-[0.05em] mt-0.5">
-            Serious Games Society
-          </div>
+          
         </Link>
 
         {/* Desktop Navigation - Centrée, Fine et Compacte */}
@@ -89,6 +85,8 @@ export function Navbar() {
           </div>
         </div>
       )}
+      
+        
     </nav>
   );
 }
