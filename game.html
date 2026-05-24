@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serious Game Catalogue - Game Details</title>
+  <!-- Page specific CSS mapped from Tailwind -->
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/game.css">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar" style="position:relative; z-index:50;">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <a href="index.html" class="flex flex-col items-center min-w-[100px]">
+        <div style="display:flex; letter-spacing:-0.05em; line-height:1;">
+          <img src="assets/Document.png" alt="Logo" height="50" style="height: 50px; width: auto;"
+            onerror="this.src='https://placehold.co/100x40?text=Logo';" />
+        </div>
+      </a>
+      <div class="hidden md:flex nav-desktop-container">
+        <a href="index.html" class="nav-link"><i data-lucide="home" style="width: 18px; height: 18px;"></i><span
+            class="nav-link-text">SEARCH FOR GAME</span></a>
+        <a href="add-game.html" class="nav-link"><i data-lucide="plus-circle"
+            style="width: 18px; height: 18px;"></i><span class="nav-link-text">CONTRIBUTE</span></a>
+        <a href="about.html" class="nav-link"><i data-lucide="info" style="width: 18px; height: 18px;"></i><span
+            class="nav-link-text">ABOUT</span></a>
+      </div>
+      <div class="hidden md:block min-w-[100px]"></div>
+      <button id="mobile-menu-btn" class="md:hidden mobile-menu-btn"><i data-lucide="menu" id="mobile-menu-icon"
+          style="width: 24px; height: 24px;"></i></button>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden">
+      <div class="flex flex-col gap-1">
+        <a href="index.html" class="mobile-nav-link"><i data-lucide="home" style="width: 20px; height: 20px;"></i>SEARCH
+          FOR GAME</a>
+        <a href="add-game.html" class="mobile-nav-link"><i data-lucide="plus-circle"
+            style="width: 20px; height: 20px;"></i>CONTRIBUTE</a>
+        <a href="about.html" class="mobile-nav-link"><i data-lucide="info"
+            style="width: 20px; height: 20px;"></i>ABOUT</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- REPORT MODAL POPUP -->
+  <div id="report-modal" class="report-modal-overlay" style="display:none;">
+    <div class="report-modal-bg" id="close-modal-overlay"></div>
+    <div class="report-modal-panel">
+      <button class="report-close-btn" id="close-modal-btn">
+        <i data-lucide="x" style="width:24px; height:24px;"></i>
+      </button>
+      <div class="report-header">
+        <div class="report-icon-box">
+          <i data-lucide="alert-triangle" style="width:24px; height:24px;"></i>
+        </div>
+        <div>
+          <h2 class="report-title">Report a problem</h2>
+          <p class="report-subtitle">Help us improve the experience</p>
+        </div>
+      </div>
+      <form id="report-form" style="display:flex; flex-direction:column; gap:1.5rem;">
+        <div style="display:flex; flex-direction:column; gap:0.75rem;">
+          <label
+            style="font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:0.1em; color:#9ca3af; padding-left:0.25rem;">Describe
+            the issue</label>
+          <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.5rem;" id="sugg-container"></div>
+          <textarea id="report-textarea" class="report-textarea"
+            placeholder="Tell us what's wrong (technical bug, content error...)" required></textarea>
+        </div>
+        <button type="submit" class="report-submit">Submit Report</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="game-page">
+    <div class="game-container">
+
+      <div class="game-nav">
+        <a href="index.html" class="back-btn">
+          <div class="back-icon-wrap"><i data-lucide="arrow-left" style="width:24px; height:24px;"></i></div>
+          <span class="back-text">Back to Catalog</span>
+        </a>
+        <button class="share-btn"><i data-lucide="share-2" style="width:20px; height:20px;"></i></button>
+      </div>
+
+      <div class="game-grid">
+
+        <!-- LEFT CONTENT -->
+        <div class="col-7">
+
+          <div class="game-hero">
+            <img src="" alt="" class="hero-img" id="page-game-img">
+            <div class="hero-grad"></div>
+            <div class="hero-content">
+              <div class="hero-rating-box">
+                <div class="hero-rating-tag">
+                  <i data-lucide="star" style="width:14px; height:14px; fill:black;"></i>
+                  <span class="hero-rating-val" id="page-game-rating">4.6</span>
+                </div>
+                <span class="hero-rating-lbl">Global Score</span>
+              </div>
+              <h1 class="hero-title" id="page-game-title">Game Title</h1>
+            </div>
+          </div>
+
+          <!-- Content section specific for Community Rating 4.0 Avg -->
+          <div class="meta-item">
+            <div class="meta-label-flex">
+              <span class="meta-line bg-orange-500"></span>
+              <h3 class="meta-label">Community Rating</h3>
+            </div>
+            <div class="meta-content">
+              <div style="display:flex; flex-direction:column; gap:0.75rem;">
+                <div class="rate-stars">
+                  <i data-lucide="star" style="width:24px; height:24px;" class="text-orange-400 fill-orange-400"></i>
+                  <i data-lucide="star" style="width:24px; height:24px;" class="text-orange-400 fill-orange-400"></i>
+                  <i data-lucide="star" style="width:24px; height:24px;" class="text-orange-400 fill-orange-400"></i>
+                  <i data-lucide="star" style="width:24px; height:24px;" class="text-orange-400 fill-orange-400"></i>
+                  <i data-lucide="star" style="width:24px; height:24px; color:#e5e7eb;"></i>
+                </div>
+                <span
+                  style="font-size:10px; color:#9ca3af; text-transform:uppercase; letter-spacing:0.1em; font-weight:700;">4.0
+                  / 5 Average Rating</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="content-area-pad">
+            <section>
+              <div class="sec-header">
+                <span class="sec-line bg-blue-500"></span>
+                <h2 class="sec-title">Description</h2>
+              </div>
+              <p class="desc-text" id="page-game-desc">Description goes here</p>
+            </section>
+            <section>
+              <div class="sec-header">
+                <span class="sec-line bg-orange-500"></span>
+                <h2 class="sec-title">Gameplay</h2>
+              </div>
+              <div class="gameplay-grid" id="page-gameplay">
+                <div class="gameplay-item"><span class="gameplay-dot"></span><span class="gameplay-lbl">Linguistic
+                    Analysis</span></div>
+                <div class="gameplay-item"><span class="gameplay-dot"></span><span class="gameplay-lbl">Punctuation
+                    Challenge</span></div>
+                <div class="gameplay-item"><span class="gameplay-dot"></span><span class="gameplay-lbl">Pronoun
+                    Laboratory</span></div>
+              </div>
+            </section>
+
+            <section>
+              <div class="sec-header" style="margin-top:1rem;">
+                <span class="sec-line bg-blue-600"></span>
+                <h2 class="sec-title">Community Reviews</h2>
+              </div>
+              <div class="review-box">
+                <p class="rev-box-q">"What did you think of this experience?"</p>
+                <p class="rev-box-sub">Share your thoughts with the community</p>
+                <div class="rev-input-wrap">
+                  <input type="text" id="add-review-input" class="rev-input" placeholder="Write a review...">
+                  <button class="rev-btn" id="add-review-btn"><i data-lucide="send"
+                      style="width:14px; height:14px;"></i></button>
+                </div>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:1rem;" id="reviews-container">
+                <!-- Rendered by JS -->
+              </div>
+            </section>
+          </div>
+
+        </div>
+
+        <!-- RIGHT SIDEBAR -->
+        <div class="col-5">
+          <div class="sidebar-sticky">
+
+            <div class="action-card">
+              <button class="btn-go">GO TO GAME WEB PAGE</button>
+              <button class="btn-report" id="btn-open-report">
+                <i data-lucide="alert-triangle" style="width:14px; height:14px;"></i> report a problem
+              </button>
+            </div>
+
+            <div class="info-grid">
+
+              <div class="meta-item">
+                <div class="meta-label-flex"><span class="meta-line bg-blue-500"></span>
+                  <h3 class="meta-label">Field / Domaine</h3>
+                </div>
+                <div class="meta-content"><span class="badge-tag" style="background-color:#E0EEFF; color:#2563eb;"
+                    id="page-cat">Language</span></div>
+              </div>
+
+              <div class="meta-item">
+                <div class="meta-label-flex"><span class="meta-line bg-blue-500"></span>
+                  <h3 class="meta-label">Target / Public</h3>
+                </div>
+                <div class="meta-content"><span class="badge-tag" style="background-color:#E0EEFF; color:#2563eb;"
+                    id="page-public">Tous Publics</span></div>
+              </div>
+
+              <div class="meta-item">
+                <div class="meta-label-flex"><span class="meta-line bg-blue-500"></span>
+                  <h3 class="meta-label">Age Required</h3>
+                </div>
+                <div class="meta-content"><span class="badge-tag" style="background-color:#E0EEFF; color:#2563eb;"
+                    id="page-age">18 ans +</span></div>
+              </div>
+
+              <div class="meta-item">
+                <div class="meta-label-flex"><span class="meta-line bg-orange-500"></span>
+                  <h3 class="meta-label">Compatible Platforms</h3>
+                </div>
+                <div class="meta-content">
+                  <div class="platform-wrap">
+                    <div class="plat-icon-box"><i data-lucide="monitor" style="width:20px; border-width:2px;"></i><span
+                        class="plat-lbl">Windows</span></div>
+                    <div class="plat-icon-box"><i data-lucide="smartphone"
+                        style="width:20px; border-width:2px;"></i><span class="plat-lbl">Android</span></div>
+                    <div class="plat-icon-box"><i data-lucide="globe" style="width:20px; border-width:2px;"></i><span
+                        class="plat-lbl">Web</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="meta-item">
+                <div class="meta-label-flex"><span class="meta-line bg-orange-500"></span>
+                  <h3 class="meta-label">Game Mode</h3>
+                </div>
+                <div class="meta-content">
+                  <div style="display:flex; gap:1rem; flex-wrap:wrap;" id="page-gamemodes">
+                    <p style="color:#ea580c; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em;">
+                      Linguistic</p>
+                    <p style="color:#ea580c; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em;">Syntax
+                    </p>
+                    <p style="color:#ea580c; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em;">
+                      Vocabulary</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="meta-item">
+                <div class="meta-label-flex"><span class="meta-line bg-red-500"></span>
+                  <h3 class="meta-label">Quick Keywords</h3>
+                </div>
+                <div class="meta-content">
+                  <div style="display:flex; gap:0.5rem; flex-wrap:wrap;" id="page-keywords">
+                    <span class="kw-badge">Science</span><span class="kw-badge">Mind</span><span
+                      class="kw-badge">Math</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="meta-item">
+                <div class="meta-label-flex"><span class="meta-line bg-orange-500"></span>
+                  <h3 class="meta-label">Community Rating</h3>
+                </div>
+                <div class="meta-content">
+                  <div style="display:flex; flex-direction:column; gap:0.75rem;">
+                    <div class="rate-stars" id="interactive-stars">
+                      <i data-lucide="star" style="width:24px; height:24px;" class="star-btn text-gray-200"
+                        data-val="1"></i>
+                      <i data-lucide="star" style="width:24px; height:24px;" class="star-btn text-gray-200"
+                        data-val="2"></i>
+                      <i data-lucide="star" style="width:24px; height:24px;" class="star-btn text-gray-200"
+                        data-val="3"></i>
+                      <i data-lucide="star" style="width:24px; height:24px;" class="star-btn text-gray-200"
+                        data-val="4"></i>
+                      <i data-lucide="star" style="width:24px; height:24px;" class="star-btn text-gray-200"
+                        data-val="5"></i>
+                    </div>
+                    <span class="rate-status" id="interactive-stars-status">Click to rate</span>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="max-w-7xl mx-auto footer-grid">
+      <div class="footer-brand">
+        <h2>Serious Game<br />Catalogue</h2>
+        <p>A leading platform for<br />serious educational games.</p>
+      </div>
+      <div>
+        <h3 class="footer-heading"><span class="footer-indicator-orange"></span>NAVIGATION</h3>
+        <nav class="footer-nav">
+          <a href="index.html" class="footer-link"><i data-lucide="home" style="width:20px; height:20px;"></i> HOME</a>
+          <a href="add-game.html" class="footer-link"><i data-lucide="plus-circle" style="width:20px; height:20px;"></i>
+            ADD SERIOUS GAME</a>
+          <a href="about.html" class="footer-link"><i data-lucide="info" style="width:20px; height:20px;"></i> ABOUT</a>
+          <a href="profile.html" class="footer-link"><i data-lucide="user" style="width:20px; height:20px;"></i>
+            PROFILE</a>
+        </nav>
+
+      </div>
+      <div style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <h3 class="footer-heading"><span class="footer-indicator-red"></span>PORTAL</h3>
+          <a href="admin.html" class="footer-link">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="3" stroke-width="2" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
+            </svg>
+            ADMIN ACCESS
+          </a>
+        </div>
+        <div style="margin-top: 2rem;">
+          <p style="color: #9ca3af; font-size: 0.875rem; margin-bottom: 0.5rem;">2026 Serious Games Society</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    // ================= GAME DATA (synced with main.js cards) =================
+    const gameDetails = [
+      {
+        id: '1',
+        title: 'Linguistic Laboratory',
+        category: 'Language',
+        fullDescription: 'Linguistic Laboratory is an innovative educational game designed to help players master new languages through immersive gameplay and interactive challenges. The game combines cutting-edge AI technology with proven language learning methodologies.',
+        image: 'https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&h=600&fit=crop',
+        rating: 4.8,
+        publicType: 'Étudiants',
+        age: '18 ans +',
+        gameModes: ['Linguistic', 'Syntax', 'Vocabulary'],
+        keywords: ['Science', 'Mind', 'Math'],
+        gameplay: ['Linguistic Analysis', 'Punctuation Challenge', 'Pronoun Laboratory']
+      },
+      {
+        id: '2',
+        title: 'Bio-Tech Simulator',
+        category: 'Linguistics',
+        fullDescription: 'Bio-Tech Simulator is a groundbreaking educational experience that combines biotechnology concepts with hands-on virtual lab experiments. Players explore genetic engineering, molecular biology, and biotech applications through interactive simulations.',
+        image: 'https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=800&h=600&fit=crop',
+        rating: 4.6,
+        publicType: 'Scolaire',
+        age: '15 ans +',
+        gameModes: ['Research', 'Experiment', 'Analysis'],
+        keywords: ['Biology', 'Technology', 'Research'],
+        gameplay: ['DNA Sequencing', 'Cell Culture Lab', 'Protein Synthesis']
+      },
+      {
+        id: '3',
+        title: 'Space Exploration',
+        category: 'Astronomy',
+        fullDescription: 'Space Exploration takes players on an epic journey through the cosmos. Discover planets, navigate asteroid fields, and learn about astrophysics through immersive missions. Built with real NASA data for an authentic space experience.',
+        image: 'https://images.unsplash.com/photo-1614728263952-84ea256f9679?w=800&h=600&fit=crop',
+        rating: 4.7,
+        publicType: 'Tous publics',
+        age: '18 ans +',
+        gameModes: ['Navigation', 'Discovery', 'Mission'],
+        keywords: ['Space', 'Physics', 'Discovery'],
+        gameplay: ['Orbital Mechanics', 'Planet Discovery', 'Star Mapping']
+      },
+      {
+        id: '4',
+        title: 'History Chronicles',
+        category: 'History',
+        fullDescription: 'History Chronicles offers an unprecedented opportunity to experience history firsthand. Players walk through pivotal moments in history, from ancient civilizations to modern conflicts, making decisions that shaped the world.',
+        image: 'https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=800&h=600&fit=crop',
+        rating: 4.9,
+        publicType: 'Enfants',
+        age: '12 ans +',
+        gameModes: ['Exploration', 'Strategy', 'Quiz'],
+        keywords: ['History', 'Culture', 'Immersion'],
+        gameplay: ['Timeline Navigation', 'Historical Debates', 'Civilization Builder']
+      }
+    ];
+
+    // ================= POPULATE PAGE FROM URL =================
+    const urlParams = new URLSearchParams(window.location.search);
+    const gid = urlParams.get('id') || '1';
+    const gameRef = gameDetails.find(g => g.id === gid) || gameDetails[0];
+
+    // Hero section
+    document.getElementById('page-game-title').innerText = gameRef.title;
+    document.getElementById('page-game-desc').innerText = gameRef.fullDescription;
+    document.getElementById('page-game-rating').innerText = gameRef.rating;
+    document.getElementById('page-game-img').src = gameRef.image;
+
+    // Sidebar meta fields
+    document.getElementById('page-cat').innerText = gameRef.category;
+    document.getElementById('page-public').innerText = gameRef.publicType;
+    document.getElementById('page-age').innerText = gameRef.age;
+
+    // Game modes
+    const gmEl = document.getElementById('page-gamemodes');
+    gmEl.innerHTML = gameRef.gameModes.map(m =>
+      `<p style="color:#ea580c; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em;">${m}</p>`
+    ).join('');
+
+    // Keywords
+    const kwEl = document.getElementById('page-keywords');
+    kwEl.innerHTML = gameRef.keywords.map(k =>
+      `<span class="kw-badge">${k}</span>`
+    ).join('');
+
+    // Gameplay
+    const gpEl = document.getElementById('page-gameplay');
+    gpEl.innerHTML = gameRef.gameplay.map(g =>
+      `<div class="gameplay-item"><span class="gameplay-dot"></span><span class="gameplay-lbl">${g}</span></div>`
+    ).join('');
+
+    // ================= REPORT MODAL =================
+    const rMdl = document.getElementById('report-modal');
+    const ta = document.getElementById('report-textarea');
+    const clsM = () => { rMdl.style.display = 'none'; ta.value = ''; };
+
+    document.getElementById('btn-open-report').addEventListener('click', () => rMdl.style.display = 'flex');
+    document.getElementById('close-modal-btn').addEventListener('click', clsM);
+    document.getElementById('close-modal-overlay').addEventListener('click', clsM);
+
+    const suggestions = ["Game is not loading", "Broken link or missing asset", "Inappropriate content", "Audio/Video not working"];
+    const sC = document.getElementById('sugg-container');
+    suggestions.forEach(s => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'sugg-btn'; b.innerText = s;
+      b.onclick = () => ta.value = s;
+      sC.appendChild(b);
+    });
+
+    document.getElementById('report-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert("Thank you. Your report has been sent to our technical team.");
+      clsM();
+    });
+
+    // ================= REVIEWS =================
+    const rvCont = document.getElementById('reviews-container');
+    const inRt = document.getElementById('add-review-input');
+    const bnRt = document.getElementById('add-review-btn');
+
+    let reviews = [
+      { id: 1, text: "Incredible experience ! The level design is brilliant.", author: "Thomas24" },
+      { id: 2, text: "Great learning curve. Really helped me understand the concepts.", author: "Alice" },
+      { id: 3, text: "Highly recommended for students.", author: "Chris" }
+    ];
+
+    function renderRev() {
+      rvCont.innerHTML = reviews.map(r => `
+          <div class="comment-card">
+            <div class="comment-header">
+              <div class="cmnt-user-flex">
+                <div class="cmnt-avatar ${r.author === 'You' ? 'bg-blue-500' : 'bg-gray-200'}" style="${r.author !== 'You' ? 'color:#9ca3af;' : ''}">${r.author.charAt(0)}</div>
+                <p class="cmnt-author">${r.author}</p>
+              </div>
+            </div>
+            <p class="cmnt-text">${r.text}</p>
+          </div>
+        `).join('');
+    }
+
+    const sendRev = () => {
+      if (inRt.value.trim() !== '') {
+        reviews.unshift({ id: Date.now(), text: inRt.value.trim(), author: "You" });
+        inRt.value = '';
+        renderRev();
+      }
+    };
+    bnRt.onclick = sendRev;
+    inRt.onkeydown = (e) => { if (e.key === 'Enter') sendRev(); };
+    renderRev();
+
+    // ================= INTERACTIVE STARS =================
+    const iStars = document.querySelectorAll('.star-btn');
+    const iStats = document.getElementById('interactive-stars-status');
+    let currentRating = 0;
+
+    function paintStars(val) {
+      iStars.forEach((st, idx) => {
+        if (val > idx) { st.classList.add('text-orange-400', 'fill-orange-400'); st.classList.remove('text-gray-200'); }
+        else { st.classList.remove('text-orange-400', 'fill-orange-400'); st.classList.add('text-gray-200'); }
+      });
+    }
+
+    iStars.forEach((st, idx) => {
+      st.onclick = () => { currentRating = idx + 1; iStats.innerText = `You rated ${currentRating} stars`; };
+      st.onmouseenter = () => paintStars(idx + 1);
+      st.onmouseleave = () => paintStars(currentRating);
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    });
+
+  </script>
+</body>
+
+</html>
