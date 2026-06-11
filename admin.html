@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/Document.png" type="image/png">
+    <title>Serious Game Catalogue - Admin</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    
+    <!-- Navigation Bar -->
+    <nav class="navbar" style="position:relative; z-index:50;">
+      <div class="max-w-7xl mx-auto flex items-center justify-between">
+        <a href="index.html" class="flex flex-col items-center min-w-[100px]">
+          <div style="display:flex; letter-spacing:-0.05em; line-height:1;">
+            <img src="assets/Document.png" alt="Logo" height="50" style="height: 50px; width: auto;" onerror="this.src='https://placehold.co/100x40?text=Logo';" />
+          </div>
+        </a>
+        <div class="hidden md:flex nav-desktop-container">
+          <a href="index.html" class="nav-link"><i data-lucide="home" style="width: 18px; height: 18px;"></i><span class="nav-link-text">SEARCH FOR GAME</span></a>
+          <a href="add-game.html" class="nav-link"><i data-lucide="plus-circle" style="width: 18px; height: 18px;"></i><span class="nav-link-text">CONTRIBUTE</span></a>
+          <a href="about.html" class="nav-link"><i data-lucide="info" style="width: 18px; height: 18px;"></i><span class="nav-link-text">ABOUT</span></a>
+        </div>
+        <div class="hidden md:block min-w-[100px]"></div>
+        <button id="mobile-menu-btn" class="md:hidden mobile-menu-btn"><i data-lucide="menu" id="mobile-menu-icon" style="width: 24px; height: 24px;"></i></button>
+      </div>
+      <div id="mobile-menu" class="hidden md:hidden">
+        <div class="flex flex-col gap-1">
+          <a href="index.html" class="mobile-nav-link"><i data-lucide="home" style="width: 20px; height: 20px;"></i>SEARCH FOR GAME</a>
+          <a href="add-game.html" class="mobile-nav-link"><i data-lucide="plus-circle" style="width: 20px; height: 20px;"></i>CONTRIBUTE</a>
+          <a href="about.html" class="mobile-nav-link"><i data-lucide="info" style="width: 20px; height: 20px;"></i>ABOUT</a>
+        </div>
+      </div>
+    </nav>
+
+
+    <!-- Main Content -->
+    <main>
+      <div class="admin-page">
+        <!-- Admin Header -->
+        <div class="admin-header">
+          <div class="admin-header-content">
+            <div class="admin-header-left">
+              <div class="admin-shield-icon"><i data-lucide="shield" style="width:20px; height:20px; color:white;"></i></div>
+              <div>
+                <h1 class="admin-title">Admin Space</h1>
+                <p class="admin-subtitle">Management Dashboard</p>
+              </div>
+            </div>
+            <div class="admin-header-right">
+              <div class="admin-user-info">
+                <p class="admin-user-name">Admin User</p>
+                <p class="admin-user-email">admin@seriousgame.com</p>
+              </div>
+              <div class="admin-avatar"><span class="admin-avatar-initial">A</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-container">
+          <!-- TABS -->
+          <div class="admin-tabs" id="admin-tabs-container">
+            <button class="admin-tab active" data-target="reviews">
+              <i data-lucide="clock" style="width:13px; height:13px;"></i> Pending Reviews
+            </button>
+            <button class="admin-tab inactive" data-target="games">
+              <i data-lucide="gamepad-2" style="width:13px; height:13px;"></i> Games
+            </button>
+          </div>
+
+          <!-- Pending Reviews View -->
+          <div id="view-reviews" class="reviews-list">
+            <!-- Rendered by JS -->
+          </div>
+
+          <!-- Games Table View -->
+          <div id="view-games" style="display:none;" class="admin-panel-card">
+            <div class="admin-panel-header">
+              <div class="admin-search-wrap">
+                <div class="admin-search-input-wrap">
+                  <i data-lucide="search" class="admin-search-icon" style="width:15px; height:15px;"></i>
+                  <input type="text" id="games-search" class="admin-search-input" placeholder="Search games, categories, developers...">
+                </div>
+                <button class="admin-filter-btn">
+                  <i data-lucide="filter" style="width:13px; height:13px;"></i> Filter
+                </button>
+              </div>
+            </div>
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead class="admin-table-head">
+                  <tr>
+                    <th class="admin-th">Game</th>
+                    <th class="admin-th">Domaine</th>
+                    <th class="admin-th">Status</th>
+                    <th class="admin-th">Audience</th>
+                    <th class="admin-th right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody class="admin-tbody" id="games-tbody">
+                  <!-- Rendered by JS -->
+                </tbody>
+              </table>
+              <div id="no-games-msg" class="no-games" style="display:none;">
+                <i data-lucide="gamepad-2" style="width:40px; height:40px; color:#e5e7eb; margin: 0 auto 1rem auto;"></i>
+                <p style="font-size:0.75rem; font-weight:900; text-transform:uppercase; letter-spacing:0.1em; color:#9ca3af;">No games found</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ADMIN MODAL -->
+    <div id="admin-modal" class="admin-modal-overlay" style="display:none;">
+      <div class="admin-modal-backdrop" id="modal-close-backdrop"></div>
+      <div class="admin-modal-panel">
+        <div class="modal-hero">
+          <img src="" id="modal-img" alt="Hero" class="modal-hero-img">
+          <div class="modal-hero-grad"></div>
+          <button class="modal-close-btn" id="modal-close-btn">
+            <i data-lucide="x" style="width:17px; height:17px;"></i>
+          </button>
+          
+          <div class="modal-hero-rate">
+            <i data-lucide="star" style="width:10px; height:10px; color:#facc15; fill:#facc15;"></i>
+            <span id="modal-rating">5.0</span>
+          </div>
+
+          <div id="modal-edit-badge" class="modal-hero-admin-badge" style="display:none;">Edit Mode</div>
+
+          <div class="modal-hero-text">
+            <span class="modal-hero-dom" id="modal-dom">Domain</span>
+            <h2 class="modal-hero-title" id="modal-title">Game Title</h2>
+            <p class="modal-hero-dev" id="modal-dev">Developer Name</p>
+          </div>
+        </div>
+
+        <div class="modal-body" id="modal-body-content">
+          <!-- Rendered by JS -->
+        </div>
+
+        <div class="modal-footer">
+          <button id="modal-save-btn" class="btn-save btn-save-unsaved" style="display:none;">
+            <i data-lucide="save" id="save-icon" style="width:14px; height:14px;"></i>
+            <span id="save-text">Save Changes</span>
+          </button>
+          <a href="#" target="_blank" class="btn-link">
+            Go to Game Page <i data-lucide="arrow-right" style="width:14px; height:14px;"></i>
+          </a>
+          <button class="btn-close" id="modal-close-footer-btn">Close</button>
+        </div>
+      </div>
+    </div>
+
+
+    <footer class="footer">
+      <div class="max-w-7xl mx-auto footer-grid">
+        <div class="footer-brand">
+          <h2>Serious Game<br />Catalogue</h2>
+          <p>A leading platform for<br />serious educational games.</p>
+        </div>
+        <div>
+          <h3 class="footer-heading"><span class="footer-indicator-orange"></span>NAVIGATION</h3>
+          <nav class="footer-nav">
+            <a href="index.html" class="footer-link"><i data-lucide="home" style="width:20px; height:20px;"></i> HOME</a>
+            <a href="add-game.html" class="footer-link"><i data-lucide="plus-circle" style="width:20px; height:20px;"></i> ADD SERIOUS GAME</a>
+            <a href="about.html" class="footer-link"><i data-lucide="info" style="width:20px; height:20px;"></i> ABOUT</a>
+            <a href="profile.html" class="footer-link"><i data-lucide="user" style="width:20px; height:20px;"></i> PROFILE</a>
+          </nav>
+
+        </div>
+        <div style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <h3 class="footer-heading"><span class="footer-indicator-red"></span>PORTAL</h3>
+            <a href="admin.html" class="footer-link">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+              ADMIN ACCESS
+            </a>
+          </div>
+          <div style="margin-top: 2rem;">
+            <p style="color: #9ca3af; font-size: 0.875rem; margin-bottom: 0.5rem;">2026 Serious Games Society</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/admin-auth.js"></script>
+    <script>
+
+      // ===== ADMIN DASHBOARD — connected to FastAPI backend =====
+      const API = window.adminAuth.API_BASE;
+      const authHeaders = () => window.adminAuth.authHeaders();
+
+      const PLACEHOLDER_IMG = 'https://placehold.co/800x600?text=No+Image';
+      const titleOf = g => (g.title || (g.description ? String(g.description).slice(0, 45) : ('Game #' + g.id)));
+
+      const FIELDS = [
+        { key:'title', label:'Title', icon:'type', color:'text-indigo-600' },
+        { key:'domaine', label:'Domaine', icon:'layers', color:'text-blue-600' },
+        { key:'target_audience', label:'Target Audience', icon:'users', color:'text-orange-500' },
+        { key:'age', label:'Age Group', icon:'tag', color:'text-emerald-600' },
+        { key:'plateforme', label:'Platform', icon:'monitor', color:'text-purple-500' },
+        { key:'price', label:'Cost', icon:'dollar-sign', color:'text-yellow-600' },
+        { key:'mot_cles', label:'Keywords', icon:'search', color:'text-blue-400' },
+        { key:'motivation', label:'Motivation', icon:'zap', color:'text-orange-400' },
+        { key:'game_mode', label:'Game Mode', icon:'gamepad-2', color:'text-blue-500' },
+        { key:'game_play', label:'Gameplay', icon:'zap', color:'text-red-400' },
+        { key:'date', label:'Release Date', icon:'calendar-days', color:'text-gray-500' },
+        { key:'knowledge_validation', label:'Knowledge Validation', icon:'book-open', color:'text-emerald-500' },
+        { key:'right', label:'Rights', icon:'lock', color:'text-gray-600' },
+        { key:'language', label:'Language', icon:'globe', color:'text-blue-500' },
+      ];
+
+      const REVIEWS_PER_PAGE = 4;
+      const GAMES_PER_PAGE = 6;
+
+      let ALL_GAMES = [];
+      let currentGame = null;
+      let reviewsShown = REVIEWS_PER_PAGE;
+      let gamesShown = GAMES_PER_PAGE;
+
+      /* ---------- Toast & confirm UI (injected once) ---------- */
+      function injectUI() {
+        if (document.getElementById('ui-toast-wrap')) return;
+        const style = document.createElement('style');
+        style.textContent = `
+          #ui-toast-wrap{position:fixed;top:20px;right:20px;z-index:10000;display:flex;flex-direction:column;gap:10px;}
+          .ui-toast{padding:12px 18px;border-radius:10px;color:#fff;font-weight:700;font-size:14px;
+            box-shadow:0 8px 24px rgba(0,0,0,.18);animation:uiToastIn .25s;display:flex;align-items:center;gap:8px;}
+          .ui-toast.success{background:#10b981;} .ui-toast.error{background:#ef4444;} .ui-toast.info{background:#3b82f6;}
+          @keyframes uiToastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+          #ui-confirm{position:fixed;inset:0;z-index:10001;display:none;align-items:center;justify-content:center;}
+          #ui-confirm.open{display:flex;}
+          #ui-confirm .ui-cd-bg{position:absolute;inset:0;background:rgba(15,23,42,.5);backdrop-filter:blur(3px);}
+          #ui-confirm .ui-cd-box{position:relative;background:#fff;border-radius:18px;padding:2rem;max-width:380px;width:90%;
+            text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.25);font-family:system-ui,sans-serif;}
+          #ui-confirm .ui-cd-icon{width:54px;height:54px;border-radius:50%;background:#fef2f2;color:#ef4444;
+            display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;}
+          #ui-confirm h3{margin:0 0 .5rem;font-size:1.1rem;color:#111827;font-weight:800;}
+          #ui-confirm p{color:#6b7280;font-size:.9rem;margin:0 0 1.5rem;}
+          #ui-confirm .ui-cd-actions{display:flex;gap:.75rem;}
+          #ui-confirm .ui-cd-actions button{flex:1;padding:.75rem;border-radius:10px;font-weight:800;cursor:pointer;border:none;font-size:.85rem;}
+          #ui-confirm .ui-cd-cancel{background:#f3f4f6;color:#374151;}
+          #ui-confirm .ui-cd-confirm{background:#ef4444;color:#fff;}
+        `;
+        document.head.appendChild(style);
+
+        const wrap = document.createElement('div');
+        wrap.id = 'ui-toast-wrap';
+        document.body.appendChild(wrap);
+
+        const cd = document.createElement('div');
+        cd.id = 'ui-confirm';
+        cd.innerHTML = `
+          <div class="ui-cd-bg" data-cd-cancel></div>
+          <div class="ui-cd-box">
+            <div class="ui-cd-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            </div>
+            <h3 id="ui-cd-title">Delete game</h3>
+            <p id="ui-cd-message">This action cannot be undone.</p>
+            <div class="ui-cd-actions">
+              <button class="ui-cd-cancel" id="ui-cd-cancel">Cancel</button>
+              <button class="ui-cd-confirm" id="ui-cd-confirm">Delete</button>
+            </div>
+          </div>`;
+        document.body.appendChild(cd);
+        cd.querySelector('[data-cd-cancel]').addEventListener('click', () => resolveConfirm(false));
+        cd.querySelector('#ui-cd-cancel').addEventListener('click', () => resolveConfirm(false));
+        cd.querySelector('#ui-cd-confirm').addEventListener('click', () => resolveConfirm(true));
+      }
+
+      function showToast(message, type = 'success') {
+        injectUI();
+        const t = document.createElement('div');
+        t.className = 'ui-toast ' + type;
+        t.textContent = message;
+        document.getElementById('ui-toast-wrap').appendChild(t);
+        setTimeout(() => { t.style.transition = 'opacity .3s'; t.style.opacity = '0';
+          setTimeout(() => t.remove(), 300); }, 2600);
+      }
+
+      let _confirmResolve = null;
+      function resolveConfirm(val) {
+        document.getElementById('ui-confirm').classList.remove('open');
+        if (_confirmResolve) { _confirmResolve(val); _confirmResolve = null; }
+      }
+      function confirmDialog(title, message) {
+        injectUI();
+        document.getElementById('ui-cd-title').textContent = title;
+        document.getElementById('ui-cd-message').textContent = message;
+        document.getElementById('ui-confirm').classList.add('open');
+        return new Promise(res => { _confirmResolve = res; });
+      }
+
+      /* ---------- Data ---------- */
+      async function loadGames() {
+        try {
+          const res = await fetch(`${API}/games/`);
+          ALL_GAMES = res.ok ? ((await res.json()).games || []) : [];
+        } catch (_) { ALL_GAMES = []; }
+        renderReviews();
+        renderGamesTable(document.getElementById('games-search').value);
+      }
+
+      function loadMoreButton(label, onClick) {
+        const btn = document.createElement('button');
+        btn.textContent = label;
+        btn.style.cssText = 'display:block;margin:1.25rem auto 0;padding:.6rem 1.4rem;border:none;border-radius:10px;'
+          + 'background:#eef2ff;color:#4f46e5;font-weight:800;font-size:.8rem;text-transform:uppercase;'
+          + 'letter-spacing:.06em;cursor:pointer;';
+        btn.addEventListener('click', onClick);
+        return btn;
+      }
+
+      /* ---------- Pending reviews (paginated) ---------- */
+      function renderReviews() {
+        const view = document.getElementById('view-reviews');
+        const pending = ALL_GAMES.filter(g => !g.status || g.status === 'en_attente');
+        if (pending.length === 0) {
+          view.innerHTML = `<div style="text-align:center;padding:3rem;color:#9ca3af;font-weight:700;">No pending games.</div>`;
+          return;
+        }
+        const slice = pending.slice(0, reviewsShown);
+        view.innerHTML = slice.map((g, i) => `
+          <div class="review-card" style="animation-delay:${i*60}ms;">
+            <div class="review-card-layout">
+              <div class="review-img-wrap"><img src="${g.image || PLACEHOLDER_IMG}" alt=""></div>
+              <div class="review-info">
+                <h3 class="review-title">${titleOf(g)}</h3>
+                <div class="review-meta-row">
+                  <span class="review-meta-cat"><span class="dot"></span>${g.domaine || 'General'}</span>
+                  <span class="sep">·</span>
+                  <span class="review-meta-dev">${g.target_audience || '—'}</span>
+                </div>
+                <div class="review-meta-date">
+                  <i data-lucide="calendar-days" style="width:10px;height:10px;"></i>
+                  <p>${g.date || 'Unknown date'}</p>
+                </div>
+              </div>
+              <div class="review-actions">
+                <button class="action-btn btn-blue-outline" onclick="openDetail(${g.id}, false)">
+                  <i data-lucide="eye" style="width:12px;height:12px;"></i> Details
+                </button>
+                <button class="action-btn btn-approve" onclick="decide(${g.id},'approved')">
+                  <i data-lucide="check-circle-2" style="width:12px;height:12px;"></i> Approve
+                </button>
+                <button class="action-btn btn-reject" onclick="decide(${g.id},'refused')">
+                  <i data-lucide="x-circle" style="width:12px;height:12px;"></i> Reject
+                </button>
+              </div>
+            </div>
+          </div>`).join('');
+        if (reviewsShown < pending.length) {
+          view.appendChild(loadMoreButton('Load more (' + (pending.length - reviewsShown) + ')',
+            () => { reviewsShown += REVIEWS_PER_PAGE; renderReviews(); }));
+        }
+        lucide.createIcons();
+      }
+
+      /* ---------- Games table (paginated) ---------- */
+      function renderGamesTable(filter = '') {
+        const tbody = document.getElementById('games-tbody');
+        const noMsg = document.getElementById('no-games-msg');
+        const q = (filter || '').toLowerCase();
+        const list = ALL_GAMES.filter(g =>
+          titleOf(g).toLowerCase().includes(q) ||
+          (g.domaine || '').toLowerCase().includes(q) ||
+          (g.target_audience || '').toLowerCase().includes(q));
+        // remove any previous "load more" row container
+        const old = document.getElementById('games-loadmore');
+        if (old) old.remove();
+        if (list.length === 0) { tbody.innerHTML = ''; noMsg.style.display = 'block'; return; }
+        noMsg.style.display = 'none';
+        const slice = list.slice(0, gamesShown);
+        tbody.innerHTML = slice.map(g => `
+          <tr>
+            <td class="admin-td">
+              <div class="game-td-content">
+                <div class="game-td-img-wrap"><img src="${g.image || PLACEHOLDER_IMG}" class="game-td-img" alt=""></div>
+                <span class="game-td-title">${titleOf(g)}</span>
+              </div>
+            </td>
+            <td class="admin-td"><span class="td-cat">${g.domaine || '—'}</span></td>
+            <td class="admin-td"><span class="td-cat" style="text-transform:capitalize;">${g.status || 'en_attente'}</span></td>
+            <td class="admin-td"><span class="td-dev">${g.target_audience || '—'}</span></td>
+            <td class="admin-td">
+              <div class="td-actions">
+                <button class="action-btn btn-blue-outline" onclick="openDetail(${g.id}, true)">
+                  <i data-lucide="eye" style="width:12px;height:12px;"></i> Details
+                </button>
+                <button class="btn-icon-only" onclick="removeGame(${g.id})" title="Delete">
+                  <i data-lucide="trash-2" style="width:14px;height:14px;"></i>
+                </button>
+              </div>
+            </td>
+          </tr>`).join('');
+        if (gamesShown < list.length) {
+          const tr = document.createElement('tr');
+          tr.id = 'games-loadmore';
+          tr.innerHTML = `<td colspan="5" style="text-align:center;padding:1rem;">
+            <button id="games-loadmore-btn" style="padding:.6rem 1.4rem;border:none;border-radius:10px;
+              background:#eef2ff;color:#4f46e5;font-weight:800;font-size:.8rem;text-transform:uppercase;
+              letter-spacing:.06em;cursor:pointer;">Load more (${list.length - gamesShown})</button></td>`;
+          tbody.appendChild(tr);
+          document.getElementById('games-loadmore-btn').addEventListener('click', () => {
+            gamesShown += GAMES_PER_PAGE; renderGamesTable(filter);
+          });
+        }
+        lucide.createIcons();
+      }
+
+      /* ---------- API actions ---------- */
+      async function decide(id, decision) {
+        const res = await fetch(`${API}/admin/games/${id}/status`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json', ...authHeaders() },
+          body: JSON.stringify({ status: decision })
+        });
+        if (res.ok) {
+          showToast(decision === 'approved' ? 'Game approved successfully.' : 'Game rejected successfully.', 'success');
+          loadGames();
+        } else {
+          showToast('Action failed (' + res.status + ').', 'error');
+        }
+      }
+
+      async function removeGame(id) {
+        const ok = await confirmDialog('Delete this game?', 'This action is permanent and cannot be undone.');
+        if (!ok) return;
+        const res = await fetch(`${API}/admin/supprimer/${id}`, { method: 'DELETE', headers: authHeaders() });
+        if (res.ok) { showToast('Game deleted successfully.', 'success'); loadGames(); }
+        else { showToast('Delete failed (' + res.status + ').', 'error'); }
+      }
+
+      /* ---------- Detail / edit modal ---------- */
+      function openDetail(id, isAdmin) {
+        const g = ALL_GAMES.find(x => x.id === id);
+        if (!g) return;
+        currentGame = g;
+        const modal = document.getElementById('admin-modal');
+        document.getElementById('modal-img').src = g.image || PLACEHOLDER_IMG;
+        document.getElementById('modal-rating').innerText = '—';
+        document.getElementById('modal-dom').innerText = g.domaine || 'General';
+        document.getElementById('modal-title').innerText = titleOf(g);
+        document.getElementById('modal-dev').innerText = g.target_audience || '';
+
+        const badge = document.getElementById('modal-edit-badge');
+        const saveBtn = document.getElementById('modal-save-btn');
+        const body = document.getElementById('modal-body-content');
+        const link = modal.querySelector('.btn-link');
+        if (link) link.href = g.link || '#';
+
+        if (isAdmin) {
+          badge.style.display = 'block';
+          saveBtn.style.display = 'flex';
+          saveBtn.className = 'btn-save btn-save-unsaved';
+          saveBtn.innerHTML = '<i data-lucide="save" style="width:14px;height:14px;"></i> <span>Save Changes</span>';
+          let html = `<p class="edit-note">Edit fields — changes apply on Save</p><div class="edit-grid">`;
+          FIELDS.forEach(f => {
+            const val = g[f.key] != null ? String(g[f.key]).replace(/"/g, '&quot;') : '';
+            html += `<div class="edit-group">
+              <label class="edit-label"><i data-lucide="${f.icon}" class="${f.color}" style="width:11px;height:11px;"></i>${f.label}</label>
+              <input type="text" class="edit-input" data-key="${f.key}" value="${val}">
+            </div>`;
+          });
+          html += `</div>`;
+          body.innerHTML = html;
+        } else {
+          badge.style.display = 'none';
+          saveBtn.style.display = 'none';
+          let html = `<div class="read-grid">`;
+          FIELDS.forEach(f => {
+            const v = (g[f.key] != null && g[f.key] !== '') ? g[f.key] : '—';
+            html += `<div class="read-item"><p><i data-lucide="${f.icon}" class="${f.color}" style="width:10px;height:10px;"></i>${f.label}</p><p>${v}</p></div>`;
+          });
+          html += `</div>`;
+          body.innerHTML = html;
+        }
+        modal.style.display = 'flex';
+        lucide.createIcons();
+      }
+
+      function closeModal() {
+        document.getElementById('admin-modal').style.display = 'none';
+        currentGame = null;
+      }
+
+      async function saveChanges() {
+        if (!currentGame) return;
+        const inputs = document.querySelectorAll('#modal-body-content .edit-input');
+        const data = {};
+        inputs.forEach(inp => {
+          const key = inp.dataset.key;
+          let val = inp.value;
+          const orig = currentGame[key] != null ? String(currentGame[key]) : '';
+          if (val !== orig) {
+            if (key === 'price') { data[key] = val === '' ? null : parseFloat(val); }
+            else { data[key] = val; }
+          }
+        });
+        if (Object.keys(data).length === 0) { closeModal(); return; }
+        const res = await fetch(`${API}/admin/games/update/${currentGame.id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json', ...authHeaders() },
+          body: JSON.stringify(data)
+        });
+        if (res.ok) { showToast('Changes saved successfully.', 'success'); await loadGames(); closeModal(); }
+        else { showToast('Update failed (' + res.status + ').', 'error'); }
+      }
+
+      /* ---------- Init ---------- */
+      document.addEventListener('DOMContentLoaded', () => {
+        lucide.createIcons();
+        injectUI();
+
+        const btnReviews = document.querySelector('[data-target="reviews"]');
+        const btnGames = document.querySelector('[data-target="games"]');
+        const viewReviews = document.getElementById('view-reviews');
+        const viewGames = document.getElementById('view-games');
+        btnReviews.addEventListener('click', () => {
+          btnReviews.className = 'admin-tab active'; btnGames.className = 'admin-tab inactive';
+          viewReviews.style.display = 'flex'; viewGames.style.display = 'none';
+        });
+        btnGames.addEventListener('click', () => {
+          btnGames.className = 'admin-tab active'; btnReviews.className = 'admin-tab inactive';
+          viewGames.style.display = 'block'; viewReviews.style.display = 'none';
+        });
+
+        document.getElementById('games-search').addEventListener('input', e => {
+          gamesShown = GAMES_PER_PAGE; renderGamesTable(e.target.value);
+        });
+        document.getElementById('modal-close-backdrop').addEventListener('click', closeModal);
+        document.getElementById('modal-close-btn').addEventListener('click', closeModal);
+        document.getElementById('modal-close-footer-btn').addEventListener('click', closeModal);
+        document.getElementById('modal-save-btn').addEventListener('click', saveChanges);
+
+        loadGames();
+      });
+
+      window.openDetail = openDetail;
+      window.decide = decide;
+      window.removeGame = removeGame;
+
+    </script>
+</body>
+</html>

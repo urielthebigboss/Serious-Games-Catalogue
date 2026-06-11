@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/Document.png" type="image/png">
+    <title>Serious Game Catalogue - Profile</title>
+    <!-- Page specific CSS mapped from Tailwind -->
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/profile.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="max-w-7xl mx-auto flex items-center justify-between">
+        
+        <!-- Logo Section -->
+        <a href="index.html" class="flex flex-col items-center min-w-[100px]">
+          <div style="display:flex; letter-spacing:-0.05em; line-height:1;">
+            <img src="assets/Document.png" alt="Logo" height="50" style="height: 50px; width: auto;" onerror="this.src='https://placehold.co/100x40?text=Logo';" />
+          </div>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <div class="hidden md:flex nav-desktop-container">
+          <a href="index.html" class="nav-link">
+            <i data-lucide="home" style="width: 18px; height: 18px; stroke-width: 2px;"></i>
+            <span class="nav-link-text">SEARCH FOR GAME</span>
+          </a>
+          <a href="add-game.html" class="nav-link">
+            <i data-lucide="plus-circle" style="width: 18px; height: 18px; stroke-width: 2px;"></i>
+            <span class="nav-link-text">CONTRIBUTE</span>
+          </a>
+          <a href="about.html" class="nav-link">
+            <i data-lucide="info" style="width: 18px; height: 18px; stroke-width: 2.5px;"></i>
+            <span class="nav-link-text">ABOUT</span>
+          </a>
+        </div>
+
+        <!-- Right Section: Profile & Mobile Menu -->
+        <div class="flex items-center gap-4 min-w-[100px] justify-end">
+          <a href="profile.html" class="navbar-profile-btn" id="authBtn">
+            <i data-lucide="user" class="lucide-icon"></i>
+          </a>
+          <!-- Mobile Menu Button -->
+          <button id="mobile-menu-btn" class="md:hidden mobile-menu-btn">
+            <i data-lucide="menu" id="mobile-menu-icon" style="width: 24px; height: 24px;"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Navigation -->
+      <div id="mobile-menu" class="hidden md:hidden">
+        <div class="flex flex-col gap-1">
+          <a href="index.html" class="mobile-nav-link">
+            <i data-lucide="home" style="width: 20px; height: 20px;"></i>
+            SEARCH FOR GAME
+          </a>
+          <a href="add-game.html" class="mobile-nav-link">
+            <i data-lucide="plus-circle" style="width: 20px; height: 20px;"></i>
+            CONTRIBUTE
+          </a>
+          <a href="about.html" class="mobile-nav-link">
+            <i data-lucide="info" style="width: 20px; height: 20px;"></i>
+            ABOUT
+          </a>
+        </div>
+      </div>
+    </nav>
+
+
+    <!-- Main Content -->
+    <main>
+      <div class="profile-page">
+        <div class="profile-container">
+          
+          <!-- Navigation / Back Button -->
+          <div class="profile-header">
+            <button type="button" class="back-btn" onclick="history.back()">
+              <div class="back-icon-wrap">
+                <i data-lucide="arrow-left" style="width:24px; height:24px;"></i>
+              </div>
+              <span class="back-text">Retour</span>
+            </button>
+          </div>
+
+          <!-- Tabs -->
+          <div class="profile-tabs" id="profile-tabs">
+            <!-- Tabs added via JS -->
+          </div>
+
+          <!-- Content Tab -->
+          <div class="profile-content" id="profile-content">
+            <!-- Rendered via JS -->
+          </div>
+
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="max-w-7xl mx-auto footer-grid">
+        <!-- Left Column -->
+        <div class="footer-brand">
+          <h2>Serious Game<br />Catalogue</h2>
+          <p>A leading platform for<br />serious educational games.</p>
+        </div>
+
+        <!-- Middle Column -->
+        <div>
+          <h3 class="footer-heading">
+            <span class="footer-indicator-orange"></span>
+            NAVIGATION
+          </h3>
+          <nav class="footer-nav">
+            <a href="index.html" class="footer-link">
+              <i data-lucide="home" style="width:20px; height:20px;"></i>
+              HOME
+            </a>
+            <a href="add-game.html" class="footer-link">
+              <i data-lucide="plus-circle" style="width:20px; height:20px;"></i>
+              ADD SERIOUS GAME
+            </a>
+            <a href="about.html" class="footer-link">
+              <i data-lucide="info" style="width:20px; height:20px;"></i>
+              ABOUT
+            </a>
+            <a href="profile.html" class="footer-link">
+              <i data-lucide="user" style="width:20px; height:20px;"></i>
+              PROFILE
+            </a>
+          </nav>
+
+        </div>
+
+        <!-- Right Column -->
+        <div style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <h3 class="footer-heading">
+              <span class="footer-indicator-red"></span>
+              PORTAL
+            </h3>
+            <a href="admin.html" class="footer-link">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+              ADMIN ACCESS
+            </a>
+          </div>
+          <div style="margin-top: 2rem;">
+            <p style="color: #9ca3af; font-size: 0.875rem; margin-bottom: 0.5rem;">2026 Serious Games Society</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+      // Profile specific scripts
+      const customGamesData = [
+        {
+          id: '1',
+          status: 'completed',
+          title: 'Linguistic Laboratory',
+          category: 'Language',
+          image: 'https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&h=600&fit=crop',
+          rating: 4.8
+        },
+        {
+          id: '2',
+          title: 'Math Quest Adventures',
+          status: 'waiting',
+          category: 'Mathematics',
+          image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&h=600&fit=crop',
+          rating: 4.6
+        },
+        {
+          id: '3',
+          title: 'History Explorer VR',
+          status: 'failed',
+          category: 'History',
+          image: 'https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=800&h=600&fit=crop',
+          rating: 4.9
+        },
+        {
+          id: '4',
+          title: 'Science Lab Simulator',
+          status: 'completed',
+          category: 'Science',
+          image: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=800&h=600&fit=crop',
+          rating: 4.7
+        },
+        {
+          id: '5',
+          title: 'Code Master Pro',
+          status: 'waiting',
+          category: 'Programming',
+          image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop',
+          rating: 4.5
+        },
+        {
+          id: '6',
+          status: 'completed',
+          title: 'Art Studio Express',
+          category: 'Art',
+          image: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&h=600&fit=crop',
+          rating: 4.4
+        }
+      ];
+
+      document.addEventListener('DOMContentLoaded', () => {
+        let activeTab = 'games';
+
+        const tabsData = [
+          { id: 'games', label: 'My Games', icon: 'gamepad-2' }
+        ];
+
+        const tabsContainer = document.getElementById('profile-tabs');
+        const contentContainer = document.getElementById('profile-content');
+
+        function renderTabs() {
+          tabsContainer.innerHTML = tabsData.map(tab => {
+            const isActive = tab.id === activeTab;
+            // Since it's only one tab, styling is static here.
+            return `
+              <button class="tab-btn" style="${isActive ? 'box-shadow: 0 0 0 2px #dbeafe;' : ''}" data-id="${tab.id}">
+                <i data-lucide="${tab.icon}" style="width:16px; height:16px;"></i> ${tab.label}
+              </button>
+            `;
+          }).join('');
+
+          tabsContainer.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+              activeTab = e.currentTarget.dataset.id;
+              renderTabs();
+              renderContent();
+            });
+          });
+
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function renderContent() {
+          if (activeTab === 'games') {
+            const cardsHtml = customGamesData.map(game => {
+              let badgeHtml = '';
+              if (game.status === 'completed') badgeHtml = `<div class="status-badge badge-completed"><span>Completed</span></div>`;
+              if (game.status === 'failed') badgeHtml = `<div class="status-badge badge-failed"><span>Failed</span></div>`;
+              if (game.status === 'waiting') badgeHtml = `<div class="status-badge badge-waiting"><span>Waiting</span></div>`;
+
+              return `
+                <div class="profile-game-card">
+                  ${badgeHtml}
+                  <div class="game-img-container">
+                    <img src="${game.image}" alt="${game.title}" class="game-img" />
+                    <div class="game-img-gradient"></div>
+                  </div>
+                  <div class="game-info">
+                    <h4 class="game-title">${game.title}</h4>
+                    <p class="game-category">${game.category}</p>
+                    <div class="game-footer">
+                      <div class="rating-box">
+                        <i data-lucide="star" class="rating-icon"></i>
+                        <span class="rating-text">${game.rating}</span>
+                      </div>
+                      <a href="game.html?id=${game.id}" class="game-link">View Details</a>
+                    </div>
+                  </div>
+                </div>
+              `;
+            }).join('');
+
+            contentContainer.innerHTML = `
+              <h3 class="section-heading">
+                <i data-lucide="gamepad-2" style="color:#3b82f6; width:20px; height:20px;"></i> My Games
+              </h3>
+              <div class="games-grid">
+                ${cardsHtml}
+              </div>
+            `;
+          }
+
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        renderTabs();
+        renderContent();
+      });
+    </script>
+</body>
+</html>

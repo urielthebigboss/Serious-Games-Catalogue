@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/Document.png" type="image/png">
+    <title>Serious Game Catalogue - Add Game</title>
+    <!-- Page specific CSS mapped from Tailwind -->
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/add-game.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="max-w-7xl mx-auto flex items-center justify-between">
+        
+        <!-- Logo Section -->
+        <a href="index.html" class="flex flex-col items-center min-w-[100px]">
+          <div style="display:flex; letter-spacing:-0.05em; line-height:1;">
+            <img src="assets/Document.png" alt="Logo" height="50" style="height: 50px; width: auto;" onerror="this.src='https://placehold.co/100x40?text=Logo';" />
+          </div>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <div class="hidden md:flex nav-desktop-container">
+          <a href="index.html" class="nav-link">
+            <i data-lucide="home" style="width: 18px; height: 18px; stroke-width: 2px;"></i>
+            <span class="nav-link-text">SEARCH FOR GAME</span>
+          </a>
+          <a href="add-game.html" class="nav-link active">
+            <i data-lucide="plus-circle" style="width: 18px; height: 18px; stroke-width: 2px;"></i>
+            <span class="nav-link-text">CONTRIBUTE</span>
+          </a>
+          <a href="about.html" class="nav-link">
+            <i data-lucide="info" style="width: 18px; height: 18px; stroke-width: 2.5px;"></i>
+            <span class="nav-link-text">ABOUT</span>
+          </a>
+        </div>
+
+        <!-- Right Section: Profile & Mobile Menu -->
+        <div class="flex items-center gap-4 min-w-[100px] justify-end">
+          <a href="profile.html" class="navbar-profile-btn" id="authBtn">
+            <i data-lucide="user" class="lucide-icon"></i>
+          </a>
+          <!-- Mobile Menu Button -->
+          <button id="mobile-menu-btn" class="md:hidden mobile-menu-btn">
+            <i data-lucide="menu" id="mobile-menu-icon" style="width: 24px; height: 24px;"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Navigation -->
+      <div id="mobile-menu" class="hidden md:hidden">
+        <div class="flex flex-col gap-1">
+          <a href="index.html" class="mobile-nav-link">
+            <i data-lucide="home" style="width: 20px; height: 20px;"></i>
+            SEARCH FOR GAME
+          </a>
+          <a href="add-game.html" class="mobile-nav-link active">
+            <i data-lucide="plus-circle" style="width: 20px; height: 20px;"></i>
+            CONTRIBUTE
+          </a>
+          <a href="about.html" class="mobile-nav-link">
+            <i data-lucide="info" style="width: 20px; height: 20px;"></i>
+            ABOUT
+          </a>
+        </div>
+      </div>
+    </nav>
+
+
+    <!-- Main Content -->
+    <main>
+      <div class="add-game-page">
+
+        <!-- AUTHENTICATION MODAL -->
+        <div id="auth-modal" class="auth-modal-overlay" style="display:none;">
+          <div class="auth-modal-bg" id="close-auth-overlay"></div>
+          <div class="auth-modal-content">
+            <button class="auth-close-btn" id="close-auth-btn">
+              <i data-lucide="x" style="width:24px; height:24px;"></i>
+            </button>
+            <div style="text-align:center; margin-bottom:2.5rem;">
+              <div class="auth-icon-circle">
+                <i data-lucide="lock" style="width:32px; height:32px;"></i>
+              </div>
+              <h2 class="auth-title" id="auth-title-text">Welcome Back</h2>
+              <p class="auth-subtitle" id="auth-subtitle-text">Login to continue your action</p>
+            </div>
+            <form id="auth-form">
+              <div class="form-field-wrapper">
+                <div class="form-label-wrap">
+                  <span class="form-label-line bg-blue-500"></span>
+                  <label class="form-label-text">Email Address :</label>
+                </div>
+                <div class="input-with-icon">
+                  <i data-lucide="mail" class="input-icon" style="width:14px; height:14px;"></i>
+                  <input type="email" id="authEmail" class="base-input" placeholder="gamer@example.com">
+                </div>
+              </div>
+              <div class="form-field-wrapper">
+                <div class="form-label-wrap">
+                  <span class="form-label-line bg-orange-600"></span>
+                  <label class="form-label-text">Password :</label>
+                </div>
+                <div class="input-with-icon">
+                  <i data-lucide="lock" class="input-icon" style="width:14px; height:14px;"></i>
+                  <input type="password" id="authPassword" class="base-input" placeholder="••••••••">
+                </div>
+              </div>
+              <button type="submit" class="auth-submit-btn">
+                <span id="auth-btn-text">SIGN IN</span> <i data-lucide="arrow-right" style="width:16px; height:16px; margin-left:0.5rem;"></i>
+              </button>
+            </form>
+            <div style="margin-top:2rem; text-align:center;">
+              <button type="button" class="auth-switch-btn" id="auth-switch-mode">
+                Don't have an account? Sign up
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="add-game-container">
+          
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:2rem;">
+            <h1 class="page-title">Add Serious Game</h1>
+            <div id="quest-complete" class="quest-complete-badge" style="display:none;">
+              <i data-lucide="flame" style="width:16px; height:16px;"></i>
+              <span class="quest-badge-text">Quest Complete</span>
+            </div>
+          </div>
+
+          <!-- Progress Banner -->
+          <div class="progress-banner">
+            <div class="progress-blob"></div>
+            
+            <div style="flex:1; width:100%; z-index:10;">
+              <div class="prog-info-flex">
+                <span class="prog-label">
+                  <i data-lucide="zap" id="zap-icon" style="width:14px; height:14px; color:#d1d5db;"></i> Data Completion
+                </span>
+                <div class="prog-val-wrap">
+                  <span class="prog-lvl">Lvl <span id="val-level">1</span></span>
+                  <span class="prog-pct" id="val-progress">0%</span>
+                </div>
+              </div>
+              <div class="prog-bar-bg">
+                <div class="prog-fill" id="bar-fill" style="width:0%; background-image:linear-gradient(to right, #60a5fa, #007BFF);">
+                  <div class="prog-fill-glass"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="xp-card">
+              <div id="xp-popup" class="xp-popup" style="display:none;">+50 XP</div>
+              <div class="xp-icon-bg" id="trophy-bg" style="background-color:#f9fafb; color:#d1d5db;">
+                <i data-lucide="trophy" id="trophy-icon" style="width:28px; height:28px;"></i>
+              </div>
+              <div>
+                <p class="rank-label">Rank: <span class="rank-val" id="val-rank">Newbie</span></p>
+                <p class="xp-points">
+                  <span id="val-xp">0</span> <span class="xp-max">/ 900</span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-grid-layout">
+            
+            <!-- Left Form Area -->
+            <form id="add-game-form" class="form-col-7" style="display:flex; flex-direction:column; gap:2.5rem;">
+              
+              <!-- About Gamer -->
+              <section>
+                <h2 class="form-section-title"><i data-lucide="mail" style="width:14px; height:14px;"></i> About Gamer</h2>
+                <div class="input-bg-container">
+                  <input type="email" name="email" id="input-email" class="email-input" placeholder="Enter your email">
+                </div>
+              </section>
+
+              <!-- About Game -->
+              <section style="display:flex; flex-direction:column; gap:1.5rem;">
+                <h2 class="form-section-title" style="margin-bottom:0.5rem;"><i data-lucide="gamepad-2" style="width:14px; height:14px;"></i> About Game</h2>
+                
+                <!-- Link Extraction -->
+                <div>
+                  <label class="form-label-text" style="margin-bottom:0.75rem; display:block;">Link to the game</label>
+                  <div class="url-extract-flex">
+                    <input type="text" name="link" id="input-link" class="url-input" placeholder="https://...">
+                    <button type="button" class="extract-btn requires-auth group" id="extract-meta-btn">
+                      <i data-lucide="search" style="width:16px; height:16px; margin-right:0.5rem;" class="group-hover:rotate-90"></i> EXTRACT METADATA
+                    </button>
+                  </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 0.5rem; padding-top: 0.5rem;">
+                  <div class="form-field-wrapper">
+                    <div class="form-label-wrap"><span class="form-label-line bg-indigo-500"></span><label class="form-label-text">Game Title :</label></div>
+                    <input type="text" name="title" id="input-title" class="base-input" style="padding-left:1rem;" placeholder="e.g. Linguistic Laboratory">
+                  </div>
+                  <div class="form-field-wrapper">
+                    <div class="form-label-wrap"><span class="form-label-line bg-indigo-400"></span><label class="form-label-text">Short Description :</label></div>
+                    <textarea name="description" id="input-description" class="base-textarea" placeholder="Describe the experience..."></textarea>
+                  </div>
+                </div>
+
+                <div class="fields-grid-2">
+                  <!-- Domaine -->
+                  <div class="form-field-wrapper">
+                    <div class="form-label-wrap"><span class="form-label-line bg-blue-600"></span><label class="form-label-text">Domaine :</label></div>
+                    <input type="text" name="domaine" id="input-domaine" class="base-input" style="padding-left:1rem;">
+                  </div>
+                  <!-- Public -->
+                  <div class="form-field-wrapper">
+                    <div class="form-label-wrap"><span class="form-label-line bg-orange-600"></span><label class="form-label-text">Public :</label></div>
+                    <input type="text" name="publicType" id="input-public" class="base-input" style="padding-left:1rem;">
+                  </div>
+                  <!-- Age -->
+                  <div class="form-field-wrapper">
+                    <div class="form-label-wrap"><span class="form-label-line bg-blue-400"></span><label class="form-label-text">Age :</label></div>
+                    <input type="text" name="age" id="input-age" class="base-input" style="padding-left:1rem;" placeholder="e.g. 18+">
+                  </div>
+                  <!-- Plateforme -->
+                  <div class="form-field-wrapper">
+                    <div class="form-label-wrap"><span class="form-label-line bg-orange-600"></span><label class="form-label-text">Plateforme :</label></div>
+                    <input type="text" name="plateforme" class="form-sync-field base-input" style="padding-left:1rem;">
+                  </div>
+                  <!-- Cost -->
+                  <div class="form-field-wrapper">
+                    <div class="form-label-wrap"><span class="form-label-line bg-red-600"></span><label class="form-label-text">Cost :</label></div>
+                    <div class="input-with-icon">
+                      <i data-lucide="dollar-sign" class="input-icon" style="width:14px; height:14px;"></i>
+                      <input type="text" name="cost" id="input-cost" class="base-input" placeholder="$ 0.00">
+                    </div>
+                  </div>
+                  <!-- Keywords -->
+                  <div class="form-field-wrapper">
+                    <div class="form-label-wrap"><span class="form-label-line bg-emerald-500"></span><label class="form-label-text">Keywords :</label></div>
+                    <div class="input-with-icon">
+                      <i data-lucide="tag" class="input-icon" style="width:14px; height:14px;"></i>
+                      <input type="text" name="keywords" class="form-sync-field base-input" placeholder="Strategy, Math...">
+                    </div>
+                  </div>
+                  <!-- Others directly as form-sync-field -->
+                  <div class="form-field-wrapper"><div class="form-label-wrap"><span class="form-label-line bg-emerald-500"></span><label class="form-label-text">Motivation :</label></div><input type="text" class="form-sync-field base-input" style="padding-left:1rem;" name="motivation"></div>
+                  <div class="form-field-wrapper"><div class="form-label-wrap"><span class="form-label-line bg-emerald-500"></span><label class="form-label-text">Game Mode :</label></div><div class="input-with-icon"><i data-lucide="gamepad" class="input-icon" style="width:14px;"></i><input type="text" class="form-sync-field base-input" name="gameMode"></div></div>
+                  <div class="form-field-wrapper"><div class="form-label-wrap"><span class="form-label-line bg-emerald-500"></span><label class="form-label-text">Game Play :</label></div><div class="input-with-icon"><i data-lucide="gamepad" class="input-icon" style="width:14px;"></i><input type="text" class="form-sync-field base-input" name="gamePlay"></div></div>
+                  <div class="form-field-wrapper"><div class="form-label-wrap"><span class="form-label-line bg-emerald-500"></span><label class="form-label-text">Date :</label></div><div class="input-with-icon"><i data-lucide="calendar" class="input-icon" style="width:14px;"></i><input type="text" class="form-sync-field base-input" name="date"></div></div>
+                  <div class="form-field-wrapper"><div class="form-label-wrap"><span class="form-label-line bg-emerald-500"></span><label class="form-label-text">Knowledge Validation :</label></div><div class="input-with-icon"><i data-lucide="check-circle-2" class="input-icon" style="width:14px;"></i><input type="text" class="form-sync-field base-input" name="knowledgeValidation"></div></div>
+                  <div class="form-field-wrapper"><div class="form-label-wrap"><span class="form-label-line bg-emerald-500"></span><label class="form-label-text">Rights :</label></div><input type="text" class="form-sync-field base-input" style="padding-left:1rem;" name="rights"></div>
+                  <div class="form-field-wrapper"><div class="form-label-wrap"><span class="form-label-line bg-emerald-500"></span><label class="form-label-text">Rating :</label></div><div class="input-with-icon"><i data-lucide="star" class="input-icon" style="width:14px;"></i><input type="text" class="form-sync-field base-input" name="rating"></div></div>
+                  <div class="form-field-wrapper"><div class="form-label-wrap"><span class="form-label-line bg-emerald-500"></span><label class="form-label-text">Language :</label></div><div class="input-with-icon"><i data-lucide="globe" class="input-icon" style="width:14px;"></i><input type="text" class="form-sync-field base-input" name="language"></div></div>
+                </div>
+              </section>
+
+              <div style="padding-top:1rem; padding-bottom:2.5rem;">
+                <button type="submit" id="main-submit-btn" class="append-btn locked" disabled>
+                  <i data-lucide="lock" style="width:18px; height:18px; margin-right:0.75rem;" id="submit-icon"></i>
+                  <span id="submit-text">COMPLETE ALL FIELDS (0%)</span>
+                </button>
+              </div>
+            </form>
+
+            <!-- Right Preview Panel -->
+            <div class="form-col-5">
+              <div class="preview-card">
+                <div class="preview-img-wrap">
+                  <img src="https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=800" id="preview-image" alt="Preview" class="preview-img">
+                  <button type="button" class="upload-btn requires-auth" id="upload-image-btn">Change Image</button>
+                  <input type="file" id="image-upload" accept="image/*" style="display:none;">
+                </div>
+
+                <div class="preview-content">
+                  <div style="margin-bottom:2rem;">
+                    <h3 class="preview-label">
+                      <span>Preview Title</span>
+                      <i data-lucide="check-circle-2" id="title-check" style="width:12px; height:12px; color:#4ade80; display:none;"></i>
+                    </h3>
+                    <p id="view-title" class="preview-title title-empty">Game Title...</p>
+                  </div>
+
+                  <div style="margin-bottom:2rem;">
+                    <h3 class="preview-label">Description</h3>
+                    <p id="view-desc" class="preview-desc desc-empty">Start typing your description to see it appear here live...</p>
+                  </div>
+
+                  <div class="preview-tags-grid" id="view-tags-container">
+                    <div class="badge-outline" id="place-domaine">Domaine</div>
+                    <div class="badge-outline" id="place-age">Age</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="success-toast" id="success-toast" style="display:none;">
+          <i data-lucide="check-circle-2" style="width:24px; height:24px; color:#4ade80;"></i>
+          <span class="toast-msg">Added to catalogue successfully! (+500 XP)</span>
+        </div>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="max-w-7xl mx-auto footer-grid">
+        <div class="footer-brand">
+          <h2>Serious Game<br />Catalogue</h2>
+          <p>A leading platform for<br />serious educational games.</p>
+        </div>
+        <div>
+          <h3 class="footer-heading"><span class="footer-indicator-orange"></span>NAVIGATION</h3>
+          <nav class="footer-nav">
+            <a href="index.html" class="footer-link"><i data-lucide="home" style="width:20px; height:20px;"></i> HOME</a>
+            <a href="add-game.html" class="footer-link"><i data-lucide="plus-circle" style="width:20px; height:20px;"></i> ADD SERIOUS GAME</a>
+            <a href="about.html" class="footer-link"><i data-lucide="info" style="width:20px; height:20px;"></i> ABOUT</a>
+            <a href="profile.html" class="footer-link"><i data-lucide="user" style="width:20px; height:20px;"></i> PROFILE</a>
+          </nav>
+
+        </div>
+        <div style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <h3 class="footer-heading"><span class="footer-indicator-red"></span>PORTAL</h3>
+            <a href="admin.html" class="footer-link">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+              ADMIN ACCESS
+            </a>
+          </div>
+          <div style="margin-top: 2rem;">
+            <p style="color: #9ca3af; font-size: 0.875rem; margin-bottom: 0.5rem;">2026 Serious Games Society</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+
+        function showPopup(title, msg, ok) {
+          let ov = document.getElementById('ag-popup');
+          if (!ov) {
+            ov = document.createElement('div');
+            ov.id = 'ag-popup';
+            ov.style.cssText = 'position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;';
+            ov.innerHTML = `
+              <div class="agp-bg" style="position:absolute;inset:0;background:rgba(15,23,42,.5);backdrop-filter:blur(3px);"></div>
+              <div style="position:relative;background:#fff;border-radius:18px;padding:2rem;max-width:380px;width:90%;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.25);">
+                <div id="agp-icon" style="width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;"></div>
+                <h3 id="agp-title" style="margin:0 0 .5rem;font-size:1.15rem;font-weight:800;color:#111827;"></h3>
+                <p id="agp-msg" style="margin:0 0 1.5rem;color:#6b7280;font-size:.9rem;"></p>
+                <button id="agp-ok" style="width:100%;padding:.75rem;border:none;border-radius:10px;color:#fff;font-weight:800;cursor:pointer;">OK</button>
+              </div>`;
+            document.body.appendChild(ov);
+            const hide = () => ov.style.display = 'none';
+            ov.querySelector('#agp-ok').onclick = hide;
+            ov.querySelector('.agp-bg').onclick = hide;
+          }
+          const color = ok ? '#10b981' : '#ef4444';
+          const icon = ov.querySelector('#agp-icon');
+          icon.style.background = ok ? '#ecfdf5' : '#fef2f2';
+          icon.style.color = color;
+          icon.innerHTML = ok
+            ? '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>'
+            : '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+          ov.querySelector('#agp-ok').style.background = color;
+          ov.querySelector('#agp-title').textContent = title;
+          ov.querySelector('#agp-msg').textContent = msg;
+          ov.style.display = 'flex';
+        }
+
+        // AUTHENTICATION LOGIC
+        let isAuthenticated = false;
+        let authMode = 'login';
+        
+        const authModal = document.getElementById('auth-modal');
+        const authBtnText = document.getElementById('auth-btn-text');
+        const authTitle = document.getElementById('auth-title-text');
+        const authSubtitle = document.getElementById('auth-subtitle-text');
+        const authSwitchBtn = document.getElementById('auth-switch-mode');
+        const reqAuthBtns = document.querySelectorAll('.requires-auth');
+        const floatProfileBtn = document.getElementById('authBtn');
+
+        function openAuthFlow() {
+          authModal.style.display = 'flex';
+        }
+
+        // Float Profile Button
+        floatProfileBtn.addEventListener('click', (e) => {
+          if (!isAuthenticated) { e.preventDefault(); openAuthFlow(); } 
+          else { window.location.href = 'profile.html'; }
+        });
+
+        // Requires Auth intercept
+        reqAuthBtns.forEach(btn => {
+          const clone = btn.cloneNode(true);
+          btn.parentNode.replaceChild(clone, btn); // remove default events
+          clone.addEventListener('click', (e) => {
+            if (clone.id === 'extract-meta-btn') { e.preventDefault(); doExtract(); return; }
+            if (!isAuthenticated) { e.preventDefault(); openAuthFlow(); }
+            else {
+              if (clone.id === 'upload-image-btn') document.getElementById('image-upload').click();
+            }
+          });
+        });
+
+        document.getElementById('close-auth-overlay').addEventListener('click', () => authModal.style.display = 'none');
+        document.getElementById('close-auth-btn').addEventListener('click', () => authModal.style.display = 'none');
+
+        authSwitchBtn.addEventListener('click', () => {
+          authMode = authMode === 'login' ? 'register' : 'login';
+          authTitle.innerText = authMode === 'login' ? 'Welcome Back' : 'Join Society';
+          authSubtitle.innerText = authMode === 'login' ? 'Login to continue your action' : 'Create an account to contribute';
+          authBtnText.innerText = authMode === 'login' ? 'SIGN IN' : 'SIGN UP';
+          authSwitchBtn.innerText = authMode === 'login' ? "Don't have an account? Sign up" : "Already have an account? Login";
+        });
+
+        document.getElementById('auth-form').addEventListener('submit', (e) => {
+          e.preventDefault();
+          const em = document.getElementById('authEmail').value;
+          if(em) {
+            isAuthenticated = true;
+            document.getElementById('input-email').value = em;
+            authModal.style.display = 'none';
+            updateProgress(); // in case email field is the first to be filled
+          }
+        });
+
+
+        // GAMIFICATION LOGIC
+        const allInputs = document.querySelectorAll('#input-email, #input-link, #input-title, #input-description, #input-domaine, #input-public, #input-age, #input-cost, .form-sync-field');
+        const totalFields = 18; // Derived from React state length
+        let filledCount = 0;
+
+        const uiProgVal = document.getElementById('val-progress');
+        const uiProgBar = document.getElementById('bar-fill');
+        const uiLvl = document.getElementById('val-level');
+        const uiRank = document.getElementById('val-rank');
+        const uiXp = document.getElementById('val-xp');
+        
+        const badgeComplete = document.getElementById('quest-complete');
+        const zapIcon = document.getElementById('zap-icon');
+        const trophyBg = document.getElementById('trophy-bg');
+        const trophyIcon = document.getElementById('trophy-icon');
+        
+        const submitBtn = document.getElementById('main-submit-btn');
+        const submitText = document.getElementById('submit-text');
+        const submitIcon = document.getElementById('submit-icon');
+
+        const Ranks = ["Newbie", "Explorer", "Challenger", "Expert", "Master", "Legend"];
+
+        const xpPopup = document.getElementById('xp-popup');
+
+        function triggerXP() {
+          xpPopup.style.display = 'block';
+          xpPopup.style.animation = 'none';
+          xpPopup.offsetHeight; // Reflow
+          xpPopup.style.animation = 'floatUpFade 0.8s ease-out forwards';
+          setTimeout(() => xpPopup.style.display = 'none', 800);
+        }
+
+        const activeStates = new Map();
+
+        function updateProgress() {
+          // React state was counting all 18 fields. For simplicity in vanilla, we count non-empty values.
+          filledCount = 0;
+          allInputs.forEach(i => {
+            if(i.value.trim() !== '') filledCount++;
+          });
+
+          // Hack to simulate the 18 states logic to show 100% when everything is filled
+          const pct = Math.round((filledCount / totalFields) * 100);
+          const xp = filledCount * 50;
+          const lvl = Math.floor(filledCount / 4) + 1;
+          const rank = Ranks[Math.min(lvl - 1, Ranks.length - 1)];
+          const isMax = filledCount >= totalFields; // or just 100%
+
+          uiProgVal.innerText = `${pct > 100 ? 100 : pct}%`;
+          uiProgBar.style.width = `${pct > 100 ? 100 : pct}%`;
+          uiLvl.innerText = lvl;
+          uiRank.innerText = rank;
+          uiXp.innerText = xp;
+
+          if (pct > 0) {
+            zapIcon.style.color = '#eab308'; // yellow-500
+            if(!isMax) {
+              trophyBg.style.backgroundColor = '#eff6ff';
+              trophyBg.style.color = '#3b82f6';
+              trophyIcon.classList.remove('animate-bounce');
+            }
+          }
+
+          if (isMax) {
+            uiProgBar.style.backgroundImage = 'linear-gradient(to right, #facc15, #f97316)'; // yellow-400 to orange-500
+            trophyBg.style.background = 'linear-gradient(to bottom right, #fef9c3, #ffedd5)'; // yellow-100 to orange-100
+            trophyBg.style.color = '#f97316'; // orange-500
+            trophyBg.style.transform = 'scale(1.1)';
+            badgeComplete.style.display = 'flex';
+          } else {
+            uiProgBar.style.backgroundImage = 'linear-gradient(to right, #60a5fa, #007BFF)';
+            trophyBg.style.transform = 'scale(1)';
+            badgeComplete.style.display = 'none';
+          }
+
+          // Submit btn
+          if (isMax || !isAuthenticated) {
+            submitBtn.disabled = false;
+            submitBtn.className = 'append-btn unlocked';
+            submitText.innerText = 'APPEND GAME';
+            submitIcon.setAttribute('data-lucide', 'unlock');
+          } else {
+            submitBtn.disabled = true;
+            submitBtn.className = 'append-btn locked';
+            submitText.innerText = `COMPLETE ALL FIELDS (${pct}%)`;
+            submitIcon.setAttribute('data-lucide', 'lock');
+          }
+
+          lucide.createIcons();
+        }
+
+        allInputs.forEach(input => {
+          input.addEventListener('input', (e) => {
+            const hasVal = e.target.value.trim() !== '';
+            const hadVal = activeStates.get(e.target.name) || false;
+            
+            if (hasVal && !hadVal) {
+              triggerXP();
+            }
+            activeStates.set(e.target.name, hasVal);
+            updateProgress();
+
+            // Real-time preview mapping
+            if(e.target.name === 'title') {
+              const el = document.getElementById('view-title');
+              if(hasVal) { el.innerText = e.target.value; el.className = 'preview-title title-filled'; document.getElementById('title-check').style.display='block'; }
+              else { el.innerText = 'Game Title...'; el.className = 'preview-title title-empty'; document.getElementById('title-check').style.display='none'; }
+            }
+            if(e.target.name === 'description') {
+              const el = document.getElementById('view-desc');
+              if(hasVal) { el.innerText = e.target.value; el.className = 'preview-desc desc-filled'; }
+              else { el.innerText = 'Start typing your description to see it appear here live...'; el.className = 'preview-desc desc-empty'; }
+            }
+            regenerateTags();
+          });
+        });
+
+        function regenerateTags() {
+          const container = document.getElementById('view-tags-container');
+          container.innerHTML = '';
+          const d = document.getElementById('input-domaine').value.trim();
+          const a = document.getElementById('input-age').value.trim();
+          const c = document.getElementById('input-cost').value.trim();
+
+          if(d) container.innerHTML += `<div class="badge-solid bg-blue-50 text-blue-600">${d}</div>`;
+          else container.innerHTML += `<div class="badge-outline">Domaine</div>`;
+
+          if(a) container.innerHTML += `<div class="badge-solid bg-orange-50 text-orange-600">${a}</div>`;
+          else container.innerHTML += `<div class="badge-outline">Age</div>`;
+
+          if(c) container.innerHTML += `<div class="badge-solid bg-red-50 text-red-600"><i data-lucide="dollar-sign" style="width:10px; height:10px;"></i> ${c}</div>`;
+
+          lucide.createIcons();
+        }
+
+        // Image upload preview
+        document.getElementById('image-upload').addEventListener('change', (e) => {
+          const f = e.target.files[0];
+          if(f) {
+            const reader = new FileReader();
+            reader.onload = (e) => document.getElementById('preview-image').src = e.target.result;
+            reader.readAsDataURL(f);
+          }
+        });
+
+        // Submit complete action — envoi réel vers le backend
+        const ADDGAME_API = (window.adminAuth && window.adminAuth.API_BASE) || 'https://urielthebigboss-seirousgamecatalogue.hf.space';
+        let extractedImage = null;
+        async function doExtract() {
+          const link = (document.getElementById('input-link').value || '').trim();
+          if (!link) { showPopup('No link', 'Enter the game link first.', false); return; }
+          try {
+            const res = await fetch(`${ADDGAME_API}/games/extract?url=${encodeURIComponent(link)}`);
+            const d = await res.json();
+            let filled = false;
+            if (d.image) { extractedImage = d.image; document.getElementById('preview-image').src = d.image; filled = true; }
+            const titleEl = document.getElementById('input-title');
+            if (d.title && !titleEl.value) { titleEl.value = d.title; titleEl.dispatchEvent(new Event('input', { bubbles: true })); filled = true; }
+            const descEl = document.getElementById('input-description');
+            if (d.description && !descEl.value) { descEl.value = d.description; descEl.dispatchEvent(new Event('input', { bubbles: true })); filled = true; }
+            showPopup(filled ? 'Extracted' : 'Nothing found', filled ? 'Info pulled from the game page.' : 'No image or info found on that page.', filled);
+          } catch (_) {
+            showPopup('Error', 'Could not reach the game page.', false);
+          }
+        }
+        const addForm = document.getElementById('add-game-form');
+        const fieldVal = (name) => { const el = addForm.querySelector(`[name="${name}"]`); return el ? el.value.trim() : ''; };
+        const parseCost = (v) => { if (!v) return null; const n = parseFloat(v.replace(/[^0-9.,]/g, '').replace(',', '.')); return isNaN(n) ? null : n; };
+
+        addForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const link = fieldVal('link');
+          if (!link) { alert('Please enter the game link.'); return; }
+          const payload = {
+            email: fieldVal('email'),
+            link: link,
+            image: extractedImage,
+            title: fieldVal('title'),
+            description: fieldVal('description'),
+            domaine: fieldVal('domaine'),
+            target_audience: fieldVal('publicType'),
+            age: fieldVal('age'),
+            plateforme: fieldVal('plateforme'),
+            price: parseCost(fieldVal('cost')),
+            mot_cles: fieldVal('keywords'),
+            motivation: fieldVal('motivation'),
+            game_mode: fieldVal('gameMode'),
+            game_play: fieldVal('gamePlay'),
+            date: fieldVal('date'),
+            knowledge_validation: fieldVal('knowledgeValidation'),
+            right: fieldVal('rights'),
+            language: fieldVal('language'),
+          };
+          const btn = document.getElementById('main-submit-btn');
+          if (btn) btn.disabled = true;
+          try {
+            const res = await fetch(`${ADDGAME_API}/games/`, {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            if (res.ok) {
+              addForm.reset();
+              updateProgress();
+              showPopup('Game submitted', 'Your game has been added and is awaiting admin approval.', true);
+            } else {
+              const d = await res.json().catch(() => ({}));
+              showPopup('Could not add the game', d.detail || 'Please check your inputs and try again.', false);
+            }
+          } catch (_) {
+            showPopup('Server unreachable', 'Is the backend running?', false);
+          } finally {
+            if (btn) btn.disabled = false;
+          }
+        });
+
+      });
+    </script>
+</body>
+</html>
