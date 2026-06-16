@@ -492,7 +492,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (resetBtn) {
     resetBtn.addEventListener('click', () => {
       allFilterInputs.forEach(el => { el.value = ''; });
-      if (ageMin && ageMax) { ageMin.value = 0; ageMax.value = 99; syncAgeDisplay(); }
+      if (ageMin && ageMax) { ageMin.value = 0; ageMax.value = 45; syncAgeDisplay(); }
       activePlatforms.clear();
       activeRating = 0;
       platformBtns.forEach(btn => btn.classList.remove('active'));
@@ -520,7 +520,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (publicVal && g.publicType !== publicVal) return false;
       if (activePlatforms.size > 0 && ![...activePlatforms].some(p => g.platform.some(gp => gp.toLowerCase().includes(p.toLowerCase())))) return false;
       const loAge = ageMin ? parseInt(ageMin.value, 10) : 0;
-      const hiAge = ageMax ? parseInt(ageMax.value, 10) : 99;
+      const hiAge = ageMax ? parseInt(ageMax.value, 10) : 45;
       if (g.ageNum && (g.ageNum < loAge || g.ageNum > hiAge)) return false;
       if (motivation && !(g.motivation || '').toLowerCase().includes(motivation)) return false;
       if (knowledge && !(g.knowledgeValidation || '').toLowerCase().includes(knowledge)) return false;
