@@ -329,6 +329,7 @@
   </footer>
 
   <script src="js/main.js"></script>
+  <script src="js/admin-auth.js"></script>
 
   <script>
     const API = (window.adminAuth && window.adminAuth.API_BASE) || 'https://urielthebigboss-seirousgamecatalogue.hf.space';
@@ -371,10 +372,18 @@
       document.getElementById('page-gameplay').innerHTML = gp.length
         ? gp.map(x => `<div class="gameplay-item"><span class="gameplay-dot"></span><span class="gameplay-lbl">${x}</span></div>`).join('')
         : '<div class="gameplay-item"><span class="gameplay-dot"></span><span class="gameplay-lbl">—</span></div>';
+      const platIcon = (name) => {
+        const p = name.toLowerCase();
+        if (p.includes('linux')) return 'terminal';
+        if (p.includes('android') || p.includes('ios') || p.includes('phone') || p.includes('mobile')) return 'smartphone';
+        if (p.includes('web') || p.includes('online') || p.includes('flash') || p.includes('navigateur')) return 'globe';
+        if (p.includes('mac')) return 'laptop';
+        return 'monitor';
+      };
       const plats = splitList(g.plateforme);
       const platWrap = document.querySelector('.platform-wrap');
       if (platWrap) platWrap.innerHTML = plats.length
-        ? plats.map(pl => `<div class="plat-icon-box"><i data-lucide="monitor" style="width:20px; border-width:2px;"></i><span class="plat-lbl">${pl}</span></div>`).join('')
+        ? plats.map(pl => `<div class="plat-icon-box"><i data-lucide="${platIcon(pl)}" style="width:20px; border-width:2px;"></i><span class="plat-lbl">${pl}</span></div>`).join('')
         : '<span class="plat-lbl" style="color:#9ca3af;">—</span>';
       const goBtn = document.querySelector('.btn-go');
       if (goBtn && g.link) goBtn.onclick = () => window.open(g.link, '_blank');
@@ -498,7 +507,7 @@
       ov.style.display = 'flex';
     }
 
-    // ===== REPORT MODAL (juste un message, pas de stockage) =====
+    // ===== REPORT MODAL (signalement réel -> table signal, réservé aux connectés) =====
     function wireReport() {
       const rMdl = document.getElementById('report-modal');
       const ta = document.getElementById('report-textarea');
@@ -514,10 +523,24 @@
         b.onclick = () => ta.value = s;
         sC.appendChild(b);
       });
-      document.getElementById('report-form').addEventListener('submit', (e) => {
+      document.getElementById('report-form').addEventListener('submit', async (e) => {
         e.preventDefault();
-        clsM();
-        showSuccessPopup('Report sent', 'Thank you! Your report has been sent to our team.');
+        const motif = ta.value.trim();
+        if (!motif) return;
+        if (!userToken()) { clsM(); showSuccessPopup('Login required', 'Please log in to report a problem.'); return; }
+        const sub = document.querySelector('#report-form .report-submit');
+        if (sub) sub.disabled = true;
+        try {
+          const res = await fetch(`${API}/games/${gid}/report`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + userToken() },
+            body: JSON.stringify({ motif })
+          });
+          if (res.ok) { clsM(); showSuccessPopup('Report sent', 'Thank you! Your report has been recorded and sent to our team.'); }
+          else if (res.status === 401 || res.status === 403) { clsM(); showSuccessPopup('Login required', 'Please log in to report a problem.'); }
+          else { clsM(); showSuccessPopup('Could not send', 'Your report could not be saved. Please try again.'); }
+        } catch (_) { clsM(); showSuccessPopup('Server unreachable', 'Is the backend running?'); }
+        finally { if (sub) sub.disabled = false; }
       });
     }
 

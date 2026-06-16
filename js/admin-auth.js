@@ -153,7 +153,21 @@
         return;
       }
       const data = await res.json();
-      setToken(data.access_token);
+      const token = data.access_token;
+      // VÉRIFIE que ce compte est bien un administrateur AVANT de le laisser entrer.
+      // (/auth/login délivre un token à tout compte valide ; seul /admin/me confirme le rôle admin)
+      let meRes;
+      try {
+        meRes = await fetch(`${API_BASE}/admin/me`, { headers: { Authorization: "Bearer " + token } });
+      } catch (_) {
+        showError("Server unreachable. Is the backend running?");
+        return;
+      }
+      if (!meRes.ok) {
+        showError("This account is not an administrator.");
+        return;   // on NE stocke PAS le token : aucun accès admin
+      }
+      setToken(token);
       window.location.href = "admin.html";
     } catch (_) {
       showError("Server unreachable. Is the backend running?");
@@ -165,13 +179,16 @@
 
   function wireFooterLink() {
     document.querySelectorAll('a[href$="admin.html"]').forEach((a) => {
-      a.addEventListener("click", (e) => {
+      a.addEventListener("click", async (e) => {
         e.preventDefault();
-        if (getToken()) {
-          window.location.href = "admin.html";
-        } else {
-          openModal();
-        }
+        const token = getToken();
+        if (!token) { openModal(); return; }            // pas de session admin -> popup
+        // Une session existe : on la revalide. Si elle n'est plus admin -> popup (jamais d'accès silencieux)
+        try {
+          const res = await fetch(`${API_BASE}/admin/me`, { headers: { Authorization: "Bearer " + token } });
+          if (res.ok) { window.location.href = "admin.html"; }
+          else { clearToken(); openModal(); }
+        } catch (_) { openModal(); }
       });
     });
   }
@@ -200,6 +217,7 @@
   function fillAdminHeader(me) {
     const emailEl = document.querySelector(".admin-user-email");
     if (emailEl && me.mail) emailEl.textContent = me.mail;
+    document.body.style.visibility = "visible";   // accès validé -> on révèle la page
   }
 
   document.addEventListener("DOMContentLoaded", () => {

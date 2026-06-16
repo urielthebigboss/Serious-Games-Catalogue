@@ -269,14 +269,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ================= GAME DISPLAY ================= */
   const gamesGrid = document.getElementById('games-grid');
+  const paginationEl = document.getElementById('pagination');
+  const PAGE_SIZE = 10;          // 10 jeux par page
+  let currentList = [];
+  let currentPage = 1;
 
-  function renderGames(list) {
-    if (!gamesGrid) return;
-    if (list.length === 0) {
-      gamesGrid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:3rem; color:#9ca3af; font-weight:700;">No game matches your filters.</div>`;
-      return;
-    }
-    gamesGrid.innerHTML = list.map(game => `
+  function cardHtml(game) {
+    return `
       <a href="game.html?id=${game.id}" class="game-card-link">
         <div class="game-card group">
           <div class="game-card-image-wrap">
@@ -305,9 +304,75 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           </div>
         </div>
-      </a>
-    `).join('');
+      </a>`;
+  }
+
+  // Reçoit la liste filtrée complète, repart à la page 1 et affiche la 1re page
+  function renderGames(list) {
+    currentList = list || [];
+    currentPage = 1;
+    renderPage();
+  }
+
+  function renderPage() {
+    if (!gamesGrid) return;
+    if (currentList.length === 0) {
+      gamesGrid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:3rem; color:#9ca3af; font-weight:700;">No game matches your filters.</div>`;
+      if (paginationEl) paginationEl.innerHTML = '';
+      return;
+    }
+    const totalPages = Math.ceil(currentList.length / PAGE_SIZE);
+    if (currentPage > totalPages) currentPage = totalPages;
+    if (currentPage < 1) currentPage = 1;
+    const start = (currentPage - 1) * PAGE_SIZE;
+    const pageItems = currentList.slice(start, start + PAGE_SIZE);
+    gamesGrid.innerHTML = pageItems.map(cardHtml).join('');
     if (typeof lucide !== 'undefined') lucide.createIcons();
+    renderPagination(totalPages);
+  }
+
+  function gotoPage(p) {
+    currentPage = p;
+    renderPage();
+    if (gamesGrid) gamesGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function renderPagination(totalPages) {
+    if (!paginationEl) return;
+    if (totalPages <= 1) { paginationEl.innerHTML = ''; return; }
+
+    const btn = (label, page, opts = {}) => {
+      const disabled = opts.disabled ? 'opacity:0.4;cursor:not-allowed;' : 'cursor:pointer;';
+      const active = opts.active
+        ? 'background:#2563eb;color:#fff;border-color:#2563eb;'
+        : 'background:#fff;color:#374151;border-color:#e5e7eb;';
+      return `<button class="page-btn" data-page="${page}" ${opts.disabled ? 'disabled' : ''}
+        style="min-width:38px;height:38px;padding:0 0.6rem;border:1.5px solid;border-radius:10px;
+        font-weight:800;font-size:0.85rem;${active}${disabled}">${label}</button>`;
+    };
+
+    // Fenêtre de pages autour de la page courante
+    const pages = [];
+    const win = 1;
+    for (let p = 1; p <= totalPages; p++) {
+      if (p === 1 || p === totalPages || (p >= currentPage - win && p <= currentPage + win)) {
+        pages.push(p);
+      } else if (pages[pages.length - 1] !== '…') {
+        pages.push('…');
+      }
+    }
+
+    let html = btn('‹', currentPage - 1, { disabled: currentPage === 1 });
+    html += pages.map(p => p === '…'
+      ? `<span style="padding:0 0.3rem;color:#9ca3af;font-weight:800;">…</span>`
+      : btn(p, p, { active: p === currentPage })).join('');
+    html += btn('›', currentPage + 1, { disabled: currentPage === totalPages });
+
+    paginationEl.innerHTML = html;
+    paginationEl.querySelectorAll('.page-btn').forEach(b => {
+      if (b.disabled) return;
+      b.addEventListener('click', () => gotoPage(parseInt(b.dataset.page, 10)));
+    });
   }
 
   // ===== Charger les vrais jeux depuis le backend =====
@@ -400,14 +465,22 @@ document.addEventListener('DOMContentLoaded', () => {
     el.addEventListener('change', applyFilters);
   });
 
-  // Age range slider
-  const ageSlider = document.getElementById('filter-age');
+  // Age range (interactif des deux côtés : min ET max)
+  const ageMin = document.getElementById('filter-age-min');
+  const ageMax = document.getElementById('filter-age-max');
   const ageDisplay = document.getElementById('age-display');
-  if (ageSlider) {
-    ageSlider.addEventListener('input', () => {
-      ageDisplay.textContent = ageSlider.value == 45 ? 'Max: 45' : `≤ ${ageSlider.value} ans`;
-      applyFilters();
-    });
+  function syncAgeDisplay() {
+    if (!ageMin || !ageMax) return;
+    let lo = parseInt(ageMin.value, 10);
+    let hi = parseInt(ageMax.value, 10);
+    if (lo > hi) {                       // empêche les curseurs de se croiser
+      if (document.activeElement === ageMin) { hi = lo; ageMax.value = hi; }
+      else { lo = hi; ageMin.value = lo; }
+    }
+    if (ageDisplay) ageDisplay.textContent = `${lo} – ${hi} ans`;
+  }
+  if (ageMin && ageMax) {
+    [ageMin, ageMax].forEach(s => s.addEventListener('input', () => { syncAgeDisplay(); applyFilters(); }));
   }
 
   // Global search input
@@ -419,7 +492,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (resetBtn) {
     resetBtn.addEventListener('click', () => {
       allFilterInputs.forEach(el => { el.value = ''; });
-      if (ageSlider) { ageSlider.value = 45; ageDisplay.textContent = 'Max: 45'; }
+      if (ageMin && ageMax) { ageMin.value = 0; ageMax.value = 99; syncAgeDisplay(); }
       activePlatforms.clear();
       activeRating = 0;
       platformBtns.forEach(btn => btn.classList.remove('active'));
@@ -445,9 +518,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (domaine && !g.domaine.toLowerCase().includes(domaine)) return false;
       if (keywords.length > 0 && !keywords.some(k => g.keywords.some(gk => gk.includes(k)))) return false;
       if (publicVal && g.publicType !== publicVal) return false;
-      if (activePlatforms.size > 0 && ![...activePlatforms].some(p => g.platform.includes(p))) return false;
-      const maxAge = ageSlider ? parseInt(ageSlider.value) : 45;
-      if (maxAge < 45 && g.ageNum > maxAge) return false;
+      if (activePlatforms.size > 0 && ![...activePlatforms].some(p => g.platform.some(gp => gp.toLowerCase().includes(p.toLowerCase())))) return false;
+      const loAge = ageMin ? parseInt(ageMin.value, 10) : 0;
+      const hiAge = ageMax ? parseInt(ageMax.value, 10) : 99;
+      if (g.ageNum && (g.ageNum < loAge || g.ageNum > hiAge)) return false;
       if (motivation && !(g.motivation || '').toLowerCase().includes(motivation)) return false;
       if (knowledge && !(g.knowledgeValidation || '').toLowerCase().includes(knowledge)) return false;
       if (gamemode && !(g.gameMode || '').toLowerCase().includes(gamemode)) return false;
@@ -735,22 +809,28 @@ document.addEventListener('DOMContentLoaded', () => {
   if (signupForm) {
     signupForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const email = signupForm.querySelector('input[type=email]').value.trim();
-      const password = signupForm.querySelector('input[type=password]').value;
+      const email = (document.getElementById('signup-email')?.value || '').trim();
+      const country = (document.getElementById('signup-country')?.value || '').trim();
+      const contact = (document.getElementById('signup-contact')?.value || '').trim();
+      const password = document.getElementById('signup-password')?.value || '';
+      const confirm = document.getElementById('signup-confirm')?.value || '';
       const btn = signupForm.querySelector('button[type=submit]');
       setModalMsg(signupForm, '', false);
-      if (!email || !password) { setModalMsg(signupForm, 'Renseigne un email et un mot de passe.', false); return; }
+      if (!email || !country || !contact || !password) {
+        setModalMsg(signupForm, 'Remplis tous les champs (email, pays, contact, mot de passe).', false); return;
+      }
+      if (password.length < 6) { setModalMsg(signupForm, 'Le mot de passe doit faire au moins 6 caractères.', false); return; }
+      if (password !== confirm) { setModalMsg(signupForm, 'Les deux mots de passe ne correspondent pas.', false); return; }
       if (btn) btn.disabled = true;
       try {
         const res = await fetch(`${AUTH_API}/user/signup`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
+          body: JSON.stringify({ email, password, pays: country, contact })
         });
         const data = await res.json().catch(() => ({}));
         if (!res.ok) { setModalMsg(signupForm, data.detail || 'Inscription impossible.', false); return; }
         setModalMsg(signupForm, data.message || 'Compte créé. Vérifie ta boîte mail pour confirmer ton adresse.', true);
-        signupForm.querySelector('input[type=email]').value = '';
-        signupForm.querySelector('input[type=password]').value = '';
+        signupForm.reset();
       } catch (_) {
         setModalMsg(signupForm, 'Serveur injoignable. Le backend est-il démarré ?', false);
       } finally {
@@ -758,6 +838,20 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  /* ============ AFFICHER / MASQUER LE MOT DE PASSE (œil) ============ */
+  const EYE_OPEN = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
+  const EYE_OFF = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-7-10-7a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 7 10 7a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
+  document.querySelectorAll('.pw-eye').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const input = document.getElementById(btn.dataset.target);
+      if (!input) return;
+      const showing = input.type === 'text';
+      input.type = showing ? 'password' : 'text';
+      btn.innerHTML = showing ? EYE_OPEN : EYE_OFF;
+      btn.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
+    });
+  });
 
   /* ================= GAME DETAIL MODAL ================= */
   const gdModal = document.getElementById('game-detail-modal');

@@ -172,12 +172,12 @@
             
             <!-- Left Form Area -->
             <form id="add-game-form" class="form-col-7" style="display:flex; flex-direction:column; gap:2.5rem;">
-              
-              <!-- About Gamer -->
+
+              <!-- Contributor notice (le contributeur est identifié par son compte connecté) -->
               <section>
-                <h2 class="form-section-title"><i data-lucide="mail" style="width:14px; height:14px;"></i> About Gamer</h2>
-                <div class="input-bg-container">
-                  <input type="email" name="email" id="input-email" class="email-input" placeholder="Enter your email">
+                <div id="contributor-banner" style="display:flex; align-items:center; gap:0.6rem; padding:0.9rem 1rem; border-radius:12px; background:#eff6ff; border:1px solid #dbeafe; color:#1d4ed8; font-weight:700; font-size:0.85rem;">
+                  <i data-lucide="user-check" style="width:16px; height:16px;"></i>
+                  <span id="contributor-text">Log in to contribute — your account will be credited as the contributor.</span>
                 </div>
               </section>
 
@@ -338,6 +338,7 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <script src="js/admin-auth.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -374,10 +375,40 @@
           ov.style.display = 'flex';
         }
 
-        // AUTHENTICATION LOGIC
-        let isAuthenticated = false;
+        // AUTHENTICATION LOGIC (basée sur le vrai token utilisateur)
+        const AUTH_API = (window.adminAuth && window.adminAuth.API_BASE) || 'https://urielthebigboss-seirousgamecatalogue.hf.space';
+        const userToken = () => localStorage.getItem('user_token');
+        let isAuthenticated = !!userToken();
         let authMode = 'login';
-        
+
+        function refreshContributorUI() {
+          const txt = document.getElementById('contributor-text');
+          const banner = document.getElementById('contributor-banner');
+          if (isAuthenticated) {
+            if (txt) txt.textContent = 'You are logged in — this game will be credited to your account.';
+            if (banner) { banner.style.background = '#ecfdf5'; banner.style.borderColor = '#a7f3d0'; banner.style.color = '#047857'; }
+          } else {
+            if (txt) txt.textContent = 'Log in to contribute — your account will be credited as the contributor.';
+            if (banner) { banner.style.background = '#eff6ff'; banner.style.borderColor = '#dbeafe'; banner.style.color = '#1d4ed8'; }
+          }
+        }
+
+        function setAuthMsg(text, ok) {
+          const form = document.getElementById('auth-form');
+          let el = form.querySelector('.modal-msg');
+          if (!el) {
+            el = document.createElement('div');
+            el.className = 'modal-msg';
+            el.style.cssText = 'margin:0 0 1rem;padding:.6rem .8rem;border-radius:10px;font-size:.8rem;font-weight:600;text-align:center;';
+            form.insertBefore(el, form.firstChild);
+          }
+          el.textContent = text || '';
+          el.style.display = text ? 'block' : 'none';
+          el.style.background = ok ? '#ecfdf5' : '#fef2f2';
+          el.style.color = ok ? '#059669' : '#dc2626';
+          el.style.border = '1px solid ' + (ok ? '#a7f3d0' : '#fecaca');
+        }
+
         const authModal = document.getElementById('auth-modal');
         const authBtnText = document.getElementById('auth-btn-text');
         const authTitle = document.getElementById('auth-title-text');
@@ -413,28 +444,42 @@
         document.getElementById('close-auth-btn').addEventListener('click', () => authModal.style.display = 'none');
 
         authSwitchBtn.addEventListener('click', () => {
-          authMode = authMode === 'login' ? 'register' : 'login';
-          authTitle.innerText = authMode === 'login' ? 'Welcome Back' : 'Join Society';
-          authSubtitle.innerText = authMode === 'login' ? 'Login to continue your action' : 'Create an account to contribute';
-          authBtnText.innerText = authMode === 'login' ? 'SIGN IN' : 'SIGN UP';
-          authSwitchBtn.innerText = authMode === 'login' ? "Don't have an account? Sign up" : "Already have an account? Login";
+          // L'inscription complète (pays + contact + confirmation) se fait sur l'accueil
+          showPopup('Create your account', 'Sign up from the home page (country & contact required), then come back here to contribute.', false);
+          setTimeout(() => { window.location.href = 'index.html'; }, 1200);
         });
 
-        document.getElementById('auth-form').addEventListener('submit', (e) => {
+        document.getElementById('auth-form').addEventListener('submit', async (e) => {
           e.preventDefault();
-          const em = document.getElementById('authEmail').value;
-          if(em) {
+          const em = document.getElementById('authEmail').value.trim();
+          const pw = document.getElementById('authPassword').value;
+          setAuthMsg('', false);
+          if (!em || !pw) { setAuthMsg('Enter your email and password.', false); return; }
+          const sbtn = e.target.querySelector('button[type=submit]');
+          if (sbtn) sbtn.disabled = true;
+          try {
+            const res = await fetch(`${AUTH_API}/user/login`, {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email: em, password: pw })
+            });
+            const d = await res.json().catch(() => ({}));
+            if (!res.ok) { setAuthMsg(d.detail || 'Login failed.', false); return; }
+            localStorage.setItem('user_token', d.access_token);
             isAuthenticated = true;
-            document.getElementById('input-email').value = em;
             authModal.style.display = 'none';
-            updateProgress(); // in case email field is the first to be filled
+            refreshContributorUI();
+            updateProgress();
+          } catch (_) {
+            setAuthMsg('Server unreachable. Is the backend running?', false);
+          } finally {
+            if (sbtn) sbtn.disabled = false;
           }
         });
 
 
         // GAMIFICATION LOGIC
-        const allInputs = document.querySelectorAll('#input-email, #input-link, #input-title, #input-description, #input-domaine, #input-public, #input-age, #input-cost, .form-sync-field');
-        const totalFields = 18; // Derived from React state length
+        const allInputs = document.querySelectorAll('#input-link, #input-title, #input-description, #input-domaine, #input-public, #input-age, #input-cost, .form-sync-field');
+        const totalFields = 17; // champs du formulaire (email contributeur retiré)
         let filledCount = 0;
 
         const uiProgVal = document.getElementById('val-progress');
@@ -603,10 +648,16 @@
 
         addForm.addEventListener('submit', async (e) => {
           e.preventDefault();
+          if (!userToken()) {           // contributeur identifié par son token : login obligatoire
+            isAuthenticated = false;
+            refreshContributorUI();
+            openAuthFlow();
+            showPopup('Login required', 'Please log in so we can credit this game to your account.', false);
+            return;
+          }
           const link = fieldVal('link');
-          if (!link) { alert('Please enter the game link.'); return; }
+          if (!link) { showPopup('No link', 'Please enter the game link.', false); return; }
           const payload = {
-            email: fieldVal('email'),
             link: link,
             image: extractedImage,
             title: fieldVal('title'),
@@ -629,13 +680,20 @@
           if (btn) btn.disabled = true;
           try {
             const res = await fetch(`${ADDGAME_API}/games/`, {
-              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + userToken() },
               body: JSON.stringify(payload)
             });
             if (res.ok) {
               addForm.reset();
               updateProgress();
               showPopup('Game submitted', 'Your game has been added and is awaiting admin approval.', true);
+            } else if (res.status === 401 || res.status === 403) {
+              localStorage.removeItem('user_token');
+              isAuthenticated = false;
+              refreshContributorUI();
+              openAuthFlow();
+              showPopup('Session expired', 'Please log in again to contribute.', false);
             } else {
               const d = await res.json().catch(() => ({}));
               showPopup('Could not add the game', d.detail || 'Please check your inputs and try again.', false);
@@ -646,6 +704,8 @@
             if (btn) btn.disabled = false;
           }
         });
+
+        refreshContributorUI();   // état initial du bandeau contributeur
 
       });
     </script>
