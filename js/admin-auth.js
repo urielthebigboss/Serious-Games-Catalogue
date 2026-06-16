@@ -230,8 +230,10 @@
     if (emailEl && me.mail) emailEl.textContent = me.mail;
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
-    wireFooterLink();
-    guardAdminPage();
-  });
+  // NB : l'authentification admin est désormais gérée par l'écran de connexion
+  // intégré DIRECTEMENT dans admin.html (#admin-gate). Le lien "ADMIN ACCESS" du
+  // footer est un simple lien vers admin.html — aucune interception JS, donc il
+  // fonctionne partout, même si ce script est en cache ou absent. Ce fichier ne
+  // sert plus qu'à exposer window.adminAuth (API_BASE / authHeaders) au dashboard.
+  void wireFooterLink; void guardAdminPage;  // conservés mais non appelés
 })();

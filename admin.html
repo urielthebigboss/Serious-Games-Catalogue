@@ -11,7 +11,36 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-    
+
+    <!-- ÉCRAN DE CONNEXION ADMIN (intégré au HTML, visible par défaut -> jamais de page blanche) -->
+    <div id="admin-gate" style="position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center; background:#f8fafc; font-family:system-ui,-apple-system,sans-serif;">
+      <div style="width:92%; max-width:420px; background:#fff; border-radius:24px; padding:2.5rem 2rem; box-shadow:0 25px 60px rgba(0,0,0,.15);">
+        <div style="width:64px;height:64px;border-radius:18px;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;background:#eef2ff;color:#4f46e5;">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        </div>
+        <h2 style="text-align:center;margin:0;font-size:1.4rem;font-weight:800;color:#111827;">Admin Access</h2>
+        <p style="text-align:center;color:#9ca3af;font-size:.85rem;margin:.35rem 0 1.75rem;font-weight:600;">Sign in to manage the catalog</p>
+        <div id="admin-gate-error" style="display:none;background:#fef2f2;color:#dc2626;border:1px solid #fecaca;border-radius:10px;padding:.6rem .8rem;font-size:.8rem;font-weight:600;margin-bottom:1rem;text-align:center;"></div>
+        <form id="admin-gate-form">
+          <label style="display:block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#6b7280;margin-bottom:.4rem;">Email</label>
+          <input type="email" id="admin-gate-email" autocomplete="username" required placeholder="admin@example.com"
+            style="width:100%;box-sizing:border-box;padding:.8rem 1rem;border:1.5px solid #e5e7eb;border-radius:12px;font-size:.95rem;margin-bottom:1.1rem;">
+          <label style="display:block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#6b7280;margin-bottom:.4rem;">Password</label>
+          <div style="position:relative;">
+            <input type="password" id="admin-gate-password" autocomplete="current-password" required placeholder="••••••••"
+              style="width:100%;box-sizing:border-box;padding:.8rem 2.8rem .8rem 1rem;border:1.5px solid #e5e7eb;border-radius:12px;font-size:.95rem;margin-bottom:1.1rem;">
+            <button type="button" id="admin-gate-eye" aria-label="Show password"
+              style="position:absolute;top:.7rem;right:.6rem;background:transparent;border:none;cursor:pointer;color:#9ca3af;display:flex;padding:4px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </button>
+          </div>
+          <button type="submit" id="admin-gate-submit"
+            style="width:100%;padding:.9rem;border:none;border-radius:12px;background:#4f46e5;color:#fff;font-weight:800;font-size:.9rem;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;">Sign In</button>
+        </form>
+        <a href="index.html" style="display:block;text-align:center;margin-top:1rem;font-size:11px;font-weight:800;color:#9ca3af;text-decoration:none;text-transform:uppercase;letter-spacing:.08em;">← Back to site</a>
+      </div>
+    </div>
+
     <!-- Navigation Bar -->
     <nav class="navbar" style="position:relative; z-index:50;">
       <div class="max-w-7xl mx-auto flex items-center justify-between">
@@ -191,6 +220,72 @@
 
     <script src="js/main.js"></script>
     <script src="js/admin-auth.js"></script>
+
+    <!-- ===== ÉCRAN DE CONNEXION ADMIN (autonome, ne dépend d'aucune interception) ===== -->
+    <script>
+      (function () {
+        const API = (window.adminAuth && window.adminAuth.API_BASE) || 'https://urielthebigboss-seirousgamecatalogue.hf.space';
+        const TOKEN_KEY = 'admin_token';
+        const gate = document.getElementById('admin-gate');
+        const form = document.getElementById('admin-gate-form');
+        const errEl = document.getElementById('admin-gate-error');
+        const emailEl = document.getElementById('admin-gate-email');
+        const pwEl = document.getElementById('admin-gate-password');
+        const submitBtn = document.getElementById('admin-gate-submit');
+        const eyeBtn = document.getElementById('admin-gate-eye');
+
+        function showError(msg) { errEl.textContent = msg || ''; errEl.style.display = msg ? 'block' : 'none'; }
+        function openGate() { if (gate) gate.style.display = 'flex'; }
+        function closeGate() { if (gate) gate.style.display = 'none'; }
+
+        async function isAdmin(token) {
+          if (!token) return false;
+          try {
+            const r = await fetch(`${API}/admin/me`, { headers: { Authorization: 'Bearer ' + token } });
+            return r.ok;
+          } catch (_) { return false; }
+        }
+
+        // Au chargement : si une session admin valide existe déjà, on ouvre directement le tableau de bord.
+        (async () => {
+          const token = localStorage.getItem(TOKEN_KEY);
+          if (await isAdmin(token)) { closeGate(); }
+          else { localStorage.removeItem(TOKEN_KEY); openGate(); }
+        })();
+
+        if (eyeBtn) eyeBtn.addEventListener('click', () => {
+          pwEl.type = pwEl.type === 'text' ? 'password' : 'text';
+        });
+
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          showError('');
+          const email = emailEl.value.trim();
+          const password = pwEl.value;
+          if (!email || !password) { showError('Enter your email and password.'); return; }
+          submitBtn.disabled = true; submitBtn.textContent = 'Signing in…';
+          try {
+            const res = await fetch(`${API}/auth/login`, {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email, password })
+            });
+            if (!res.ok) { showError('Incorrect email or password.'); return; }
+            const data = await res.json();
+            const token = data.access_token;
+            // On vérifie que ce compte est BIEN un administrateur avant de laisser entrer.
+            if (!(await isAdmin(token))) { showError('This account is not an administrator.'); return; }
+            localStorage.setItem(TOKEN_KEY, token);
+            closeGate();
+            if (window.adminReload) window.adminReload();   // recharge les données avec le token admin
+          } catch (_) {
+            showError('Server unreachable. Is the backend running?');
+          } finally {
+            submitBtn.disabled = false; submitBtn.textContent = 'Sign In';
+          }
+        });
+      })();
+    </script>
+
     <script>
 
       // ===== ADMIN DASHBOARD — connected to FastAPI backend =====
@@ -549,6 +644,7 @@
       window.openDetail = openDetail;
       window.decide = decide;
       window.removeGame = removeGame;
+      window.adminReload = loadGames;   // rechargé par l'écran de connexion après login admin
 
     </script>
 </body>
