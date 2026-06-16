@@ -124,6 +124,11 @@
   function closeModal() {
     const m = document.getElementById("admin-login-modal");
     if (m) m.classList.remove("open");
+    // Sur la page admin sans session valide : on renvoie à l'accueil au lieu de laisser une page vide.
+    const dash = document.querySelector("main");
+    if (location.pathname.endsWith("admin.html") && dash && dash.style.display === "none") {
+      window.location.href = "index.html";
+    }
   }
 
   function showError(msg) {
@@ -193,31 +198,36 @@
     });
   }
 
+  function hideAdminDashboard() {
+    const m = document.querySelector("main");
+    if (m) m.style.display = "none";
+  }
+  function showAdminDashboard() {
+    const m = document.querySelector("main");
+    if (m) m.style.display = "";
+  }
+
   async function guardAdminPage() {
     if (!location.pathname.endsWith("admin.html")) return;
+    hideAdminDashboard();                  // on masque le tableau de bord tant que l'admin n'est pas validé
     const token = getToken();
-    if (!token) return kickOut();
+    if (!token) { openModal(); return; }   // pas de session -> formulaire de connexion SUR la page (jamais vide)
     try {
       const res = await fetch(`${API_BASE}/admin/me`, {
         headers: { Authorization: "Bearer " + token },
       });
-      if (!res.ok) return kickOut();
+      if (!res.ok) { clearToken(); openModal(); return; }   // token non-admin/expiré -> on redemande la connexion
       const me = await res.json();
       fillAdminHeader(me);
+      showAdminDashboard();                 // accès validé -> on révèle le tableau de bord
     } catch (_) {
-      return kickOut();
+      openModal();                          // backend injoignable -> on propose quand même la connexion
     }
-  }
-
-  function kickOut() {
-    clearToken();
-    window.location.href = "index.html";
   }
 
   function fillAdminHeader(me) {
     const emailEl = document.querySelector(".admin-user-email");
     if (emailEl && me.mail) emailEl.textContent = me.mail;
-    document.body.style.visibility = "visible";   // accès validé -> on révèle la page
   }
 
   document.addEventListener("DOMContentLoaded", () => {
