@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="60x60" href="assets/favicon.png?v=5">
+    <link rel="icon" href="assets/favicon.ico?v=5" sizes="any">
+    <link rel="apple-touch-icon" href="assets/logo-mark.png">
+  <title>Super Admin — Serious Game Catalogue</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root{ --sa:#7c3aed; --sa2:#4f46e5; }
+    body{ background:#f8fafc; }
+    /* Gate */
+    #sa-gate{ position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center; background:#f8fafc; font-family:system-ui,-apple-system,sans-serif; }
+    #sa-gate .g-panel{ width:92%; max-width:430px; background:#fff; border-radius:24px; padding:2.5rem 2rem; box-shadow:0 25px 60px rgba(0,0,0,.18); }
+    #sa-gate .g-icon{ width:64px; height:64px; border-radius:18px; margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,var(--sa),var(--sa2)); color:#fff; }
+    #sa-gate h2{ text-align:center; margin:0; font-size:1.4rem; font-weight:900; color:#111827; }
+    #sa-gate .g-sub{ text-align:center; color:#9ca3af; font-size:.85rem; margin:.35rem 0 1.6rem; font-weight:600; }
+    #sa-gate label{ display:block; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; color:#6b7280; margin-bottom:.4rem; }
+    #sa-gate input{ width:100%; box-sizing:border-box; padding:.8rem 1rem; border:1.5px solid #e5e7eb; border-radius:12px; font-size:.95rem; margin-bottom:1.1rem; }
+    #sa-gate input:focus{ outline:none; border-color:var(--sa); }
+    #sa-gate .g-pw{ position:relative; } #sa-gate .g-pw input{ padding-right:2.8rem; }
+    #sa-gate .g-eye{ position:absolute; top:.65rem; right:.5rem; width:34px; height:34px; border:none; background:transparent; cursor:pointer; color:#9ca3af; }
+    #sa-gate .g-submit{ width:100%; padding:.9rem; border:none; border-radius:12px; background:linear-gradient(135deg,var(--sa),var(--sa2)); color:#fff; font-weight:800; font-size:.9rem; letter-spacing:.05em; text-transform:uppercase; cursor:pointer; }
+    #sa-gate .g-submit:disabled{ opacity:.6; cursor:not-allowed; }
+    #sa-gate .g-error{ display:none; background:#fef2f2; color:#dc2626; border:1px solid #fecaca; border-radius:10px; padding:.6rem .8rem; font-size:.8rem; font-weight:600; margin-bottom:1rem; text-align:center; }
+    #sa-gate .g-error.show{ display:block; }
+
+    /* Header accent super admin */
+    .sa-badge{ display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .6rem; border-radius:9999px; background:linear-gradient(135deg,var(--sa),var(--sa2)); color:#fff; font-size:.62rem; font-weight:900; letter-spacing:.1em; text-transform:uppercase; }
+    .sa-shield{ background:linear-gradient(135deg,var(--sa),var(--sa2)) !important; }
+
+    /* Cards / sections */
+    .sa-card{ background:#fff; border:1px solid #eef0f4; border-radius:18px; padding:1.5rem; box-shadow:0 1px 2px rgba(0,0,0,.04); margin-bottom:1.5rem; }
+    .sa-h{ font-weight:900; font-size:1rem; text-transform:uppercase; letter-spacing:.03em; color:#111827; margin:0 0 .25rem; display:flex; align-items:center; gap:.5rem; }
+    .sa-sub{ color:#9ca3af; font-weight:700; font-size:.8rem; margin:0 0 1.25rem; }
+    .sa-grid-form{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    @media (max-width:640px){ .sa-grid-form{ grid-template-columns:1fr; } }
+    .sa-label{ display:block; font-size:11px; font-weight:900; text-transform:uppercase; letter-spacing:.06em; color:#6b7280; margin-bottom:.4rem; }
+    .sa-input{ width:100%; box-sizing:border-box; padding:.7rem .9rem; border:1.5px solid #e5e7eb; border-radius:12px; font-size:.9rem; font-family:inherit; }
+    .sa-input:focus{ outline:none; border-color:var(--sa); }
+    .sa-btn{ padding:.75rem 1.2rem; border:none; border-radius:12px; background:linear-gradient(135deg,var(--sa),var(--sa2)); color:#fff; font-weight:800; font-size:.82rem; text-transform:uppercase; letter-spacing:.05em; cursor:pointer; display:inline-flex; align-items:center; gap:.4rem; }
+    .sa-btn:hover{ filter:brightness(1.06); } .sa-btn:disabled{ opacity:.6; cursor:not-allowed; }
+
+    .sa-row{ display:flex; align-items:center; gap:1rem; padding:.85rem 1rem; border:1px solid #f1f3f7; border-radius:14px; margin-bottom:.7rem; background:#fff; }
+    .sa-ava{ width:44px; height:44px; border-radius:50%; flex-shrink:0; object-fit:cover; background:#eef2ff; display:flex; align-items:center; justify-content:center; color:#4f46e5; font-weight:900; }
+    .sa-row-main{ flex:1; min-width:0; }
+    .sa-row-title{ margin:0; font-weight:900; color:#111827; font-size:.9rem; }
+    .sa-row-meta{ margin:.1rem 0 0; color:#6b7280; font-size:.78rem; font-weight:600; }
+    .sa-actions{ display:flex; gap:.4rem; flex-wrap:wrap; }
+    .sa-pill{ padding:.42rem .8rem; border-radius:9px; font-weight:800; font-size:.72rem; text-transform:uppercase; letter-spacing:.04em; cursor:pointer; border:1px solid transparent; }
+    .pill-promote{ background:#f5f3ff; color:#6d28d9; border-color:#ddd6fe; }
+    .pill-demote{ background:#fff7ed; color:#c2410c; border-color:#fed7aa; }
+    .pill-ban{ background:#fff7ed; color:#b45309; border-color:#fde68a; }
+    .pill-unban{ background:#ecfdf5; color:#047857; border-color:#a7f3d0; }
+    .pill-del{ background:#fef2f2; color:#dc2626; border-color:#fecaca; }
+    .role-tag{ padding:.15rem .55rem; border-radius:9999px; font-size:.62rem; font-weight:900; text-transform:uppercase; letter-spacing:.08em; }
+    .role-super{ background:linear-gradient(135deg,var(--sa),var(--sa2)); color:#fff; }
+    .role-admin{ background:#eef2ff; color:#4f46e5; }
+    .tag-ban{ background:#fef2f2; color:#dc2626; padding:.15rem .55rem; border-radius:9999px; font-size:.62rem; font-weight:900; text-transform:uppercase; }
+
+    /* Modal credentials */
+    .sa-modal{ position:fixed; inset:0; z-index:9998; display:none; align-items:center; justify-content:center; padding:1rem; }
+    .sa-modal.open{ display:flex; }
+    .sa-modal-bg{ position:absolute; inset:0; background:rgba(15,23,42,.55); backdrop-filter:blur(4px); }
+    .sa-modal-panel{ position:relative; width:100%; max-width:460px; background:#fff; border-radius:22px; padding:2rem; box-shadow:0 25px 60px rgba(0,0,0,.3); }
+    .cred-line{ display:flex; justify-content:space-between; gap:1rem; padding:.6rem .8rem; background:#f8fafc; border:1px solid #eef0f4; border-radius:10px; margin-bottom:.55rem; font-size:.85rem; }
+    .cred-line b{ color:#6b7280; font-weight:800; text-transform:uppercase; font-size:.68rem; letter-spacing:.05em; }
+    .cred-line span{ font-weight:800; color:#111827; word-break:break-all; text-align:right; }
+
+    /* Toast */
+    #sa-toast{ position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%) translateY(20px); opacity:0; transition:.3s; z-index:10000; padding:.8rem 1.4rem; border-radius:12px; color:#fff; font-weight:800; font-size:.85rem; box-shadow:0 10px 30px rgba(0,0,0,.2); }
+    #sa-toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+    .sa-iframe-wrap{ border:1px solid #eef0f4; border-radius:18px; overflow:hidden; background:#fff; height:78vh; }
+    .sa-iframe-wrap iframe{ width:100%; height:100%; border:0; display:block; }
+  </style>
+  <link rel="stylesheet" href="css/motion.css?v=2">
+  <script src="js/motion.js?v=2" defer></script>
+</head>
+<body>
+
+  <!-- ===== GATE SUPER ADMIN ===== -->
+  <div id="sa-gate">
+    <div class="g-panel">
+      <div class="g-icon"><i data-lucide="shield-check" style="width:30px;height:30px;"></i></div>
+      <h2>Super Admin</h2>
+      <p class="g-sub">Super administrator access only</p>
+      <div class="g-error" id="sa-gate-error"></div>
+      <form id="sa-gate-form">
+        <label>Email</label>
+        <input type="email" id="sa-gate-email" autocomplete="username" required placeholder="superadmin@example.com">
+        <label>Password</label>
+        <div class="g-pw">
+          <input type="password" id="sa-gate-pw" autocomplete="current-password" required placeholder="••••••••">
+          <button type="button" class="g-eye" id="sa-gate-eye" aria-label="Show"><i data-lucide="eye" style="width:18px;height:18px;"></i></button>
+        </div>
+        <button type="submit" class="g-submit" id="sa-gate-submit">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== DASHBOARD ===== -->
+  <main id="sa-main" style="display:none;">
+    <div class="admin-header">
+      <div class="admin-header-content">
+        <div class="admin-header-left">
+          <div class="admin-shield-icon sa-shield"><i data-lucide="crown" style="width:20px;height:20px;color:white;"></i></div>
+          <div>
+            <h1 class="admin-title">Super Admin</h1>
+            <p class="admin-subtitle">System orchestration</p>
+          </div>
+        </div>
+        <div class="admin-header-right">
+          <div class="admin-user-info">
+            <p class="admin-user-name" id="sa-user-name">—</p>
+            <p class="admin-user-email" id="sa-user-email">—</p>
+          </div>
+          <span class="sa-badge"><i data-lucide="shield" style="width:11px;height:11px;"></i> Super</span>
+          <button type="button" id="sa-logout" title="Sign out"
+            style="display:inline-flex; align-items:center; gap:.4rem; background:#fef2f2; color:#dc2626; border:1px solid #fecaca; border-radius:10px; padding:.5rem .9rem; font-size:.8rem; font-weight:800; text-transform:uppercase; letter-spacing:.05em; cursor:pointer; margin-left:1rem;">
+            <i data-lucide="log-out" style="width:16px;height:16px;"></i> Logout
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-container">
+      <div class="admin-tabs">
+        <button class="admin-tab active" data-tab="admins"><i data-lucide="shield" style="width:13px;height:13px;"></i> Administrators</button>
+        <button class="admin-tab inactive" data-tab="users"><i data-lucide="users" style="width:13px;height:13px;"></i> Users</button>
+      </div>
+
+      <!-- ADMINS -->
+      <div id="view-admins">
+        <div class="sa-card">
+          <h3 class="sa-h"><i data-lucide="user-plus" style="width:18px;height:18px;color:#7c3aed;"></i> Create an administrator</h3>
+          <p class="sa-sub">The account is created and confirmed instantly. You can download the access card (PNG).</p>
+          <div class="sa-grid-form">
+            <div>
+              <label class="sa-label">Email</label>
+              <input type="email" id="new-admin-email" class="sa-input" placeholder="nouvel.admin@example.com">
+            </div>
+            <div>
+              <label class="sa-label">Role</label>
+              <select id="new-admin-role" class="sa-input">
+                <option value="admin">Admin</option>
+                <option value="super_admin">Super admin</option>
+              </select>
+            </div>
+            <div>
+              <label class="sa-label">Password (leave empty = auto-generated)</label>
+              <input type="text" id="new-admin-pw" class="sa-input" placeholder="Auto-generated if empty">
+            </div>
+            <div style="display:flex; align-items:flex-end;">
+              <button type="button" id="create-admin-btn" class="sa-btn"><i data-lucide="plus" style="width:15px;height:15px;"></i> Create account</button>
+            </div>
+          </div>
+          <div id="create-admin-msg" style="display:none; margin-top:.8rem; font-size:.82rem; font-weight:700;"></div>
+        </div>
+
+        <div class="sa-card">
+          <h3 class="sa-h"><i data-lucide="shield" style="width:18px;height:18px;color:#7c3aed;"></i> Administrators &amp; super admins</h3>
+          <p class="sa-sub">Promote, demote or delete an account.</p>
+          <div id="admins-list"></div>
+        </div>
+      </div>
+
+      <!-- USERS -->
+      <div id="view-users" style="display:none;">
+        <div class="sa-card">
+          <h3 class="sa-h"><i data-lucide="users" style="width:18px;height:18px;color:#7c3aed;"></i> All users</h3>
+          <p class="sa-sub">Ban (blocks login) or permanently delete a user.</p>
+          <input type="text" id="users-search" class="sa-input" placeholder="Search by email or username..." style="max-width:380px; margin-bottom:1.25rem;">
+          <div id="users-list"></div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ===== ACCESS CARD MODAL ===== -->
+  <div class="sa-modal" id="cred-modal">
+    <div class="sa-modal-bg" id="cred-close-bg"></div>
+    <div class="sa-modal-panel">
+      <div style="text-align:center; margin-bottom:1.25rem;">
+        <div style="width:56px;height:56px;border-radius:16px;margin:0 auto .75rem;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;">
+          <i data-lucide="key-round" style="width:26px;height:26px;"></i>
+        </div>
+        <h2 style="margin:0;font-size:1.2rem;font-weight:900;color:#111827;">Account created</h2>
+        <p style="margin:.25rem 0 0;color:#9ca3af;font-weight:700;font-size:.8rem;">Save these credentials — the password won't be shown again.</p>
+      </div>
+      <div class="cred-line"><b>Email</b><span id="cred-email"></span></div>
+      <div class="cred-line"><b>Password</b><span id="cred-pw"></span></div>
+      <div class="cred-line"><b>Role</b><span id="cred-role"></span></div>
+      <div class="cred-line"><b>Created on</b><span id="cred-date"></span></div>
+      <div style="display:flex; gap:.6rem; margin-top:1.25rem;">
+        <button type="button" id="cred-download" class="sa-btn" style="flex:1; justify-content:center;"><i data-lucide="image-down" style="width:16px;height:16px;"></i> Download image</button>
+        <button type="button" id="cred-done" class="sa-pill pill-del" style="padding:.75rem 1rem;">Close</button>
+      </div>
+      <canvas id="cred-canvas" width="640" height="380" style="display:none;"></canvas>
+    </div>
+  </div>
+
+  <div id="sa-toast"></div>
+
+  <script src="js/admin-auth.js"></script>
+  <script src="js/superadmin.js?v=2"></script>
+</body>
+</html>

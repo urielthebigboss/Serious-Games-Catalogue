@@ -1,0 +1,73 @@
+/* =====================================================================
+   MOTION & MICRO-INTERACTIONS — couche additive, ne change pas le design.
+   Désactivée si l'OS demande "réduire les animations".
+   ===================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+
+  /* ---- Transitions souples (léger rebond) sur tout ce qui est interactif ---- */
+  a, button, [role="button"], input, select, textarea, img,
+  .nav-link, .mobile-nav-link, .footer-link, .platform-btn, .admin-tab,
+  .tab-btn, .game-card, .game-card-link, .profile-game-card, .dev-card,
+  .review-card, .sa-row, .sa-pill, .sa-btn, .avatar-option, .page-btn,
+  .sort-select, .filter-input, .main-search-input, .carousel-view-btn,
+  .carousel-nav-btn, .hero-tab-btn, .change-avatar-btn, .logout-btn,
+  .aw-edit, .aw-del, .aw-save, .aw-clear, .navbar-profile-btn, .carousel-dot,
+  .gama-trigger, .gama-collapse, .auth-submit-btn, .game-detail-btn-view,
+  .reset-btn, .back-btn, .game-link {
+    transition: transform .24s cubic-bezier(.34,1.56,.64,1),
+                box-shadow .25s ease, background-color .2s ease,
+                color .2s ease, border-color .2s ease, opacity .25s ease, filter .2s ease;
+  }
+
+  /* ---- Retour au clic (enfoncement net) ---- */
+  button:active, [role="button"]:active, .platform-btn:active, .admin-tab:active,
+  .sa-pill:active, .sa-btn:active, .page-btn:active, .tab-btn:active,
+  .hero-tab-btn:active, .avatar-option:active, .auth-submit-btn:active,
+  .nav-link:active, .footer-link:active, .navbar-profile-btn:active,
+  .change-avatar-btn:active, .logout-btn:active, .back-btn:active,
+  .aw-edit:active, .aw-del:active, .carousel-view-btn:active { transform: scale(.92); }
+
+  /* ---- Survol : soulèvement marqué des cartes / lignes ---- */
+  .game-card:hover, .profile-game-card:hover, .review-card:hover,
+  .sa-row:hover, .dev-card:hover {
+    transform: translateY(-6px) scale(1.012);
+    box-shadow: 0 22px 42px -16px rgba(0,0,0,.28);
+  }
+  .avatar-option:hover { transform: translateY(-4px) scale(1.05); }
+
+  /* ---- Survol : boutons / onglets ---- */
+  .platform-btn:hover, .hero-tab-btn:hover, .admin-tab:hover, .tab-btn:hover,
+  .sa-pill:hover, .page-btn:hover, .carousel-dot:hover { transform: translateY(-3px); }
+  .auth-submit-btn:hover, .sa-btn:hover, .aw-save:hover, .carousel-view-btn:hover,
+  .change-avatar-btn:hover, .logout-btn:hover, .game-detail-btn-view:hover {
+    transform: translateY(-2px); filter: brightness(1.06);
+    box-shadow: 0 14px 26px -10px rgba(0,0,0,.3);
+  }
+  .nav-link:hover, .footer-link:hover, .game-link:hover, .reset-btn:hover { transform: translateY(-2px); }
+  .navbar-profile-btn:hover { transform: translateY(-2px) scale(1.07); }
+  .carousel-nav-btn:hover { transform: scale(1.12); }
+
+  /* ---- Survol : zoom léger des images de carte ---- */
+  .game-card:hover .game-card-image, .profile-game-card:hover .game-img { transform: scale(1.06); }
+  .game-card-image, .game-img { transition: transform .4s cubic-bezier(.22,1,.36,1); }
+
+  /* ---- Icônes : léger grossissement au survol du parent ---- */
+  .nav-link:hover i, .footer-link:hover svg, .footer-link:hover i,
+  .change-avatar-btn:hover i, .logout-btn:hover i, .back-btn:hover i { transform: scale(1.12); }
+  .nav-link i, .footer-link svg, .footer-link i,
+  .change-avatar-btn i, .logout-btn i, .back-btn i { transition: transform .22s cubic-bezier(.34,1.56,.64,1); }
+
+  /* ---- Révélation au défilement (posée par le JS) ---- */
+  .motion-reveal { opacity: 0; transform: translateY(34px) scale(.99); will-change: opacity, transform; }
+  .motion-reveal.motion-in {
+    opacity: 1; transform: none;
+    transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
+  }
+
+  /* ---- Apparition « pop » des listes rendues dynamiquement ---- */
+  @keyframes motionPop {
+    from { opacity: 0; transform: translateY(22px) scale(.97); }
+    to   { opacity: 1; transform: none; }
+  }
+  .motion-pop { animation: motionPop .55s cubic-bezier(.22,1,.36,1) both; }
+}

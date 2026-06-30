@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="assets/Document.png" type="image/png">
+    <link rel="icon" type="image/png" sizes="60x60" href="assets/favicon.png?v=5">
+    <link rel="icon" href="assets/favicon.ico?v=5" sizes="any">
+    <link rel="apple-touch-icon" href="assets/logo-mark.png">
     <title>Serious Game Catalogue - Profile</title>
     <!-- Page specific CSS mapped from Tailwind -->
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/profile.css">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="css/motion.css?v=2">
+  <script src="js/motion.js?v=2" defer></script>
 </head>
 <body>
     
@@ -83,9 +87,31 @@
               <div class="back-icon-wrap">
                 <i data-lucide="arrow-left" style="width:24px; height:24px;"></i>
               </div>
-              <span class="back-text">Retour</span>
+              <span class="back-text">Back</span>
+            </button>
+            <button type="button" id="user-logout-btn" class="logout-btn">
+              <i data-lucide="log-out" style="width:16px; height:16px;"></i>
+              <span>Sign out</span>
             </button>
           </div>
+
+          <!-- Photo de profil (avatar) -->
+          <div id="profile-avatar-card" class="profile-avatar-card">
+            <div class="profile-avatar-wrap">
+              <img id="profile-avatar-img" src="assets/avatars/avatar-1.png" alt="Avatar"
+                onerror="this.src='assets/avatars/avatar-1.png';" />
+            </div>
+            <div class="profile-avatar-info">
+              <p id="profile-user-pseudo" class="profile-user-pseudo">—</p>
+              <p id="profile-user-email" class="profile-user-email">—</p>
+              <p id="profile-user-country" class="profile-user-country"></p>
+              <button type="button" id="change-avatar-btn" class="change-avatar-btn">
+                <i data-lucide="image" style="width:14px; height:14px;"></i> Change photo
+              </button>
+            </div>
+          </div>
+          <div id="avatar-picker" class="avatar-grid" style="display:none; margin-bottom:1.5rem;"></div>
+          <div id="avatar-picker-msg" style="display:none; margin-bottom:1rem; font-size:0.8rem; font-weight:700;"></div>
 
           <!-- Tabs -->
           <div class="profile-tabs" id="profile-tabs">
@@ -159,135 +185,209 @@
     <script src="js/main.js"></script>
     <script src="js/admin-auth.js"></script>
     <script>
-      // Profile specific scripts
-      const customGamesData = [
-        {
-          id: '1',
-          status: 'completed',
-          title: 'Linguistic Laboratory',
-          category: 'Language',
-          image: 'https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&h=600&fit=crop',
-          rating: 4.8
-        },
-        {
-          id: '2',
-          title: 'Math Quest Adventures',
-          status: 'waiting',
-          category: 'Mathematics',
-          image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&h=600&fit=crop',
-          rating: 4.6
-        },
-        {
-          id: '3',
-          title: 'History Explorer VR',
-          status: 'failed',
-          category: 'History',
-          image: 'https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=800&h=600&fit=crop',
-          rating: 4.9
-        },
-        {
-          id: '4',
-          title: 'Science Lab Simulator',
-          status: 'completed',
-          category: 'Science',
-          image: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=800&h=600&fit=crop',
-          rating: 4.7
-        },
-        {
-          id: '5',
-          title: 'Code Master Pro',
-          status: 'waiting',
-          category: 'Programming',
-          image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop',
-          rating: 4.5
-        },
-        {
-          id: '6',
-          status: 'completed',
-          title: 'Art Studio Express',
-          category: 'Art',
-          image: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&h=600&fit=crop',
-          rating: 4.4
-        }
-      ];
-
+      // Profile : affiche TOUS les jeux soumis par l'utilisateur connecté + leur statut
       document.addEventListener('DOMContentLoaded', () => {
-        let activeTab = 'games';
-
-        const tabsData = [
-          { id: 'games', label: 'My Games', icon: 'gamepad-2' }
-        ];
+        const API_BASE = (window.adminAuth && window.adminAuth.API_BASE)
+          || 'https://urielthebigboss-seirousgamecatalogue.hf.space';
+        const token = localStorage.getItem('user_token');
 
         const tabsContainer = document.getElementById('profile-tabs');
         const contentContainer = document.getElementById('profile-content');
 
+        // Mappe le statut backend -> classe CSS + libellé affiché
+        function statusBadge(status) {
+          const s = (status || '').toLowerCase();
+          if (s === 'approved' || s === 'valid' || s === 'validated')
+            return { cls: 'badge-completed', label: 'Validated' };
+          if (s === 'refused' || s === 'rejected' || s === 'failed')
+            return { cls: 'badge-failed', label: 'Refused' };
+          return { cls: 'badge-waiting', label: 'Pending' };
+        }
+
         function renderTabs() {
-          tabsContainer.innerHTML = tabsData.map(tab => {
-            const isActive = tab.id === activeTab;
-            // Since it's only one tab, styling is static here.
-            return `
-              <button class="tab-btn" style="${isActive ? 'box-shadow: 0 0 0 2px #dbeafe;' : ''}" data-id="${tab.id}">
-                <i data-lucide="${tab.icon}" style="width:16px; height:16px;"></i> ${tab.label}
-              </button>
-            `;
-          }).join('');
-
-          tabsContainer.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-              activeTab = e.currentTarget.dataset.id;
-              renderTabs();
-              renderContent();
-            });
-          });
-
+          tabsContainer.innerHTML = `
+            <button class="tab-btn" style="box-shadow: 0 0 0 2px #dbeafe;" data-id="games">
+              <i data-lucide="gamepad-2" style="width:16px; height:16px;"></i> My Games
+            </button>`;
           if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
-        function renderContent() {
-          if (activeTab === 'games') {
-            const cardsHtml = customGamesData.map(game => {
-              let badgeHtml = '';
-              if (game.status === 'completed') badgeHtml = `<div class="status-badge badge-completed"><span>Completed</span></div>`;
-              if (game.status === 'failed') badgeHtml = `<div class="status-badge badge-failed"><span>Failed</span></div>`;
-              if (game.status === 'waiting') badgeHtml = `<div class="status-badge badge-waiting"><span>Waiting</span></div>`;
+        function renderMessage(html) {
+          contentContainer.innerHTML = `
+            <h3 class="section-heading">
+              <i data-lucide="gamepad-2" style="color:#3b82f6; width:20px; height:20px;"></i> My Games
+            </h3>
+            <div style="text-align:center; padding:3rem 1rem; color:#9ca3af; font-weight:700;">${html}</div>`;
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
 
-              return `
-                <div class="profile-game-card">
-                  ${badgeHtml}
-                  <div class="game-img-container">
-                    <img src="${game.image}" alt="${game.title}" class="game-img" />
-                    <div class="game-img-gradient"></div>
-                  </div>
-                  <div class="game-info">
-                    <h4 class="game-title">${game.title}</h4>
-                    <p class="game-category">${game.category}</p>
-                    <div class="game-footer">
-                      <div class="rating-box">
-                        <i data-lucide="star" class="rating-icon"></i>
-                        <span class="rating-text">${game.rating}</span>
-                      </div>
-                      <a href="game.html?id=${game.id}" class="game-link">View Details</a>
+        function gameImage(g) {
+          if (g.image) return g.image;
+          if (window.gameImage) return window.gameImage(g.link, g.title, 800, 600);
+          return 'https://placehold.co/800x600/e5e7eb/9ca3af?text=Game';
+        }
+
+        function renderGames(games) {
+          if (!games || games.length === 0) {
+            renderMessage("You haven't submitted any games yet.<br>Click « Contribute » to add one.");
+            return;
+          }
+          const cardsHtml = games.map(g => {
+            const b = statusBadge(g.status);
+            const rating = (g.rating != null) ? Number(g.rating).toFixed(1) : '—';
+            return `
+              <div class="profile-game-card">
+                <div class="status-badge ${b.cls}"><span>${b.label}</span></div>
+                <div class="game-img-container">
+                  <img src="${gameImage(g)}" alt="${g.title || 'Jeu'}" class="game-img"
+                    onerror="this.src='https://placehold.co/800x600/e5e7eb/9ca3af?text=Game';" />
+                  <div class="game-img-gradient"></div>
+                </div>
+                <div class="game-info">
+                  <h4 class="game-title">${g.title || 'Sans titre'}</h4>
+                  <p class="game-category">${g.domaine || '—'}</p>
+                  <div class="game-footer">
+                    <div class="rating-box">
+                      <i data-lucide="star" class="rating-icon"></i>
+                      <span class="rating-text">${rating}</span>
                     </div>
+                    <a href="game.html?id=${g.id}" class="game-link">View Details</a>
                   </div>
                 </div>
-              `;
-            }).join('');
+              </div>`;
+          }).join('');
 
-            contentContainer.innerHTML = `
-              <h3 class="section-heading">
-                <i data-lucide="gamepad-2" style="color:#3b82f6; width:20px; height:20px;"></i> My Games
-              </h3>
-              <div class="games-grid">
-                ${cardsHtml}
-              </div>
-            `;
-          }
-
+          contentContainer.innerHTML = `
+            <h3 class="section-heading">
+              <i data-lucide="gamepad-2" style="color:#3b82f6; width:20px; height:20px;"></i> My Games
+            </h3>
+            <div class="games-grid">${cardsHtml}</div>`;
           if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        async function loadMyGames() {
+          if (!token) {
+            renderMessage('Sign in to see your submitted games.');
+            return;
+          }
+          renderMessage('Loading your games…');
+          try {
+            const res = await fetch(`${API_BASE}/games/mine`, {
+              headers: { Authorization: 'Bearer ' + token }
+            });
+            if (res.status === 401 || res.status === 403) {
+              renderMessage('Session expired. Sign in again to see your games.');
+              return;
+            }
+            if (!res.ok) { renderMessage('Unable to load your games right now.'); return; }
+            const data = await res.json();
+            renderGames(data.games || []);
+          } catch (_) {
+            renderMessage('Server unreachable. Try again later.');
+          }
+        }
+
+        /* ===== Photo de profil (avatar) ===== */
+        const avatarImg = document.getElementById('profile-avatar-img');
+        const emailEl = document.getElementById('profile-user-email');
+        const countryEl = document.getElementById('profile-user-country');
+        const changeBtn = document.getElementById('change-avatar-btn');
+        const picker = document.getElementById('avatar-picker');
+        const pickerMsg = document.getElementById('avatar-picker-msg');
+        const N = window.PROFILE_AVATAR_COUNT || 12;
+        let currentAvatar = 1;
+
+        function avatarSrc(id) {
+          return window.avatarUrl ? window.avatarUrl(id) : `assets/avatars/avatar-${id}.png`;
+        }
+        function setAvatar(id) {
+          currentAvatar = id || 1;
+          if (avatarImg) avatarImg.src = avatarSrc(currentAvatar);
+        }
+        function showMsg(text, ok) {
+          if (!pickerMsg) return;
+          pickerMsg.textContent = text || '';
+          pickerMsg.style.display = text ? 'block' : 'none';
+          pickerMsg.style.color = ok ? '#059669' : '#dc2626';
+        }
+
+        async function saveAvatar(id) {
+          if (!token) { showMsg('Sign in to change your photo.', false); return; }
+          try {
+            const res = await fetch(`${API_BASE}/user/me`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+              body: JSON.stringify({ img_profil: id })
+            });
+            if (!res.ok) { showMsg('Update failed.', false); return; }
+            const me = await res.json();
+            setAvatar(me.img_profil);
+            window.currentUserAvatar = me.img_profil;
+            if (me.img_profil) localStorage.setItem('user_avatar', me.img_profil);
+            else localStorage.removeItem('user_avatar');
+            showMsg('Profile photo updated ✓', true);
+            if (picker) picker.style.display = 'none';
+          } catch (_) {
+            showMsg('Server unreachable.', false);
+          }
+        }
+
+        function buildPicker() {
+          if (!picker || picker.childElementCount) return;
+          for (let i = 1; i <= N; i++) {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'avatar-option' + (i === currentAvatar ? ' selected' : '');
+            b.dataset.id = i;
+            b.innerHTML = '<img src="' + avatarSrc(i) + '" alt="Avatar ' + i + '">';
+            b.addEventListener('click', () => {
+              picker.querySelectorAll('.avatar-option').forEach(x => x.classList.remove('selected'));
+              b.classList.add('selected');
+              saveAvatar(i);
+            });
+            picker.appendChild(b);
+          }
+        }
+
+        if (changeBtn && picker) {
+          changeBtn.addEventListener('click', () => {
+            buildPicker();
+            picker.style.display = (picker.style.display === 'none') ? 'grid' : 'none';
+            showMsg('', true);
+          });
+        }
+
+        async function loadMe() {
+          if (!token) { if (emailEl) emailEl.textContent = 'Not signed in'; return; }
+          try {
+            const res = await fetch(`${API_BASE}/user/me`, { headers: { Authorization: 'Bearer ' + token } });
+            if (!res.ok) return;
+            const me = await res.json();
+            const pseudoEl = document.getElementById('profile-user-pseudo');
+            if (pseudoEl) pseudoEl.textContent = me.pseudo || me.mail || 'Joueur';
+            if (emailEl) emailEl.textContent = me.mail || '';
+            if (countryEl) {
+              const bits = [me.pays, me.year_born ? ('Born in ' + me.year_born) : ''].filter(Boolean);
+              countryEl.textContent = bits.join(' · ');
+            }
+            setAvatar(me.img_profil || 1);
+            if (me.img_profil) localStorage.setItem('user_avatar', me.img_profil);
+            else localStorage.removeItem('user_avatar');
+          } catch (_) {}
+        }
+
+        const logoutBtn = document.getElementById('user-logout-btn');
+        if (logoutBtn) {
+          logoutBtn.addEventListener('click', () => {
+            localStorage.removeItem('user_token');
+            localStorage.removeItem('user_avatar');
+            window.location.href = 'index.html';
+          });
         }
 
         renderTabs();
-        renderContent();
+        loadMyGames();
+        loadMe();
       });
     </script>
 </body>

@@ -62,6 +62,91 @@
   letter-spacing: 0.1em; /* tracking-widest */
 }
 
+/* Bouton de déconnexion */
+.logout-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.logout-btn:hover { background: #fee2e2; }
+
+/* Carte photo de profil (avatar) */
+.profile-avatar-card {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  background: white;
+  border: 1px solid #f3f4f6;
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
+}
+.profile-avatar-wrap {
+  width: 72px;
+  height: 72px;
+  border-radius: 9999px;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 3px solid #eff6ff;
+  box-shadow: 0 0 0 2px #dbeafe;
+}
+.profile-avatar-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.profile-avatar-info { display: flex; flex-direction: column; gap: 0.15rem; }
+.profile-user-pseudo { font-weight: 900; color: #111827; font-size: 1.1rem; margin: 0; letter-spacing:-0.01em; }
+.profile-user-email { font-weight: 600; color: #6b7280; font-size: 0.82rem; margin: 0; }
+.profile-user-country { font-size: 0.8rem; font-weight: 700; color: #9ca3af; margin: 0; text-transform: uppercase; letter-spacing: 0.05em; }
+.change-avatar-btn {
+  margin-top: 0.4rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #eff6ff;
+  color: #2563eb;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  width: fit-content;
+  transition: background 0.2s;
+}
+.change-avatar-btn:hover { background: #dbeafe; }
+
+/* Grille de sélection d'avatar */
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.5rem;
+  max-width: 28rem;
+}
+.avatar-option {
+  padding: 2px;
+  border: 2px solid transparent;
+  border-radius: 0.6rem;
+  background: #f9fafb;
+  cursor: pointer;
+  transition: all 0.15s;
+  aspect-ratio: 1 / 1;
+}
+.avatar-option img { width: 100%; height: 100%; border-radius: 0.45rem; display: block; }
+.avatar-option:hover { border-color: #bfdbfe; }
+.avatar-option.selected { border-color: #2563eb; box-shadow: 0 0 0 3px #dbeafe; }
+
 /* Onglets */
 .profile-tabs {
   display: flex;
@@ -164,93 +249,4 @@
   overflow: hidden;
 }
 .game-img {
-  width: 100%;
-  height: 10rem; /* h-40 */
-  object-fit: cover;
-  opacity: 0.9;
-  transition: transform 0.5s;
-}
-.profile-game-card:hover .game-img {
-  transform: scale(1.05);
-}
-.game-img-gradient {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-.profile-game-card:hover .game-img-gradient {
-  opacity: 1;
-}
-
-.game-info {
-  padding: 1.25rem; /* p-5 */
-  background-color: white;
-}
-.game-title {
-  font-weight: 900;
-  color: #111827;
-  margin-bottom: 0.25rem;
-  text-transform: uppercase;
-  font-size: 0.875rem; /* sm */
-  letter-spacing: -0.05em; /* tracking-tighter */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transition: color 0.3s;
-}
-.profile-game-card:hover .game-title {
-  color: #2563eb; /* blue-600 */
-}
-.game-category {
-  font-size: 10px;
-  font-weight: 700; /* bold */
-  color: #9ca3af;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 1rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.game-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-top: 1px solid #F9FAFB;
-  padding-top: 0.75rem;
-  margin-top: 0.5rem;
-}
-.rating-box {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  background-color: #fefce8; /* yellow-50 */
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.5rem;
-}
-.rating-icon {
-  width: 0.75rem;
-  height: 0.75rem;
-  color: #eab308;
-  fill: #eab308;
-}
-.rating-text {
-  font-size: 10px;
-  font-weight: 900;
-  color: #a16207; /* yellow-700 */
-  margin-top: 0.125rem;
-}
-.game-link {
-  font-size: 10px;
-  font-weight: 900;
-  color: #3b82f6; /* blue-500 */
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  transition: color 0.3s;
-  text-decoration: none;
-}
-.game-link:hover {
-  color: #1d4ed8; /* blue-700 */
-}
+  width: 10

@@ -6,6 +6,99 @@
 }
 
 /* ===================
+   AGE RANGE (double curseur sur une seule ligne)
+   =================== */
+.age-range-wrap {
+  position: relative;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+}
+.age-range-track {
+  position: absolute;
+  left: 0; right: 0;
+  height: 0.375rem;
+  border-radius: 9999px;
+  background: #e5e7eb;
+}
+.age-range-fill {
+  position: absolute;
+  height: 0.375rem;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #3b82f6, #f97316);
+}
+.age-range-wrap input[type=range] {
+  position: absolute;
+  left: 0; right: 0;
+  width: 100%;
+  margin: 0;
+  height: 0.375rem;
+  background: transparent;
+  pointer-events: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.age-range-wrap input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  pointer-events: auto;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid #3b82f6;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+}
+.age-range-wrap input#filter-age-max::-webkit-slider-thumb {
+  border-color: #f97316;
+}
+.age-range-wrap input[type=range]::-moz-range-thumb {
+  pointer-events: auto;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid #3b82f6;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+}
+.age-range-wrap input#filter-age-max::-moz-range-thumb {
+  border-color: #f97316;
+}
+.age-range-wrap input[type=range]::-webkit-slider-runnable-track {
+  background: transparent;
+}
+.age-range-wrap input[type=range]::-moz-range-track {
+  background: transparent;
+}
+
+/* Filtre Rating : étoiles cliquables */
+#rating-filter .rating-star svg { transition: fill 0.15s, transform 0.15s; }
+#rating-filter .rating-star:hover svg { transform: scale(1.15); }
+#rating-filter .rating-star.active svg { fill: currentColor; }
+
+/* Sélecteur d'avatar (photo de profil) */
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+.avatar-option {
+  padding: 2px;
+  border: 2px solid transparent;
+  border-radius: 0.6rem;
+  background: #f9fafb;
+  cursor: pointer;
+  transition: all 0.15s;
+  aspect-ratio: 1 / 1;
+}
+.avatar-option img { width: 100%; height: 100%; border-radius: 0.45rem; display: block; }
+.avatar-option:hover { border-color: #bfdbfe; }
+.avatar-option.selected { border-color: #2563eb; box-shadow: 0 0 0 3px #dbeafe; }
+
+/* ===================
    AUTH MODAL
    =================== */
 .auth-modal-overlay {

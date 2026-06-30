@@ -10,6 +10,14 @@ window.gameImage = function (link, title, w, h) {
   return `https://s.wordpress.com/mshots/v1/${encodeURIComponent(link)}?w=${w}&h=${h}`;
 };
 
+// Avatars de profil (PNG gaming stockés dans le front : assets/avatars/avatar-<id>.png)
+window.PROFILE_AVATAR_COUNT = 12;
+window.avatarUrl = function (id) {
+  const n = parseInt(id, 10);
+  const ok = (n >= 1 && n <= window.PROFILE_AVATAR_COUNT) ? n : 1;
+  return `assets/avatars/avatar-${ok}.png`;
+};
+
 const carouselData = [
   {
     id: "latest",
@@ -311,6 +319,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderGames(list) {
     currentList = list || [];
     currentPage = 1;
+    const countEl = document.getElementById('games-count');
+    if (countEl) countEl.textContent = currentList.length;
     renderPage();
   }
 
@@ -385,6 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return {
       id: g.id,
       title: g.title || 'Sans titre',
+      description: g.description || '',
       price: priceLabel,
       domaine: g.domaine || '',
       age: g.age || '',
@@ -399,11 +410,81 @@ document.addEventListener('DOMContentLoaded', () => {
       gameplay: g.game_play || '',
       rating: g.rating != null ? Number(g.rating) : null,
       imageUrl: g.image || window.gameImage(g.link, g.title, 600, 400),
+      competition: g.competition || '',
+      prix: g.prix || '',
+      anneeNomination: g.annee_nomination || '',
+      commentaire: g.commentaire || '',
     };
   }
 
   // Pour afficher TOUS les jeux (peu importe le statut) : remplace par  () => true
   const PUBLIC_FILTER = g => g.status === 'approved';
+
+  // Mélange un tableau (Fisher-Yates) sans modifier l'original
+  function shuffleArr(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  // Transforme un jeu du catalogue en "slide" du hero
+  function heroItemFromGame(g, badge, metaText) {
+    return {
+      id: g.id,
+      title: g.title || 'Serious Game',
+      subtitle: g.publicType || g.domaine || 'Serious Game',
+      description: g.description || `${g.title || 'This game'} — ${g.domaine || 'serious game'} for ${g.publicType || 'all audiences'}.`,
+      imageUrl: g.imageUrl,
+      tag: g.domaine || 'Serious Game',
+      meta: metaText,
+      badge: badge,
+    };
+  }
+
+  // Remplit "Latest Added" (les plus récents) et "Most Viewed" (aléatoire) avec de vrais jeux
+  function buildHeroFromGames() {
+    if (!games || games.length === 0) return;   // sinon on garde les exemples par défaut
+    const latest = [...games].sort((a, b) => (b.id || 0) - (a.id || 0)).slice(0, 5);
+    carouselData[0].items = latest.map(g => heroItemFromGame(g, 'NEW', 'Recently added'));
+    const random = shuffleArr(games).slice(0, 5);
+    carouselData[1].items = random.map(g => heroItemFromGame(g, '🔥 TRENDING', 'Popular right now'));
+
+    // GALA Award Winners : uniquement les jeux taggés par l'admin (compétition / prix / année)
+    const awardGames = games.filter(g => (g.competition || g.prix || g.anneeNomination));
+    if (carouselData[2]) {
+      if (awardGames.length > 0) {
+        carouselData[2].items = awardGames.slice(0, 8).map(g => ({
+          id: g.id,
+          title: g.title || 'Serious Game',
+          subtitle: g.prix || g.domaine || 'Award',
+          description: g.commentaire || g.description || `${g.title || 'This game'} — award-winning.`,
+          imageUrl: g.imageUrl,
+          tag: g.domaine || 'Award',
+          meta: [g.competition, g.anneeNomination].filter(Boolean).join(' — ') || 'GALA Award',
+          badge: g.prix ? ('🏆 ' + g.prix) : '🏆 AWARD',
+        }));
+      } else {
+        // No awarded game: show a placeholder instead of fake examples
+        carouselData[2].items = [{
+          id: null,
+          title: 'No awarded games yet',
+          subtitle: 'GALA Award Winners',
+          description: "Awarded games are selected by the administrator. Check back soon!",
+          imageUrl: window.gameImage(null, 'GALA Awards', 600, 400),
+          tag: 'Award',
+          meta: 'GALA Awards',
+          badge: '🏆',
+        }];
+      }
+    }
+
+    activeSlideIdx = 0;
+    if (activeTabIdx >= carouselData.length) activeTabIdx = 0;
+    if (typeof renderCarousel === 'function') { renderCarousel(); resetAutoplay(); }
+  }
 
   async function loadGamesFromAPI() {
     try {
@@ -418,6 +499,7 @@ document.addEventListener('DOMContentLoaded', () => {
       games = [];
     }
     renderGames(games);
+    buildHeroFromGames();
   }
 
   loadGamesFromAPI();
@@ -442,15 +524,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Star rating filter
-  const starBtns = document.querySelectorAll('.filter-label + div [data-lucide="star"]');
-  starBtns.forEach((star, idx) => {
-    star.style.cursor = 'pointer';
-    star.addEventListener('click', () => {
-      activeRating = activeRating === idx + 1 ? 0 : idx + 1;
-      starBtns.forEach((s, i) => {
-        s.style.fill = i < activeRating ? 'currentColor' : 'none';
-      });
+  // Star rating filter (boutons persistants, fiables même après le rendu Lucide)
+  const ratingStars = Array.from(document.querySelectorAll('#rating-filter .rating-star'));
+  const ratingLabel = document.getElementById('rating-filter-label');
+  function paintRatingStars() {
+    ratingStars.forEach((btn, i) => {
+      const svg = btn.querySelector('svg');
+      if (svg) svg.style.fill = i < activeRating ? 'currentColor' : 'none';
+      btn.classList.toggle('active', i < activeRating);
+    });
+    if (ratingLabel) ratingLabel.textContent = activeRating > 0 ? `${activeRating}+ ★` : '';
+  }
+  ratingStars.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const val = parseInt(btn.dataset.val, 10);
+      activeRating = (activeRating === val) ? 0 : val;   // re-cliquer désactive
+      paintRatingStars();
       applyFilters();
     });
   });
@@ -469,6 +558,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const ageMin = document.getElementById('filter-age-min');
   const ageMax = document.getElementById('filter-age-max');
   const ageDisplay = document.getElementById('age-display');
+  const ageFill = document.getElementById('age-range-fill');
   function syncAgeDisplay() {
     if (!ageMin || !ageMax) return;
     let lo = parseInt(ageMin.value, 10);
@@ -478,9 +568,17 @@ document.addEventListener('DOMContentLoaded', () => {
       else { lo = hi; ageMin.value = lo; }
     }
     if (ageDisplay) ageDisplay.textContent = `${lo} – ${hi} ans`;
+    if (ageFill) {
+      const max = parseInt(ageMax.max, 10) || 45;
+      const leftPct = (lo / max) * 100;
+      const rightPct = (hi / max) * 100;
+      ageFill.style.left = leftPct + '%';
+      ageFill.style.width = (rightPct - leftPct) + '%';
+    }
   }
   if (ageMin && ageMax) {
     [ageMin, ageMax].forEach(s => s.addEventListener('input', () => { syncAgeDisplay(); applyFilters(); }));
+    syncAgeDisplay();   // position initiale du remplissage
   }
 
   // Global search input
@@ -496,7 +594,7 @@ document.addEventListener('DOMContentLoaded', () => {
       activePlatforms.clear();
       activeRating = 0;
       platformBtns.forEach(btn => btn.classList.remove('active'));
-      starBtns.forEach(s => s.style.fill = 'none');
+      paintRatingStars();
       if (globalSearch) globalSearch.value = '';
       renderGames(games);
     });
@@ -527,6 +625,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (gamemode && !(g.gameMode || '').toLowerCase().includes(gamemode)) return false;
       if (rights && !(g.rights || '').toLowerCase().includes(rights)) return false;
       if (gameplay && !(g.gameplay || '').toLowerCase().includes(gameplay)) return false;
+      if (activeRating > 0 && (g.rating == null || g.rating < activeRating)) return false;
       if (globalQ && !g.title.toLowerCase().includes(globalQ) && !g.domaine.toLowerCase().includes(globalQ)) return false;
       return true;
     });
@@ -640,7 +739,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function resetAutoplay() {
     if (autoPlayRef) clearInterval(autoPlayRef);
-    autoPlayRef = setInterval(nextSlide, 4500);
+    autoPlayRef = setInterval(nextSlide, 8000);
   }
 
   if (prevBtn && nextBtn) {
@@ -707,7 +806,7 @@ document.addEventListener('DOMContentLoaded', () => {
   async function doLogin() {
     if (!authForm) return;
     const email = authForm.querySelector('input[type=email]').value.trim();
-    const password = authForm.querySelector('input[type=password]').value;
+    const password = (document.getElementById('login-password') || {}).value || '';
     const btn = document.getElementById('auth-submit-btn');
     setModalMsg(authForm, '', false);
     if (!email || !password) { setModalMsg(authForm, 'Renseigne ton email et ton mot de passe.', false); return; }
@@ -810,14 +909,15 @@ document.addEventListener('DOMContentLoaded', () => {
     signupForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = (document.getElementById('signup-email')?.value || '').trim();
+      const pseudo = (document.getElementById('signup-pseudo')?.value || '').trim();
       const country = (document.getElementById('signup-country')?.value || '').trim();
-      const contact = (document.getElementById('signup-contact')?.value || '').trim();
+      const yearBorn = (document.getElementById('signup-year-born')?.value || '').trim();
       const password = document.getElementById('signup-password')?.value || '';
       const confirm = document.getElementById('signup-confirm')?.value || '';
       const btn = signupForm.querySelector('button[type=submit]');
       setModalMsg(signupForm, '', false);
-      if (!email || !country || !contact || !password) {
-        setModalMsg(signupForm, 'Remplis tous les champs (email, pays, contact, mot de passe).', false); return;
+      if (!email || !pseudo || !country || !password) {
+        setModalMsg(signupForm, 'Remplis tous les champs (email, pseudo, pays, mot de passe).', false); return;
       }
       if (password.length < 6) { setModalMsg(signupForm, 'Le mot de passe doit faire au moins 6 caractères.', false); return; }
       if (password !== confirm) { setModalMsg(signupForm, 'Les deux mots de passe ne correspondent pas.', false); return; }
@@ -825,7 +925,7 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         const res = await fetch(`${AUTH_API}/user/signup`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password, pays: country, contact })
+          body: JSON.stringify({ email, password, pays: country, img_profil: selectedSignupAvatar, pseudo, year_born: yearBorn })
         });
         const data = await res.json().catch(() => ({}));
         if (!res.ok) { setModalMsg(signupForm, data.detail || 'Inscription impossible.', false); return; }
@@ -838,6 +938,125 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+
+  /* ============ LISTE DÉROULANTE DES PAYS (Choices.js) ============ */
+  const COUNTRIES = [
+    "Afghanistan","Afrique du Sud","Albanie","Algérie","Allemagne","Andorre","Angola",
+    "Antigua-et-Barbuda","Arabie saoudite","Argentine","Arménie","Australie","Autriche",
+    "Azerbaïdjan","Bahamas","Bahreïn","Bangladesh","Barbade","Belgique","Belize","Bénin",
+    "Bhoutan","Biélorussie","Birmanie (Myanmar)","Bolivie","Bosnie-Herzégovine","Botswana",
+    "Brésil","Brunei","Bulgarie","Burkina Faso","Burundi","Cambodge","Cameroun","Canada",
+    "Cap-Vert","Chili","Chine","Chypre","Colombie","Comores","Congo (Brazzaville)",
+    "Congo (RDC)","Corée du Nord","Corée du Sud","Costa Rica","Côte d'Ivoire","Croatie",
+    "Cuba","Danemark","Djibouti","Dominique","Égypte","Émirats arabes unis","Équateur",
+    "Érythrée","Espagne","Estonie","Eswatini","États-Unis","Éthiopie","Fidji","Finlande",
+    "France","Gabon","Gambie","Géorgie","Ghana","Grèce","Grenade","Guatemala","Guinée",
+    "Guinée-Bissau","Guinée équatoriale","Guyana","Haïti","Honduras","Hongrie",
+    "Îles Marshall","Îles Salomon","Inde","Indonésie","Irak","Iran","Irlande","Islande",
+    "Israël","Italie","Jamaïque","Japon","Jordanie","Kazakhstan","Kenya","Kirghizistan",
+    "Kiribati","Koweït","Laos","Lesotho","Lettonie","Liban","Liberia","Libye",
+    "Liechtenstein","Lituanie","Luxembourg","Macédoine du Nord","Madagascar","Malaisie",
+    "Malawi","Maldives","Mali","Malte","Maroc","Maurice","Mauritanie","Mexique",
+    "Micronésie","Moldavie","Monaco","Mongolie","Monténégro","Mozambique","Namibie",
+    "Nauru","Népal","Nicaragua","Niger","Nigeria","Norvège","Nouvelle-Zélande","Oman",
+    "Ouganda","Ouzbékistan","Pakistan","Palaos","Palestine","Panama",
+    "Papouasie-Nouvelle-Guinée","Paraguay","Pays-Bas","Pérou","Philippines","Pologne",
+    "Portugal","Qatar","République centrafricaine","République dominicaine",
+    "République tchèque","Roumanie","Royaume-Uni","Russie","Rwanda","Saint-Kitts-et-Nevis",
+    "Saint-Marin","Saint-Vincent-et-les-Grenadines","Sainte-Lucie","Salvador","Samoa",
+    "Sao Tomé-et-Principe","Sénégal","Serbie","Seychelles","Sierra Leone","Singapour",
+    "Slovaquie","Slovénie","Somalie","Soudan","Soudan du Sud","Sri Lanka","Suède","Suisse",
+    "Suriname","Syrie","Tadjikistan","Tanzanie","Tchad","Thaïlande","Timor oriental",
+    "Togo","Tonga","Trinité-et-Tobago","Tunisie","Turkménistan","Turquie","Tuvalu",
+    "Ukraine","Uruguay","Vanuatu","Vatican","Venezuela","Vietnam","Yémen","Zambie","Zimbabwe"
+  ];
+  const countrySelect = document.getElementById('signup-country');
+  if (countrySelect) {
+    COUNTRIES.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c; opt.textContent = c;
+      countrySelect.appendChild(opt);
+    });
+    if (typeof Choices !== 'undefined') {
+      new Choices(countrySelect, {
+        searchEnabled: true,
+        searchPlaceholderValue: 'Rechercher un pays...',
+        itemSelectText: '',
+        shouldSort: false,
+        placeholder: true,
+        placeholderValue: 'Select your country',
+      });
+    }
+  }
+
+  // Sélecteur d'année de naissance (de l'année courante jusqu'à 1940)
+  const yearSelect = document.getElementById('signup-year-born');
+  if (yearSelect) {
+    const nowY = new Date().getFullYear();
+    for (let y = nowY; y >= 1940; y--) {
+      const opt = document.createElement('option');
+      opt.value = String(y); opt.textContent = String(y);
+      yearSelect.appendChild(opt);
+    }
+  }
+
+  /* ============ PHOTO DE PROFIL (avatars gaming) ============ */
+  let selectedSignupAvatar = 1;
+  (function setupProfileAvatars() {
+    const N = window.PROFILE_AVATAR_COUNT || 12;
+
+    // Grille de choix d'avatar dans la modale d'inscription
+    const grid = document.getElementById('signup-avatar-grid');
+    if (grid) {
+      for (let i = 1; i <= N; i++) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'avatar-option' + (i === 1 ? ' selected' : '');
+        b.dataset.id = i;
+        b.innerHTML = '<img src="' + window.avatarUrl(i) + '" alt="Avatar ' + i + '">';
+        b.addEventListener('click', () => {
+          selectedSignupAvatar = i;
+          grid.querySelectorAll('.avatar-option').forEach(x => x.classList.remove('selected'));
+          b.classList.add('selected');
+        });
+        grid.appendChild(b);
+      }
+    }
+
+    // Affiche l'avatar choisi dans la navbar : immediat via cache local, puis rafraichi depuis l'API.
+    // Si l'utilisateur n'a rien choisi (ou est deconnecte), l'icone par defaut reste affichee.
+    const token = localStorage.getItem('user_token');
+    const navBtn = document.getElementById('authBtn');
+    function setNavAvatar(id) {
+      const n = parseInt(id, 10);
+      if (!navBtn || !(n >= 1)) return;
+      navBtn.innerHTML = '<img src="' + window.avatarUrl(n) + '" alt="Profil" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;">';
+      navBtn.style.padding = '0';
+      navBtn.style.overflow = 'hidden';
+    }
+    if (token && navBtn) {
+      // 1) Affichage instantane depuis le cache (avatar deja connu)
+      setNavAvatar(localStorage.getItem('user_avatar'));
+      // 2) Rafraichissement depuis le backend
+      const API = (window.adminAuth && window.adminAuth.API_BASE) || 'https://urielthebigboss-seirousgamecatalogue.hf.space';
+      fetch(API + '/user/me', { headers: { Authorization: 'Bearer ' + token } })
+        .then(r => r.ok ? r.json() : null)
+        .then(me => {
+          if (!me) return;
+          if (me.img_profil) {
+            window.currentUserAvatar = me.img_profil;
+            localStorage.setItem('user_avatar', me.img_profil);
+            setNavAvatar(me.img_profil);
+          } else {
+            localStorage.removeItem('user_avatar');   // rien choisi -> icone par defaut
+          }
+        })
+        .catch(() => {});
+    } else {
+      localStorage.removeItem('user_avatar');          // deconnecte -> icone par defaut
+    }
+  })();
 
   /* ============ AFFICHER / MASQUER LE MOT DE PASSE (œil) ============ */
   const EYE_OPEN = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
@@ -885,7 +1104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('game-detail-meta').innerText = item.meta || '';
     document.getElementById('game-detail-desc').innerText = item.description || '';
 
-    // update btn url 
+    // update btn url
     const viewGameBtn = gdModal.querySelector('.game-detail-btn-view');
     if (item.id) {
       viewGameBtn.href = 'game.html?id=' + item.id;

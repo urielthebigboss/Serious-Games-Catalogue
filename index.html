@@ -1,681 +1,1609 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" sizes="60x60" href="assets/favicon.png?v=5">
+    <link rel="icon" href="assets/favicon.ico?v=5" sizes="any">
+    <link rel="apple-touch-icon" href="assets/logo-mark.png">
+    <title>Serious Game Catalogue - Home</title>
+    <!-- Page specific CSS mapped from Tailwind -->
+    <link rel="stylesheet" href="css/global.css?v=5" />
+    <link rel="stylesheet" href="css/home.css?v=6" />
+    <!-- Choices.js : dropdown recherchable pour la liste des pays -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/choices.js@10.2.0/public/assets/styles/choices.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/choices.js@10.2.0/public/assets/scripts/choices.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      /* Modales défilables quand le contenu dépasse l'écran (ex: inscription) */
+      .auth-modal-content {
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+      /* Le dropdown des pays doit passer au-dessus du reste */
+      .auth-modal-content .choices {
+        width: 100%;
+        margin-bottom: 0;
+      }
+      .auth-modal-content .choices__inner {
+        border-radius: 0.9rem;
+        border: 1.5px solid #e5e7eb;
+        background: #f9fafb;
+        padding: 0.55rem 2.2rem 0.55rem 2.2rem;
+        min-height: auto;
+        font-size: 0.9rem;
+      }
+      .auth-modal-content .choices__list--dropdown {
+        z-index: 50;
+      }
+    </style>
+    <link rel="stylesheet" href="css/motion.css?v=2" />
+    <script src="js/motion.js?v=2" defer></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="assets/Document.png" type="image/png">
-  <title>Serious Game Catalogue - Home</title>
-  <!-- Page specific CSS mapped from Tailwind -->
-  <link rel="stylesheet" href="css/global.css?v=5">
-  <link rel="stylesheet" href="css/home.css?v=5">
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-</head>
-
-<body>
-
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
-
-      <!-- Logo Section -->
-      <a href="index.html" class="flex flex-col items-center min-w-[100px]">
-        <div style="display:flex; letter-spacing:-0.05em; line-height:1;">
-          <img src="assets/Document.png" alt="Logo" height="50" style="height: 50px; width: auto;"
-            onerror="this.src='https://placehold.co/100x40?text=Logo';" />
-        </div>
-      </a>
-
-      <!-- Desktop Navigation -->
-      <div class="hidden md:flex nav-desktop-container">
-        <a href="index.html" class="nav-link active">
-          <i data-lucide="home" style="width: 18px; height: 18px; stroke-width: 2.5px;"></i>
-          <span class="nav-link-text">SEARCH FOR GAME</span>
-        </a>
-        <a href="add-game.html" class="nav-link">
-          <i data-lucide="plus-circle" style="width: 18px; height: 18px; stroke-width: 2px;"></i>
-          <span class="nav-link-text">CONTRIBUTE</span>
-        </a>
-        <a href="about.html" class="nav-link">
-          <i data-lucide="info" style="width: 18px; height: 18px; stroke-width: 2px;"></i>
-          <span class="nav-link-text">ABOUT</span>
-        </a>
-      </div>
-
-      <!-- Right Section: Profile & Mobile Menu -->
-      <div class="flex items-center gap-4 min-w-[100px] justify-end">
-        <button class="navbar-profile-btn" id="authBtn">
-          <i data-lucide="user" class="lucide-icon"></i>
-        </button>
-        <!-- Mobile Menu Button -->
-        <button id="mobile-menu-btn" class="md:hidden mobile-menu-btn">
-          <i data-lucide="menu" id="mobile-menu-icon" style="width: 24px; height: 24px;"></i>
-        </button>
-      </div>
-    </div>
-
-    <!-- Mobile Navigation -->
-    <div id="mobile-menu" class="hidden md:hidden">
-      <div class="flex flex-col gap-1">
-        <a href="index.html" class="mobile-nav-link active">
-          <i data-lucide="home" style="width: 20px; height: 20px;"></i>
-          SEARCH FOR GAME
-        </a>
-        <a href="add-game.html" class="mobile-nav-link">
-          <i data-lucide="plus-circle" style="width: 20px; height: 20px;"></i>
-          CONTRIBUTE
-        </a>
-        <a href="about.html" class="mobile-nav-link">
-          <i data-lucide="info" style="width: 20px; height: 20px;"></i>
-          ABOUT
-        </a>
-      </div>
-    </div>
-  </nav>
-
-
-  <!-- Main Content -->
-  <main>
-    <div style="min-height: 100vh; background-color: #FCFCFC; position: relative;">
-
-      <!-- AUTHENTICATION MODAL -->
-      <div id="auth-modal" class="auth-modal-overlay hidden">
-        <div class="auth-modal-bg" id="close-auth-modal"></div>
-        <div class="auth-modal-content">
-          <button class="auth-close-btn" id="close-auth-btn">
-            <i data-lucide="x" style="width: 24px; height: 24px;"></i>
-          </button>
-          <div style="text-align: center; margin-bottom: 2.5rem;">
-            <div class="auth-icon-container">
-              <i data-lucide="lock" style="width: 32px; height: 32px;"></i>
-            </div>
-            <h2 class="auth-title">Welcome Back</h2>
-            <p class="auth-subtitle">Login to continue your action</p>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="max-w-7xl mx-auto flex items-center justify-between">
+        <!-- Logo Section -->
+        <a href="index.html" class="flex flex-col items-center min-w-[100px]">
+          <div style="display: flex; letter-spacing: -0.05em; line-height: 1">
+            <img
+              src="assets/Document.png"
+              alt="Logo"
+              height="50"
+              style="height: 50px; width: auto"
+              onerror="this.src = 'https://placehold.co/100x40?text=Logo'"
+            />
           </div>
-          <form id="auth-form">
-            <div class="form-field-group">
-              <div class="form-label-container">
-                <span class="form-label-indicator bg-blue-500"></span>
-                <label class="form-label">Email Address :</label>
-              </div>
-              <div class="form-input-container">
-                <i data-lucide="mail" class="form-icon" style="width: 14px; height: 14px;"></i>
-                <input type="email" placeholder="gamer@example.com" class="form-input" />
-              </div>
-            </div>
-            <div class="form-field-group">
-              <div class="form-label-container">
-                <span class="form-label-indicator bg-orange-500"></span>
-                <label class="form-label">Password :</label>
-              </div>
-              <div class="form-input-container">
-                <i data-lucide="lock" class="form-icon" style="width: 14px; height: 14px;"></i>
-                <input type="password" placeholder="••••••••" class="form-input" />
-              </div>
-            </div>
-            <button type="button" class="auth-submit-btn" id="auth-submit-btn">
-              SIGN IN <i data-lucide="arrow-right" style="width: 16px; height: 16px; margin-left: 0.5rem;"></i>
-            </button>
-            <div style="display:flex; flex-direction:column; align-items:center; gap:0.5rem; margin-top:0.75rem;">
-              <button type="button" id="forgot-pwd-link"
-                style="font-size:10px; font-weight:900; color:#9ca3af; text-transform:uppercase; letter-spacing:0.1em; background:transparent; border:none; cursor:pointer; transition:color 0.2s;"
-                onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='#9ca3af'">
-                Forgot Password?
-              </button>
-              <button type="button" id="open-signup-link"
-                style="font-size:10px; font-weight:900; color:#9ca3af; text-transform:uppercase; letter-spacing:0.1em; background:transparent; border:none; cursor:pointer; transition:color 0.2s;"
-                onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='#9ca3af'">
-                Don't have an account? Sign Up
-              </button>
-            </div>
-          </form>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <div class="hidden md:flex nav-desktop-container">
+          <a href="index.html" class="nav-link active">
+            <i
+              data-lucide="home"
+              style="width: 18px; height: 18px; stroke-width: 2.5px"
+            ></i>
+            <span class="nav-link-text">SEARCH FOR GAME</span>
+          </a>
+          <a href="add-game.html" class="nav-link">
+            <i
+              data-lucide="plus-circle"
+              style="width: 18px; height: 18px; stroke-width: 2px"
+            ></i>
+            <span class="nav-link-text">CONTRIBUTE</span>
+          </a>
+          <a href="about.html" class="nav-link">
+            <i
+              data-lucide="info"
+              style="width: 18px; height: 18px; stroke-width: 2px"
+            ></i>
+            <span class="nav-link-text">ABOUT</span>
+          </a>
+        </div>
+
+        <!-- Right Section: Profile & Mobile Menu -->
+        <div class="flex items-center gap-4 min-w-[100px] justify-end">
+          <button class="navbar-profile-btn" id="authBtn">
+            <i data-lucide="user" class="lucide-icon"></i>
+          </button>
+          <!-- Mobile Menu Button -->
+          <button id="mobile-menu-btn" class="md:hidden mobile-menu-btn">
+            <i
+              data-lucide="menu"
+              id="mobile-menu-icon"
+              style="width: 24px; height: 24px"
+            ></i>
+          </button>
         </div>
       </div>
 
-      <!-- FORGOT PASSWORD MODAL -->
-      <div id="forgot-pwd-modal" class="auth-modal-overlay hidden">
-        <div class="auth-modal-bg" id="close-forgot-modal-bg"></div>
-        <div class="auth-modal-content">
-          <button class="auth-close-btn" id="close-forgot-modal-btn">
-            <i data-lucide="x" style="width: 24px; height: 24px;"></i>
-          </button>
+      <!-- Mobile Navigation -->
+      <div id="mobile-menu" class="hidden md:hidden">
+        <div class="flex flex-col gap-1">
+          <a href="index.html" class="mobile-nav-link active">
+            <i data-lucide="home" style="width: 20px; height: 20px"></i>
+            SEARCH FOR GAME
+          </a>
+          <a href="add-game.html" class="mobile-nav-link">
+            <i data-lucide="plus-circle" style="width: 20px; height: 20px"></i>
+            CONTRIBUTE
+          </a>
+          <a href="about.html" class="mobile-nav-link">
+            <i data-lucide="info" style="width: 20px; height: 20px"></i>
+            ABOUT
+          </a>
+        </div>
+      </div>
+    </nav>
 
-          <!-- Form View -->
-          <div id="forgot-form-view">
-            <div style="text-align: center; margin-bottom: 2rem;">
-              <div class="auth-icon-container" style="background-color:#fff7ed; color:#f97316;">
-                <i data-lucide="key-round" style="width: 32px; height: 32px;"></i>
+    <!-- Main Content -->
+    <main>
+      <div
+        style="min-height: 100vh; background-color: #fcfcfc; position: relative"
+      >
+        <!-- AUTHENTICATION MODAL -->
+        <div id="auth-modal" class="auth-modal-overlay hidden">
+          <div class="auth-modal-bg" id="close-auth-modal"></div>
+          <div class="auth-modal-content">
+            <button class="auth-close-btn" id="close-auth-btn">
+              <i data-lucide="x" style="width: 24px; height: 24px"></i>
+            </button>
+            <div style="text-align: center; margin-bottom: 2.5rem">
+              <div class="auth-icon-container">
+                <i data-lucide="lock" style="width: 32px; height: 32px"></i>
               </div>
-              <h2 class="auth-title">Reset Password</h2>
-              <p class="auth-subtitle">Enter your email to receive a reset link</p>
+              <h2 class="auth-title">Welcome Back</h2>
+              <p class="auth-subtitle">Login to continue your action</p>
             </div>
-            <form id="forgot-pwd-form">
+            <form id="auth-form">
               <div class="form-field-group">
                 <div class="form-label-container">
-                  <span class="form-label-indicator bg-orange-500"></span>
+                  <span class="form-label-indicator bg-blue-500"></span>
                   <label class="form-label">Email Address :</label>
                 </div>
                 <div class="form-input-container">
-                  <i data-lucide="mail" class="form-icon" style="width: 14px; height: 14px;"></i>
-                  <input type="email" id="forgot-email-input" placeholder="gamer@example.com" class="form-input" required />
+                  <i
+                    data-lucide="mail"
+                    class="form-icon"
+                    style="width: 14px; height: 14px"
+                  ></i>
+                  <input
+                    type="email"
+                    placeholder="gamer@example.com"
+                    class="form-input"
+                  />
                 </div>
               </div>
-              <button type="submit" class="auth-submit-btn" style="background-color:#f97316; margin-top:0.5rem;">
-                SEND RESET LINK <i data-lucide="send" style="width: 16px; height: 16px; margin-left: 0.5rem;"></i>
+              <div class="form-field-group">
+                <div class="form-label-container">
+                  <span class="form-label-indicator bg-orange-500"></span>
+                  <label class="form-label">Password :</label>
+                </div>
+                <div class="form-input-container">
+                  <i
+                    data-lucide="lock"
+                    class="form-icon"
+                    style="width: 14px; height: 14px"
+                  ></i>
+                  <input
+                    type="password"
+                    id="login-password"
+                    placeholder="••••••••"
+                    class="form-input"
+                    style="padding-right: 2.5rem"
+                  />
+                  <button
+                    type="button"
+                    class="pw-eye"
+                    data-target="login-password"
+                    aria-label="Show password"
+                    style="
+                      position: absolute;
+                      right: 0.6rem;
+                      top: 50%;
+                      transform: translateY(-50%);
+                      background: transparent;
+                      border: none;
+                      cursor: pointer;
+                      color: #9ca3af;
+                      display: flex;
+                      padding: 4px;
+                    "
+                  >
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"
+                      ></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <button
+                type="button"
+                class="auth-submit-btn"
+                id="auth-submit-btn"
+              >
+                SIGN IN
+                <i
+                  data-lucide="arrow-right"
+                  style="width: 16px; height: 16px; margin-left: 0.5rem"
+                ></i>
               </button>
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  gap: 0.5rem;
+                  margin-top: 0.75rem;
+                "
+              >
+                <button
+                  type="button"
+                  id="forgot-pwd-link"
+                  style="
+                    font-size: 10px;
+                    font-weight: 900;
+                    color: #9ca3af;
+                    text-transform: uppercase;
+                    letter-spacing: 0.1em;
+                    background: transparent;
+                    border: none;
+                    cursor: pointer;
+                    transition: color 0.2s;
+                  "
+                  onmouseover="this.style.color = '#3b82f6'"
+                  onmouseout="this.style.color = '#9ca3af'"
+                >
+                  Forgot Password?
+                </button>
+                <button
+                  type="button"
+                  id="open-signup-link"
+                  style="
+                    font-size: 10px;
+                    font-weight: 900;
+                    color: #9ca3af;
+                    text-transform: uppercase;
+                    letter-spacing: 0.1em;
+                    background: transparent;
+                    border: none;
+                    cursor: pointer;
+                    transition: color 0.2s;
+                  "
+                  onmouseover="this.style.color = '#3b82f6'"
+                  onmouseout="this.style.color = '#9ca3af'"
+                >
+                  Don't have an account? Sign Up
+                </button>
+              </div>
             </form>
-            <div style="text-align:center; margin-top:1rem;">
-              <button type="button" id="back-to-login-btn"
-                style="font-size:10px; font-weight:900; color:#9ca3af; text-transform:uppercase; letter-spacing:0.1em; background:transparent; border:none; cursor:pointer; transition:color 0.2s;"
-                onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='#9ca3af'">
-                ← Back to Login
+          </div>
+        </div>
+
+        <!-- FORGOT PASSWORD MODAL -->
+        <div id="forgot-pwd-modal" class="auth-modal-overlay hidden">
+          <div class="auth-modal-bg" id="close-forgot-modal-bg"></div>
+          <div class="auth-modal-content">
+            <button class="auth-close-btn" id="close-forgot-modal-btn">
+              <i data-lucide="x" style="width: 24px; height: 24px"></i>
+            </button>
+
+            <!-- Form View -->
+            <div id="forgot-form-view">
+              <div style="text-align: center; margin-bottom: 2rem">
+                <div
+                  class="auth-icon-container"
+                  style="background-color: #fff7ed; color: #f97316"
+                >
+                  <i
+                    data-lucide="key-round"
+                    style="width: 32px; height: 32px"
+                  ></i>
+                </div>
+                <h2 class="auth-title">Reset Password</h2>
+                <p class="auth-subtitle">
+                  Enter your email to receive a reset link
+                </p>
+              </div>
+              <form id="forgot-pwd-form">
+                <div class="form-field-group">
+                  <div class="form-label-container">
+                    <span class="form-label-indicator bg-orange-500"></span>
+                    <label class="form-label">Email Address :</label>
+                  </div>
+                  <div class="form-input-container">
+                    <i
+                      data-lucide="mail"
+                      class="form-icon"
+                      style="width: 14px; height: 14px"
+                    ></i>
+                    <input
+                      type="email"
+                      id="forgot-email-input"
+                      placeholder="gamer@example.com"
+                      class="form-input"
+                      required
+                    />
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  class="auth-submit-btn"
+                  style="background-color: #f97316; margin-top: 0.5rem"
+                >
+                  SEND RESET LINK
+                  <i
+                    data-lucide="send"
+                    style="width: 16px; height: 16px; margin-left: 0.5rem"
+                  ></i>
+                </button>
+              </form>
+              <div style="text-align: center; margin-top: 1rem">
+                <button
+                  type="button"
+                  id="back-to-login-btn"
+                  style="
+                    font-size: 10px;
+                    font-weight: 900;
+                    color: #9ca3af;
+                    text-transform: uppercase;
+                    letter-spacing: 0.1em;
+                    background: transparent;
+                    border: none;
+                    cursor: pointer;
+                    transition: color 0.2s;
+                  "
+                  onmouseover="this.style.color = '#3b82f6'"
+                  onmouseout="this.style.color = '#9ca3af'"
+                >
+                  ← Back to Login
+                </button>
+              </div>
+            </div>
+
+            <!-- Success View -->
+            <div
+              id="forgot-success-view"
+              style="display: none; text-align: center; padding: 1rem 0"
+            >
+              <div
+                class="auth-icon-container"
+                style="
+                  background-color: #ecfdf5;
+                  color: #10b981;
+                  margin: 0 auto 1.5rem;
+                "
+              >
+                <i
+                  data-lucide="check-circle-2"
+                  style="width: 32px; height: 32px"
+                ></i>
+              </div>
+              <h2 class="auth-title" style="color: #10b981">Email Sent!</h2>
+              <p class="auth-subtitle" style="margin-top: 0.5rem">
+                Check your inbox for the reset link.
+              </p>
+              <button
+                type="button"
+                id="close-success-btn"
+                class="auth-submit-btn"
+                style="margin-top: 2rem; background-color: #10b981"
+              >
+                DONE
               </button>
             </div>
           </div>
+        </div>
 
-          <!-- Success View -->
-          <div id="forgot-success-view" style="display:none; text-align:center; padding: 1rem 0;">
-            <div class="auth-icon-container" style="background-color:#ecfdf5; color:#10b981; margin:0 auto 1.5rem;">
-              <i data-lucide="check-circle-2" style="width: 32px; height: 32px;"></i>
+        <!-- SIGN UP MODAL (JOIN SOCIETY) -->
+        <div id="signup-modal" class="auth-modal-overlay hidden">
+          <div class="auth-modal-bg" id="close-signup-modal-bg"></div>
+          <div class="auth-modal-content">
+            <button class="auth-close-btn" id="close-signup-modal-btn">
+              <i data-lucide="x" style="width: 24px; height: 24px"></i>
+            </button>
+            <div style="text-align: center; margin-bottom: 2.5rem">
+              <div class="auth-icon-container">
+                <i data-lucide="lock" style="width: 32px; height: 32px"></i>
+              </div>
+              <h2 class="auth-title">Join Society</h2>
+              <p class="auth-subtitle">Create an account to contribute</p>
             </div>
-            <h2 class="auth-title" style="color:#10b981;">Email Sent!</h2>
-            <p class="auth-subtitle" style="margin-top:0.5rem;">Check your inbox for the reset link.</p>
-            <button type="button" id="close-success-btn" class="auth-submit-btn"
-              style="margin-top:2rem; background-color:#10b981;">
-              DONE
+            <form id="signup-form">
+              <div class="form-field-group">
+                <div class="form-label-container">
+                  <span class="form-label-indicator bg-blue-500"></span>
+                  <label class="form-label">Email Address :</label>
+                </div>
+                <div class="form-input-container">
+                  <i
+                    data-lucide="mail"
+                    class="form-icon"
+                    style="width: 14px; height: 14px"
+                  ></i>
+                  <input
+                    type="email"
+                    id="signup-email"
+                    placeholder="gamer@example.com"
+                    class="form-input"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="form-field-group">
+                <div class="form-label-container">
+                  <span class="form-label-indicator bg-blue-400"></span>
+                  <label class="form-label">Pseudo :</label>
+                </div>
+                <div class="form-input-container">
+                  <i
+                    data-lucide="at-sign"
+                    class="form-icon"
+                    style="width: 14px; height: 14px"
+                  ></i>
+                  <input
+                    type="text"
+                    id="signup-pseudo"
+                    placeholder="e.g. ProGamer92"
+                    class="form-input"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="form-field-group">
+                <div class="form-label-container">
+                  <span class="form-label-indicator bg-blue-400"></span>
+                  <label class="form-label">Country :</label>
+                </div>
+                <div class="form-input-container">
+                  <i
+                    data-lucide="map-pin"
+                    class="form-icon"
+                    style="width: 14px; height: 14px; z-index: 2"
+                  ></i>
+                  <select id="signup-country" required>
+                    <option value="" placeholder>Select your country</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-field-group">
+                <div class="form-label-container">
+                  <span class="form-label-indicator bg-orange-500"></span>
+                  <label class="form-label">Year of Birth :</label>
+                </div>
+                <div class="form-input-container">
+                  <i
+                    data-lucide="cake"
+                    class="form-icon"
+                    style="width: 14px; height: 14px; z-index: 2"
+                  ></i>
+                  <select
+                    id="signup-year-born"
+                    class="form-input"
+                    style="
+                      appearance: none;
+                      padding-left: 2.2rem;
+                      padding-right: 2.2rem;
+                      color: #374151;
+                      font-weight: 700;
+                    "
+                  >
+                    <option value="">Select your birth year</option>
+                  </select>
+                  <i
+                    data-lucide="chevron-down"
+                    style="
+                      position: absolute;
+                      right: 0.75rem;
+                      top: 50%;
+                      transform: translateY(-50%);
+                      width: 14px;
+                      height: 14px;
+                      color: #9ca3af;
+                      pointer-events: none;
+                    "
+                  ></i>
+                </div>
+              </div>
+              <div class="form-field-group">
+                <div class="form-label-container">
+                  <span class="form-label-indicator bg-blue-500"></span>
+                  <label class="form-label">Profile Picture :</label>
+                </div>
+                <div id="signup-avatar-grid" class="avatar-grid"></div>
+              </div>
+              <div class="form-field-group">
+                <div class="form-label-container">
+                  <span class="form-label-indicator bg-orange-500"></span>
+                  <label class="form-label">Password :</label>
+                </div>
+                <div class="form-input-container">
+                  <i
+                    data-lucide="lock"
+                    class="form-icon"
+                    style="width: 14px; height: 14px"
+                  ></i>
+                  <input
+                    type="password"
+                    id="signup-password"
+                    placeholder="••••••••"
+                    class="form-input"
+                    style="padding-right: 2.5rem"
+                    required
+                  />
+                  <button
+                    type="button"
+                    class="pw-eye"
+                    data-target="signup-password"
+                    aria-label="Show password"
+                    style="
+                      position: absolute;
+                      right: 0.6rem;
+                      top: 50%;
+                      transform: translateY(-50%);
+                      background: transparent;
+                      border: none;
+                      cursor: pointer;
+                      color: #9ca3af;
+                      display: flex;
+                      padding: 4px;
+                    "
+                  >
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"
+                      ></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="form-field-group">
+                <div class="form-label-container">
+                  <span class="form-label-indicator bg-orange-500"></span>
+                  <label class="form-label">Confirm Password :</label>
+                </div>
+                <div class="form-input-container">
+                  <i
+                    data-lucide="lock"
+                    class="form-icon"
+                    style="width: 14px; height: 14px"
+                  ></i>
+                  <input
+                    type="password"
+                    id="signup-confirm"
+                    placeholder="••••••••"
+                    class="form-input"
+                    style="padding-right: 2.5rem"
+                    required
+                  />
+                  <button
+                    type="button"
+                    class="pw-eye"
+                    data-target="signup-confirm"
+                    aria-label="Show password"
+                    style="
+                      position: absolute;
+                      right: 0.6rem;
+                      top: 50%;
+                      transform: translateY(-50%);
+                      background: transparent;
+                      border: none;
+                      cursor: pointer;
+                      color: #9ca3af;
+                      display: flex;
+                      padding: 4px;
+                    "
+                  >
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"
+                      ></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <button type="submit" class="auth-submit-btn">
+                SIGN UP
+                <i
+                  data-lucide="arrow-right"
+                  style="width: 16px; height: 16px; margin-left: 0.5rem"
+                ></i>
+              </button>
+              <div style="text-align: center; margin-top: 0.75rem">
+                <button
+                  type="button"
+                  id="open-login-from-signup"
+                  style="
+                    font-size: 10px;
+                    font-weight: 900;
+                    color: #9ca3af;
+                    text-transform: uppercase;
+                    letter-spacing: 0.1em;
+                    background: transparent;
+                    border: none;
+                    cursor: pointer;
+                    transition: color 0.2s;
+                  "
+                  onmouseover="this.style.color = '#3b82f6'"
+                  onmouseout="this.style.color = '#9ca3af'"
+                >
+                  Already have an account? Login
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- HERO CAROUSEL SECTION -->
+        <section class="hero-section">
+          <i data-lucide="gamepad-2" class="hero-bg-icon-1"></i>
+          <i data-lucide="gamepad-2" class="hero-bg-icon-2"></i>
+
+          <div class="hero-tab-switcher" id="carousel-tabs">
+            <!-- Tabs generated by JS -->
+          </div>
+
+          <div class="carousel-container">
+            <div class="carousel-inner" id="carousel-track">
+              <!-- Slide generated by JS -->
+            </div>
+            <!-- Prev / Next Buttons -->
+            <button
+              class="carousel-nav-btn carousel-nav-prev"
+              id="carousel-prev"
+            >
+              <i
+                data-lucide="chevron-left"
+                style="width: 18px; height: 18px"
+              ></i>
+            </button>
+            <button
+              class="carousel-nav-btn carousel-nav-next"
+              id="carousel-next"
+            >
+              <i
+                data-lucide="chevron-right"
+                style="width: 18px; height: 18px"
+              ></i>
+            </button>
+          </div>
+        </section>
+
+        <!-- MAIN GRIDS -->
+        <main class="main-container">
+          <div class="main-flex sidebar-open" id="main-layout-container">
+            <!-- SIDEBAR -->
+            <aside class="sidebar" id="sidebar-container">
+              <div class="sidebar-header">
+                <h2 class="sidebar-title">
+                  Filter
+                  <i data-lucide="filter" style="width: 18px; height: 18px"></i>
+                </h2>
+                <button class="reset-btn" id="reset-filters-btn">
+                  <i
+                    data-lucide="rotate-ccw"
+                    style="width: 14px; height: 14px; margin-right: 0.25rem"
+                  ></i>
+                  Reset
+                </button>
+              </div>
+
+              <div class="filter-sections-space">
+                <div>
+                  <label class="filter-label">
+                    <span class="filter-indicator bg-blue-500"></span> Domaine
+                  </label>
+                  <div class="search-wrapper">
+                    <i
+                      data-lucide="search"
+                      class="search-icon text-blue-400"
+                      style="width: 14px; height: 14px"
+                    ></i>
+                    <input
+                      type="text"
+                      id="filter-domaine"
+                      placeholder="Search"
+                      class="filter-input"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label class="filter-label">
+                    <span
+                      class="filter-indicator bg-red-500 text-red-400"
+                    ></span>
+                    Keywords
+                  </label>
+                  <div class="search-wrapper">
+                    <i
+                      data-lucide="search"
+                      class="search-icon text-red-400"
+                      style="width: 14px; height: 14px"
+                    ></i>
+                    <input
+                      type="text"
+                      id="filter-keywords"
+                      placeholder="Keywords separated by commas"
+                      class="filter-input"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label class="filter-label">
+                    <span class="filter-indicator bg-orange-500"></span> Target
+                    Audience
+                  </label>
+                  <div class="search-wrapper">
+                    <select
+                      id="filter-public"
+                      class="filter-input"
+                      style="
+                        appearance: none;
+                        padding-left: 0.75rem;
+                        color: #ea580c;
+                        font-weight: 700;
+                      "
+                    >
+                      <option value="">Tous</option>
+                      <option value="Scolaire">Scolaire</option>
+                      <option value="Étudiants">Étudiants</option>
+                      <option value="Enfants">Enfants</option>
+                      <option value="Tous publics">Tous publics</option>
+                    </select>
+                    <i
+                      data-lucide="chevron-down"
+                      style="
+                        position: absolute;
+                        right: 0.75rem;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 14px;
+                        height: 14px;
+                        color: #fb923c;
+                        pointer-events: none;
+                      "
+                    ></i>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="filter-label">
+                    <span class="filter-indicator bg-orange-500"></span>
+                    Platforme
+                  </label>
+                  <div class="platform-grid">
+                    <button class="platform-btn" data-platform="Windows">
+                      <i
+                        data-lucide="monitor"
+                        style="width: 18px; height: 18px"
+                      ></i>
+                      <span class="platform-label">Windows</span>
+                    </button>
+                    <button class="platform-btn" data-platform="Android">
+                      <i
+                        data-lucide="smartphone"
+                        style="width: 18px; height: 18px"
+                      ></i>
+                      <span class="platform-label">Android</span>
+                    </button>
+                    <button class="platform-btn" data-platform="Online">
+                      <i
+                        data-lucide="globe"
+                        style="width: 18px; height: 18px"
+                      ></i>
+                      <span class="platform-label">Online</span>
+                    </button>
+                    <button class="platform-btn" data-platform="Linux">
+                      <i
+                        data-lucide="terminal"
+                        style="width: 18px; height: 18px"
+                      ></i>
+                      <span class="platform-label">Linux</span>
+                    </button>
+                    <button class="platform-btn" data-platform="Mac">
+                      <i
+                        data-lucide="laptop"
+                        style="width: 18px; height: 18px"
+                      ></i>
+                      <span class="platform-label">Mac OS</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="filter-label">
+                    <span
+                      class="filter-indicator bg-blue-400"
+                      style="background-color: #60a5fa"
+                    ></span>
+                    Age Group
+                  </label>
+                  <div
+                    style="
+                      padding-left: 0.25rem;
+                      padding-right: 0.25rem;
+                      padding-top: 0.5rem;
+                    "
+                  >
+                    <div
+                      style="
+                        text-align: center;
+                        font-size: 11px;
+                        font-weight: 900;
+                        color: #3b82f6;
+                        margin-bottom: 0.5rem;
+                      "
+                    >
+                      <span id="age-display">0 – 45 ans</span>
+                    </div>
+                    <div class="age-range-wrap">
+                      <div class="age-range-track"></div>
+                      <div class="age-range-fill" id="age-range-fill"></div>
+                      <input
+                        type="range"
+                        id="filter-age-min"
+                        min="0"
+                        max="45"
+                        value="0"
+                      />
+                      <input
+                        type="range"
+                        id="filter-age-max"
+                        min="0"
+                        max="45"
+                        value="45"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  style="
+                    padding-top: 1rem;
+                    border-top: 1px solid #f3f4f6;
+                    margin-top: 2rem;
+                  "
+                >
+                  <button
+                    id="toggle-advanced-btn"
+                    style="
+                      display: flex;
+                      align-items: center;
+                      justify-content: space-between;
+                      width: 100%;
+                      font-weight: 900;
+                      text-transform: uppercase;
+                      font-size: 0.875rem;
+                      margin-bottom: 1.5rem;
+                      color: #374151;
+                      transition: color 0.2s;
+                    "
+                  >
+                    Advanced Filter
+                    <i
+                      data-lucide="chevron-down"
+                      id="advanced-chevron"
+                      style="width: 20px; height: 20px"
+                    ></i>
+                  </button>
+                  <div
+                    id="advanced-filters-content"
+                    style="
+                      display: none;
+                      flex-direction: column;
+                      gap: 2rem;
+                      animation: fadeIn 0.3s;
+                    "
+                  >
+                    <div>
+                      <label class="filter-label"
+                        ><span class="filter-indicator bg-blue-500"></span>
+                        Motivation</label
+                      >
+                      <div class="search-wrapper">
+                        <i
+                          data-lucide="search"
+                          class="search-icon text-blue-400"
+                          style="width: 14px; height: 14px"
+                        ></i>
+                        <input
+                          type="text"
+                          id="filter-motivation"
+                          placeholder="Search"
+                          class="filter-input"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label class="filter-label"
+                        ><span class="filter-indicator bg-red-500"></span>
+                        Knowledge Validation</label
+                      >
+                      <div class="search-wrapper">
+                        <i
+                          data-lucide="search"
+                          class="search-icon text-red-400"
+                          style="width: 14px; height: 14px"
+                        ></i>
+                        <input
+                          type="text"
+                          id="filter-knowledge"
+                          placeholder="Keywords"
+                          class="filter-input"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label class="filter-label"
+                        ><span
+                          class="filter-indicator bg-orange-400"
+                          style="background-color: #fb923c"
+                        ></span>
+                        Game Mode</label
+                      >
+                      <div class="search-wrapper">
+                        <i
+                          data-lucide="search"
+                          class="search-icon text-orange-400"
+                          style="width: 14px; height: 14px"
+                        ></i>
+                        <input
+                          type="text"
+                          id="filter-gamemode"
+                          placeholder="Search"
+                          class="filter-input"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label class="filter-label"
+                        ><span class="filter-indicator bg-blue-500"></span>
+                        Rights</label
+                      >
+                      <div class="search-wrapper">
+                        <i
+                          data-lucide="search"
+                          class="search-icon text-blue-400"
+                          style="width: 14px; height: 14px"
+                        ></i>
+                        <input
+                          type="text"
+                          id="filter-rights"
+                          placeholder="Search"
+                          class="filter-input"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label class="filter-label"
+                        ><span
+                          class="filter-indicator bg-orange-400"
+                          style="background-color: #fb923c"
+                        ></span>
+                        Gameplay</label
+                      >
+                      <div class="search-wrapper">
+                        <i
+                          data-lucide="search"
+                          class="search-icon text-orange-400"
+                          style="width: 14px; height: 14px"
+                        ></i>
+                        <input
+                          type="text"
+                          id="filter-gameplay"
+                          placeholder="Search"
+                          class="filter-input"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label class="filter-label"
+                        ><span class="filter-indicator bg-orange-500"></span>
+                        Rating
+                        <span
+                          id="rating-filter-label"
+                          style="
+                            color: #9ca3af;
+                            font-weight: 700;
+                            font-size: 11px;
+                            margin-left: 0.25rem;
+                          "
+                        ></span>
+                      </label>
+                      <div
+                        id="rating-filter"
+                        style="
+                          display: flex;
+                          gap: 0.25rem;
+                          color: #fb923c;
+                          padding-top: 0.25rem;
+                        "
+                      >
+                        <button
+                          type="button"
+                          class="rating-star"
+                          data-val="1"
+                          style="
+                            background: transparent;
+                            border: none;
+                            padding: 0;
+                            cursor: pointer;
+                            color: inherit;
+                            display: flex;
+                          "
+                        >
+                          <i
+                            data-lucide="star"
+                            style="width: 18px; height: 18px; stroke-width: 1.5"
+                          ></i>
+                        </button>
+                        <button
+                          type="button"
+                          class="rating-star"
+                          data-val="2"
+                          style="
+                            background: transparent;
+                            border: none;
+                            padding: 0;
+                            cursor: pointer;
+                            color: inherit;
+                            display: flex;
+                          "
+                        >
+                          <i
+                            data-lucide="star"
+                            style="width: 18px; height: 18px; stroke-width: 1.5"
+                          ></i>
+                        </button>
+                        <button
+                          type="button"
+                          class="rating-star"
+                          data-val="3"
+                          style="
+                            background: transparent;
+                            border: none;
+                            padding: 0;
+                            cursor: pointer;
+                            color: inherit;
+                            display: flex;
+                          "
+                        >
+                          <i
+                            data-lucide="star"
+                            style="width: 18px; height: 18px; stroke-width: 1.5"
+                          ></i>
+                        </button>
+                        <button
+                          type="button"
+                          class="rating-star"
+                          data-val="4"
+                          style="
+                            background: transparent;
+                            border: none;
+                            padding: 0;
+                            cursor: pointer;
+                            color: inherit;
+                            display: flex;
+                          "
+                        >
+                          <i
+                            data-lucide="star"
+                            style="width: 18px; height: 18px; stroke-width: 1.5"
+                          ></i>
+                        </button>
+                        <button
+                          type="button"
+                          class="rating-star"
+                          data-val="5"
+                          style="
+                            background: transparent;
+                            border: none;
+                            padding: 0;
+                            cursor: pointer;
+                            color: inherit;
+                            display: flex;
+                          "
+                        >
+                          <i
+                            data-lucide="star"
+                            style="width: 18px; height: 18px; stroke-width: 1.5"
+                          ></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </aside>
+
+            <!-- CONTENT AREA -->
+            <section class="content-area">
+              <div class="global-search-container">
+                <div class="search-wrapper w-full">
+                  <i
+                    data-lucide="search"
+                    class="search-icon"
+                    style="
+                      color: #9ca3af;
+                      width: 18px;
+                      height: 18px;
+                      left: 1rem;
+                    "
+                  ></i>
+                  <input
+                    type="text"
+                    placeholder="Search experiences, keywords or domains..."
+                    class="main-search-input"
+                  />
+                </div>
+
+                <div class="sort-wrapper">
+                  <div class="sort-select-group">
+                    <i
+                      data-lucide="calendar-days"
+                      style="
+                        position: absolute;
+                        left: 0.75rem;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 14px;
+                        height: 14px;
+                        color: #3b82f6;
+                      "
+                    ></i>
+                    <select class="sort-select">
+                      <option value="">Sort by Date</option>
+                      <option value="newest">Newest First</option>
+                      <option value="oldest">Oldest First</option>
+                    </select>
+                    <i
+                      data-lucide="chevron-down"
+                      style="
+                        position: absolute;
+                        right: 0.75rem;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 14px;
+                        height: 14px;
+                        color: #9ca3af;
+                        pointer-events: none;
+                      "
+                    ></i>
+                  </div>
+                  <div class="sort-select-group">
+                    <i
+                      data-lucide="arrow-down-a-z"
+                      style="
+                        position: absolute;
+                        left: 0.75rem;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 14px;
+                        height: 14px;
+                        color: #3b82f6;
+                      "
+                    ></i>
+                    <select class="sort-select">
+                      <option value="">Sort by Title</option>
+                      <option value="az">A to Z</option>
+                      <option value="za">Z to A</option>
+                    </select>
+                    <i
+                      data-lucide="chevron-down"
+                      style="
+                        position: absolute;
+                        right: 0.75rem;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 14px;
+                        height: 14px;
+                        color: #9ca3af;
+                        pointer-events: none;
+                      "
+                    ></i>
+                  </div>
+                  <div class="sort-select-group">
+                    <i
+                      data-lucide="circle-dollar-sign"
+                      style="
+                        position: absolute;
+                        left: 0.75rem;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 14px;
+                        height: 14px;
+                        color: #f97316;
+                      "
+                    ></i>
+                    <select
+                      class="sort-select hover:border-orange-200 focus:ring-orange-500"
+                    >
+                      <option value="">Sort by Cost</option>
+                      <option value="low">Low to High</option>
+                      <option value="high">High to Low</option>
+                    </select>
+                    <i
+                      data-lucide="chevron-down"
+                      style="
+                        position: absolute;
+                        right: 0.75rem;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 14px;
+                        height: 14px;
+                        color: #9ca3af;
+                        pointer-events: none;
+                      "
+                    ></i>
+                  </div>
+                  <div class="sort-select-group">
+                    <i
+                      data-lucide="globe"
+                      style="
+                        position: absolute;
+                        left: 0.75rem;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 14px;
+                        height: 14px;
+                        color: #ef4444;
+                      "
+                    ></i>
+                    <select
+                      class="sort-select hover:border-red-200 focus:ring-red-500"
+                    >
+                      <option value="">Language</option>
+                      <option value="en">English</option>
+                      <option value="fr">French</option>
+                      <option value="es">Spanish</option>
+                      <option value="de">German</option>
+                    </select>
+                    <i
+                      data-lucide="chevron-down"
+                      style="
+                        position: absolute;
+                        right: 0.75rem;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 14px;
+                        height: 14px;
+                        color: #9ca3af;
+                        pointer-events: none;
+                      "
+                    ></i>
+                  </div>
+                  <div class="sort-select-group">
+                    <i
+                      data-lucide="users"
+                      style="
+                        position: absolute;
+                        left: 0.75rem;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 14px;
+                        height: 14px;
+                        color: #60a5fa;
+                      "
+                    ></i>
+                    <select
+                      class="sort-select hover:border-blue-200 focus:ring-blue-500"
+                    >
+                      <option value="">Game Mode</option>
+                      <option value="single">Singleplayer</option>
+                      <option value="multi">Multiplayer</option>
+                      <option value="coop">Co-op</option>
+                    </select>
+                    <i
+                      data-lucide="chevron-down"
+                      style="
+                        position: absolute;
+                        right: 0.75rem;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 14px;
+                        height: 14px;
+                        color: #9ca3af;
+                        pointer-events: none;
+                      "
+                    ></i>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: flex-end;
+                  margin-bottom: 2rem;
+                "
+              >
+                <div>
+                  <p
+                    style="
+                      color: #9ca3af;
+                      font-weight: 700;
+                      font-size: 0.875rem;
+                    "
+                  >
+                    Experiences available
+                    <span
+                      id="games-count"
+                      style="
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        min-width: 1.5rem;
+                        height: 1.5rem;
+                        padding: 0 0.5rem;
+                        margin-left: 0.5rem;
+                        background: #eff6ff;
+                        color: #2563eb;
+                        border-radius: 9999px;
+                        font-weight: 900;
+                        font-size: 0.8rem;
+                      "
+                      >0</span
+                    >
+                  </p>
+                </div>
+                <button
+                  id="toggle-sidebar-btn"
+                  style="
+                    padding: 0.5rem;
+                    border-radius: 0.5rem;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    font-size: 0.875rem;
+                    font-weight: 700;
+                    color: #4b5563;
+                  "
+                >
+                  <i
+                    data-lucide="filter"
+                    id="toggle-sidebar-icon"
+                    class="text-blue-500"
+                    style="width: 18px; height: 18px"
+                  ></i>
+                  <span class="hidden sm:inline" id="toggle-sidebar-text"
+                    >Hide Sidebar</span
+                  >
+                </button>
+              </div>
+
+              <div class="game-grid" id="games-grid">
+                <!-- Games rendered via JS -->
+              </div>
+
+              <!-- PAGINATION (10 games per page) -->
+              <div
+                id="pagination"
+                style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  gap: 0.4rem;
+                  flex-wrap: wrap;
+                  margin-top: 2.5rem;
+                "
+              ></div>
+            </section>
+          </div>
+        </main>
+      </div>
+    </main>
+
+    <!-- GAME DETAIL MODAL -->
+    <div
+      id="game-detail-modal"
+      class="auth-modal-overlay"
+      style="display: none; z-index: 200"
+    >
+      <div class="auth-modal-bg" id="close-game-detail-bg"></div>
+      <div class="game-detail-modal-panel">
+        <div class="game-detail-hero">
+          <img
+            src=""
+            id="game-detail-img"
+            alt="Hero"
+            class="game-detail-hero-img"
+          />
+          <div class="game-detail-hero-grad"></div>
+          <div id="game-detail-badge" class="game-detail-badge">
+            New Release
+          </div>
+          <button
+            class="auth-close-btn"
+            id="close-game-detail-btn"
+            style="
+              position: absolute;
+              top: 1.5rem;
+              right: 1.5rem;
+              z-index: 20;
+              background: rgba(0, 0, 0, 0.3);
+              padding: 0.5rem;
+              border-radius: 50%;
+              color: white;
+            "
+          >
+            <i data-lucide="x" style="width: 18px; height: 18px"></i>
+          </button>
+          <div class="game-detail-hero-text">
+            <span class="game-detail-hero-tag" id="game-detail-tag">Tag</span>
+            <h2 class="game-detail-hero-title" id="game-detail-title">
+              Game Title
+            </h2>
+            <p class="game-detail-hero-subtitle" id="game-detail-subtitle">
+              Subtitle
+            </p>
+          </div>
+        </div>
+
+        <div class="game-detail-body">
+          <div class="game-detail-meta-row">
+            <div class="game-detail-stars">
+              <i
+                data-lucide="star"
+                style="width: 14px; height: 14px; fill: currentColor"
+              ></i>
+              <i
+                data-lucide="star"
+                style="width: 14px; height: 14px; fill: currentColor"
+              ></i>
+              <i
+                data-lucide="star"
+                style="width: 14px; height: 14px; fill: currentColor"
+              ></i>
+              <i
+                data-lucide="star"
+                style="width: 14px; height: 14px; fill: currentColor"
+              ></i>
+              <i
+                data-lucide="star"
+                style="width: 14px; height: 14px; fill: currentColor"
+              ></i>
+            </div>
+            <span class="game-detail-rating-text">4.0 / 5.0</span>
+            <span class="game-detail-dot"></span>
+            <span class="game-detail-meta" id="game-detail-meta">15 mins</span>
+          </div>
+
+          <p class="game-detail-desc" id="game-detail-desc">Description</p>
+
+          <div class="game-detail-footer">
+            <a href="game.html" class="game-detail-btn-view">View Full Game</a>
+            <button class="game-detail-btn-close" id="close-game-detail-btn2">
+              Close
             </button>
           </div>
         </div>
       </div>
-
-      <!-- SIGN UP MODAL (JOIN SOCIETY) -->
-      <div id="signup-modal" class="auth-modal-overlay hidden">
-        <div class="auth-modal-bg" id="close-signup-modal-bg"></div>
-        <div class="auth-modal-content">
-          <button class="auth-close-btn" id="close-signup-modal-btn">
-            <i data-lucide="x" style="width: 24px; height: 24px;"></i>
-          </button>
-          <div style="text-align: center; margin-bottom: 2.5rem;">
-            <div class="auth-icon-container">
-              <i data-lucide="lock" style="width: 32px; height: 32px;"></i>
-            </div>
-            <h2 class="auth-title">Join Society</h2>
-            <p class="auth-subtitle">Create an account to contribute</p>
-          </div>
-          <form id="signup-form">
-            <div class="form-field-group">
-              <div class="form-label-container">
-                <span class="form-label-indicator bg-blue-500"></span>
-                <label class="form-label">Email Address :</label>
-              </div>
-              <div class="form-input-container">
-                <i data-lucide="mail" class="form-icon" style="width: 14px; height: 14px;"></i>
-                <input type="email" id="signup-email" placeholder="gamer@example.com" class="form-input" required />
-              </div>
-            </div>
-            <div class="form-field-group">
-              <div class="form-label-container">
-                <span class="form-label-indicator bg-blue-400"></span>
-                <label class="form-label">Country :</label>
-              </div>
-              <div class="form-input-container">
-                <i data-lucide="map-pin" class="form-icon" style="width: 14px; height: 14px;"></i>
-                <input type="text" id="signup-country" placeholder="e.g. France" class="form-input" required />
-              </div>
-            </div>
-            <div class="form-field-group">
-              <div class="form-label-container">
-                <span class="form-label-indicator bg-red-500"></span>
-                <label class="form-label">Contact :</label>
-              </div>
-              <div class="form-input-container">
-                <i data-lucide="phone" class="form-icon" style="width: 14px; height: 14px;"></i>
-                <input type="text" id="signup-contact" placeholder="e.g. +33 6 12 34 56 78" class="form-input" required />
-              </div>
-            </div>
-            <div class="form-field-group">
-              <div class="form-label-container">
-                <span class="form-label-indicator bg-orange-500"></span>
-                <label class="form-label">Password :</label>
-              </div>
-              <div class="form-input-container">
-                <i data-lucide="lock" class="form-icon" style="width: 14px; height: 14px;"></i>
-                <input type="password" id="signup-password" placeholder="••••••••" class="form-input" style="padding-right:2.5rem;" required />
-                <button type="button" class="pw-eye" data-target="signup-password" aria-label="Show password"
-                  style="position:absolute; right:0.6rem; top:50%; transform:translateY(-50%); background:transparent; border:none; cursor:pointer; color:#9ca3af; display:flex; padding:4px;">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                </button>
-              </div>
-            </div>
-            <div class="form-field-group">
-              <div class="form-label-container">
-                <span class="form-label-indicator bg-orange-500"></span>
-                <label class="form-label">Confirm Password :</label>
-              </div>
-              <div class="form-input-container">
-                <i data-lucide="lock" class="form-icon" style="width: 14px; height: 14px;"></i>
-                <input type="password" id="signup-confirm" placeholder="••••••••" class="form-input" style="padding-right:2.5rem;" required />
-                <button type="button" class="pw-eye" data-target="signup-confirm" aria-label="Show password"
-                  style="position:absolute; right:0.6rem; top:50%; transform:translateY(-50%); background:transparent; border:none; cursor:pointer; color:#9ca3af; display:flex; padding:4px;">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                </button>
-              </div>
-            </div>
-            <button type="submit" class="auth-submit-btn">
-              SIGN UP <i data-lucide="arrow-right" style="width: 16px; height: 16px; margin-left: 0.5rem;"></i>
-            </button>
-            <div style="text-align:center; margin-top:0.75rem;">
-              <button type="button" id="open-login-from-signup"
-                style="font-size:10px; font-weight:900; color:#9ca3af; text-transform:uppercase; letter-spacing:0.1em; background:transparent; border:none; cursor:pointer; transition:color 0.2s;"
-                onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='#9ca3af'">
-                Already have an account? Login
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <!-- HERO CAROUSEL SECTION -->
-      <section class="hero-section">
-        <i data-lucide="gamepad-2" class="hero-bg-icon-1"></i>
-        <i data-lucide="gamepad-2" class="hero-bg-icon-2"></i>
-
-        <div class="hero-tab-switcher" id="carousel-tabs">
-          <!-- Tabs generated by JS -->
-        </div>
-
-        <div class="carousel-container">
-          <div class="carousel-inner" id="carousel-track">
-            <!-- Slide generated by JS -->
-          </div>
-          <!-- Prev / Next Buttons -->
-          <button class="carousel-nav-btn carousel-nav-prev" id="carousel-prev">
-            <i data-lucide="chevron-left" style="width: 18px; height: 18px;"></i>
-          </button>
-          <button class="carousel-nav-btn carousel-nav-next" id="carousel-next">
-            <i data-lucide="chevron-right" style="width: 18px; height: 18px;"></i>
-          </button>
-        </div>
-      </section>
-
-      <!-- MAIN GRIDS -->
-      <main class="main-container">
-        <div class="main-flex sidebar-open" id="main-layout-container">
-          <!-- SIDEBAR -->
-          <aside class="sidebar" id="sidebar-container">
-            <div class="sidebar-header">
-              <h2 class="sidebar-title">
-                Filter <i data-lucide="filter" style="width: 18px; height: 18px;"></i>
-              </h2>
-              <button class="reset-btn" id="reset-filters-btn">
-                <i data-lucide="rotate-ccw" style="width: 14px; height: 14px; margin-right: 0.25rem;"></i> Reset
-              </button>
-            </div>
-
-            <div class="filter-sections-space">
-              <div>
-                <label class="filter-label">
-                  <span class="filter-indicator bg-blue-500"></span> Domaine
-                </label>
-                <div class="search-wrapper">
-                  <i data-lucide="search" class="search-icon text-blue-400" style="width: 14px; height: 14px;"></i>
-                  <input type="text" id="filter-domaine" placeholder="Search" class="filter-input" />
-                </div>
-              </div>
-
-              <div>
-                <label class="filter-label">
-                  <span class="filter-indicator bg-red-500 text-red-400"></span> Keywords
-                </label>
-                <div class="search-wrapper">
-                  <i data-lucide="search" class="search-icon text-red-400" style="width: 14px; height: 14px;"></i>
-                  <input type="text" id="filter-keywords" placeholder="Keywords separated by commas" class="filter-input" />
-                </div>
-              </div>
-
-              <div>
-                <label class="filter-label">
-                  <span class="filter-indicator bg-orange-500"></span> Target Audience
-                </label>
-                <div class="search-wrapper">
-                  <select id="filter-public" class="filter-input"
-                    style="appearance:none; padding-left:0.75rem; color:#ea580c; font-weight:700;">
-                    <option value="">Tous</option>
-                    <option value="Scolaire">Scolaire</option>
-                    <option value="Étudiants">Étudiants</option>
-                    <option value="Enfants">Enfants</option>
-                    <option value="Tous publics">Tous publics</option>
-                  </select>
-                  <i data-lucide="chevron-down"
-                    style="position:absolute; right:0.75rem; top:50%; transform:translateY(-50%); width:14px; height:14px; color:#fb923c; pointer-events:none;"></i>
-                </div>
-              </div>
-
-              <div>
-                <label class="filter-label">
-                  <span class="filter-indicator bg-orange-500"></span> Platforme
-                </label>
-                <div class="platform-grid">
-                  <button class="platform-btn" data-platform="Windows">
-                    <i data-lucide="monitor" style="width: 18px; height: 18px;"></i>
-                    <span class="platform-label">Windows</span>
-                  </button>
-                  <button class="platform-btn" data-platform="Android">
-                    <i data-lucide="smartphone" style="width: 18px; height: 18px;"></i>
-                    <span class="platform-label">Android</span>
-                  </button>
-                  <button class="platform-btn" data-platform="Web">
-                    <i data-lucide="globe" style="width: 18px; height: 18px;"></i>
-                    <span class="platform-label">Web</span>
-                  </button>
-                  <button class="platform-btn" data-platform="Linux">
-                    <i data-lucide="terminal" style="width: 18px; height: 18px;"></i>
-                    <span class="platform-label">Linux</span>
-                  </button>
-                  <button class="platform-btn" data-platform="Mac">
-                    <i data-lucide="laptop" style="width: 18px; height: 18px;"></i>
-                    <span class="platform-label">Mac OS</span>
-                  </button>
-                </div>
-              </div>
-
-              <div>
-                <label class="filter-label">
-                  <span class="filter-indicator bg-blue-400" style="background-color:#60a5fa;"></span> Age Group
-                </label>
-                <div style="padding-left:0.25rem; padding-right:0.25rem; padding-top:0.5rem;">
-                  <div style="text-align:center; font-size:11px; font-weight:900; color:#3b82f6; margin-bottom:0.5rem;">
-                    <span id="age-display">0 – 45 ans</span>
-                  </div>
-                  <div style="display:flex; align-items:center; gap:0.5rem;">
-                    <span style="font-size:9px; font-weight:900; color:#9ca3af; width:24px;">MIN</span>
-                    <input type="range" id="filter-age-min" min="0" max="45" value="0"
-                      style="flex:1; accent-color:#3b82f6; cursor:pointer; height:0.375rem;" />
-                  </div>
-                  <div style="display:flex; align-items:center; gap:0.5rem; margin-top:0.5rem;">
-                    <span style="font-size:9px; font-weight:900; color:#9ca3af; width:24px;">MAX</span>
-                    <input type="range" id="filter-age-max" min="0" max="45" value="45"
-                      style="flex:1; accent-color:#f97316; cursor:pointer; height:0.375rem;" />
-                  </div>
-                </div>
-              </div>
-
-              <div style="padding-top:1rem; border-top:1px solid #f3f4f6; margin-top:2rem;">
-                <button id="toggle-advanced-btn"
-                  style="display:flex; align-items:center; justify-content:space-between; width:100%; font-weight:900; text-transform:uppercase; font-size:0.875rem; margin-bottom:1.5rem; color:#374151; transition:color 0.2s;">
-                  Advanced Filter <i data-lucide="chevron-down" id="advanced-chevron"
-                    style="width:20px; height:20px;"></i>
-                </button>
-                <div id="advanced-filters-content"
-                  style="display:none; flex-direction:column; gap:2rem; animation:fadeIn 0.3s;">
-                  <div>
-                    <label class="filter-label"><span class="filter-indicator bg-blue-500"></span> Motivation</label>
-                    <div class="search-wrapper">
-                      <i data-lucide="search" class="search-icon text-blue-400" style="width:14px; height:14px;"></i>
-                      <input type="text" id="filter-motivation" placeholder="Search" class="filter-input" />
-                    </div>
-                  </div>
-                  <div>
-                    <label class="filter-label"><span class="filter-indicator bg-red-500"></span> Knowledge
-                      Validation</label>
-                    <div class="search-wrapper">
-                      <i data-lucide="search" class="search-icon text-red-400" style="width:14px; height:14px;"></i>
-                      <input type="text" id="filter-knowledge" placeholder="Keywords" class="filter-input" />
-                    </div>
-                  </div>
-                  <div>
-                    <label class="filter-label"><span class="filter-indicator bg-orange-400"
-                        style="background-color:#fb923c;"></span> Game Mode</label>
-                    <div class="search-wrapper">
-                      <i data-lucide="search" class="search-icon text-orange-400" style="width:14px; height:14px;"></i>
-                      <input type="text" id="filter-gamemode" placeholder="Search" class="filter-input" />
-                    </div>
-                  </div>
-                  <div>
-                    <label class="filter-label"><span class="filter-indicator bg-blue-500"></span> Rights</label>
-                    <div class="search-wrapper">
-                      <i data-lucide="search" class="search-icon text-blue-400" style="width:14px; height:14px;"></i>
-                      <input type="text" id="filter-rights" placeholder="Search" class="filter-input" />
-                    </div>
-                  </div>
-                  <div>
-                    <label class="filter-label"><span class="filter-indicator bg-orange-400"
-                        style="background-color:#fb923c;"></span> Gameplay</label>
-                    <div class="search-wrapper">
-                      <i data-lucide="search" class="search-icon text-orange-400" style="width:14px; height:14px;"></i>
-                      <input type="text" id="filter-gameplay" placeholder="Search" class="filter-input" />
-                    </div>
-                  </div>
-                  <div>
-                    <label class="filter-label"><span class="filter-indicator bg-orange-500"></span> Rating</label>
-                    <div style="display:flex; gap:0.25rem; color:#fb923c; padding-top:0.25rem; cursor:pointer;">
-                      <i data-lucide="star" style="width:18px; height:18px; stroke-width:1.5;"></i>
-                      <i data-lucide="star" style="width:18px; height:18px; stroke-width:1.5;"></i>
-                      <i data-lucide="star" style="width:18px; height:18px; stroke-width:1.5;"></i>
-                      <i data-lucide="star" style="width:18px; height:18px; stroke-width:1.5;"></i>
-                      <i data-lucide="star" style="width:18px; height:18px; stroke-width:1.5;"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </aside>
-
-          <!-- CONTENT AREA -->
-          <section class="content-area">
-            <div class="global-search-container">
-              <div class="search-wrapper w-full">
-                <i data-lucide="search" class="search-icon"
-                  style="color: #9ca3af; width: 18px; height: 18px; left: 1rem;"></i>
-                <input type="text" placeholder="Search experiences, keywords or domains..." class="main-search-input" />
-              </div>
-
-              <div class="sort-wrapper">
-                <div class="sort-select-group">
-                  <i data-lucide="calendar-days"
-                    style="position:absolute; left:0.75rem; top:50%; transform:translateY(-50%); width:14px; height:14px; color:#3b82f6;"></i>
-                  <select class="sort-select">
-                    <option value="">Sort by Date</option>
-                    <option value="newest">Newest First</option>
-                    <option value="oldest">Oldest First</option>
-                  </select>
-                  <i data-lucide="chevron-down"
-                    style="position:absolute; right:0.75rem; top:50%; transform:translateY(-50%); width:14px; height:14px; color:#9ca3af; pointer-events:none;"></i>
-                </div>
-                <div class="sort-select-group">
-                  <i data-lucide="arrow-down-a-z"
-                    style="position:absolute; left:0.75rem; top:50%; transform:translateY(-50%); width:14px; height:14px; color:#3b82f6;"></i>
-                  <select class="sort-select">
-                    <option value="">Sort by Title</option>
-                    <option value="az">A to Z</option>
-                    <option value="za">Z to A</option>
-                  </select>
-                  <i data-lucide="chevron-down"
-                    style="position:absolute; right:0.75rem; top:50%; transform:translateY(-50%); width:14px; height:14px; color:#9ca3af; pointer-events:none;"></i>
-                </div>
-                <div class="sort-select-group">
-                  <i data-lucide="circle-dollar-sign"
-                    style="position:absolute; left:0.75rem; top:50%; transform:translateY(-50%); width:14px; height:14px; color:#f97316;"></i>
-                  <select class="sort-select hover:border-orange-200 focus:ring-orange-500">
-                    <option value="">Sort by Cost</option>
-                    <option value="low">Low to High</option>
-                    <option value="high">High to Low</option>
-                  </select>
-                  <i data-lucide="chevron-down"
-                    style="position:absolute; right:0.75rem; top:50%; transform:translateY(-50%); width:14px; height:14px; color:#9ca3af; pointer-events:none;"></i>
-                </div>
-                <div class="sort-select-group">
-                  <i data-lucide="globe"
-                    style="position:absolute; left:0.75rem; top:50%; transform:translateY(-50%); width:14px; height:14px; color:#ef4444;"></i>
-                  <select class="sort-select hover:border-red-200 focus:ring-red-500">
-                    <option value="">Language</option>
-                    <option value="en">English</option>
-                    <option value="fr">French</option>
-                    <option value="es">Spanish</option>
-                    <option value="de">German</option>
-                  </select>
-                  <i data-lucide="chevron-down"
-                    style="position:absolute; right:0.75rem; top:50%; transform:translateY(-50%); width:14px; height:14px; color:#9ca3af; pointer-events:none;"></i>
-                </div>
-                <div class="sort-select-group">
-                  <i data-lucide="users"
-                    style="position:absolute; left:0.75rem; top:50%; transform:translateY(-50%); width:14px; height:14px; color:#60a5fa;"></i>
-                  <select class="sort-select hover:border-blue-200 focus:ring-blue-500">
-                    <option value="">Game Mode</option>
-                    <option value="single">Singleplayer</option>
-                    <option value="multi">Multiplayer</option>
-                    <option value="coop">Co-op</option>
-                  </select>
-                  <i data-lucide="chevron-down"
-                    style="position:absolute; right:0.75rem; top:50%; transform:translateY(-50%); width:14px; height:14px; color:#9ca3af; pointer-events:none;"></i>
-                </div>
-              </div>
-            </div>
-
-            <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:2rem;">
-              <div>
-                <p style="color:#9ca3af; font-weight:700; font-size:0.875rem;">Experiences available</p>
-              </div>
-              <button id="toggle-sidebar-btn"
-                style="padding:0.5rem; border-radius:0.5rem; display:flex; align-items:center; gap:0.5rem; font-size:0.875rem; font-weight:700; color:#4b5563;">
-                <i data-lucide="filter" id="toggle-sidebar-icon" class="text-blue-500"
-                  style="width: 18px; height: 18px;"></i>
-                <span class="hidden sm:inline" id="toggle-sidebar-text">Hide Sidebar</span>
-              </button>
-            </div>
-
-            <div class="game-grid" id="games-grid">
-              <!-- Games rendered via JS -->
-            </div>
-
-            <!-- PAGINATION (10 games per page) -->
-            <div id="pagination" style="display:flex; justify-content:center; align-items:center; gap:0.4rem; flex-wrap:wrap; margin-top:2.5rem;"></div>
-          </section>
-        </div>
-      </main>
-
     </div>
-  </main>
 
-  <!-- GAME DETAIL MODAL -->
-  <div id="game-detail-modal" class="auth-modal-overlay" style="display:none; z-index: 200;">
-    <div class="auth-modal-bg" id="close-game-detail-bg"></div>
-    <div class="game-detail-modal-panel">
-      <div class="game-detail-hero">
-        <img src="" id="game-detail-img" alt="Hero" class="game-detail-hero-img">
-        <div class="game-detail-hero-grad"></div>
-        <div id="game-detail-badge" class="game-detail-badge">New Release</div>
-        <button class="auth-close-btn" id="close-game-detail-btn"
-          style="position:absolute; top:1.5rem; right:1.5rem; z-index:20; background:rgba(0,0,0,0.3); padding:0.5rem; border-radius:50%; color:white;">
-          <i data-lucide="x" style="width:18px; height:18px;"></i>
-        </button>
-        <div class="game-detail-hero-text">
-          <span class="game-detail-hero-tag" id="game-detail-tag">Tag</span>
-          <h2 class="game-detail-hero-title" id="game-detail-title">Game Title</h2>
-          <p class="game-detail-hero-subtitle" id="game-detail-subtitle">Subtitle</p>
-        </div>
-      </div>
-
-      <div class="game-detail-body">
-        <div class="game-detail-meta-row">
-          <div class="game-detail-stars">
-            <i data-lucide="star" style="width:14px; height:14px; fill:currentColor;"></i>
-            <i data-lucide="star" style="width:14px; height:14px; fill:currentColor;"></i>
-            <i data-lucide="star" style="width:14px; height:14px; fill:currentColor;"></i>
-            <i data-lucide="star" style="width:14px; height:14px; fill:currentColor;"></i>
-            <i data-lucide="star" style="width:14px; height:14px; fill:currentColor;"></i>
-          </div>
-          <span class="game-detail-rating-text">4.0 / 5.0</span>
-          <span class="game-detail-dot"></span>
-          <span class="game-detail-meta" id="game-detail-meta">15 mins</span>
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="max-w-7xl mx-auto footer-grid">
+        <!-- Left Column -->
+        <div class="footer-brand">
+          <h2>Serious Game<br />Catalogue</h2>
+          <p>A leading platform for<br />serious educational games.</p>
         </div>
 
-        <p class="game-detail-desc" id="game-detail-desc">Description</p>
-
-        <div class="game-detail-footer">
-          <a href="game.html" class="game-detail-btn-view">View Full Game</a>
-          <button class="game-detail-btn-close" id="close-game-detail-btn2">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="max-w-7xl mx-auto footer-grid">
-      <!-- Left Column -->
-      <div class="footer-brand">
-        <h2>Serious Game<br />Catalogue</h2>
-        <p>A leading platform for<br />serious educational games.</p>
-      </div>
-
-      <!-- Middle Column -->
-      <div>
-        <h3 class="footer-heading">
-          <span class="footer-indicator-orange"></span>
-          NAVIGATION
-        </h3>
-        <nav class="footer-nav">
-          <a href="index.html" class="footer-link">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-            </svg>
-            HOME
-          </a>
-          <a href="add-game.html" class="footer-link">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="10" stroke-width="2" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v8m-4-4h8" />
-            </svg>
-            ADD SERIOUS GAME
-          </a>
-          <a href="about.html" class="footer-link">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="10" stroke-width="2" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 16v-4m0-4h.01" />
-            </svg>
-            ABOUT
-          </a>
-          <a href="profile.html" class="footer-link">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <circle cx="12" cy="8" r="4" stroke-width="2" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2" />
-            </svg>
-            PROFILE
-          </a>
-        </nav>
-
-      </div>
-
-      <!-- Right Column -->
-      <div style="display: flex; flex-direction: column; justify-content: space-between;">
+        <!-- Middle Column -->
         <div>
           <h3 class="footer-heading">
-            <span class="footer-indicator-red"></span>
-            PORTAL
+            <span class="footer-indicator-orange"></span>
+            NAVIGATION
           </h3>
-          <a href="admin.html" class="footer-link">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="3" stroke-width="2" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
-            </svg>
-            ADMIN ACCESS
-          </a>
+          <nav class="footer-nav">
+            <a href="index.html" class="footer-link">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                />
+              </svg>
+              HOME
+            </a>
+            <a href="add-game.html" class="footer-link">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke-width="2" />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 8v8m-4-4h8"
+                />
+              </svg>
+              ADD SERIOUS GAME
+            </a>
+            <a href="about.html" class="footer-link">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke-width="2" />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 16v-4m0-4h.01"
+                />
+              </svg>
+              ABOUT
+            </a>
+            <a href="profile.html" class="footer-link">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="4" stroke-width="2" />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"
+                />
+              </svg>
+              PROFILE
+            </a>
+          </nav>
         </div>
-        <div style="margin-top: 2rem;">
-          <p style="color: #9ca3af; font-size: 0.875rem; margin-bottom: 0.5rem;">2026 Serious Games Society</p>
+
+        <!-- Right Column -->
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+          "
+        >
+          <div>
+            <h3 class="footer-heading">
+              <span class="footer-indicator-red"></span>
+              PORTAL
+            </h3>
+            <a href="admin.html" class="footer-link">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="3" stroke-width="2" />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"
+                />
+              </svg>
+              ADMIN ACCESS
+            </a>
+          </div>
+          <div style="margin-top: 2rem">
+            <p
+              style="color: #9ca3af; font-size: 0.875rem; margin-bottom: 0.5rem"
+            >
+              2026 Serious Games Society
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-  </footer>
+    </footer>
 
-  <script src="js/main.js"></script>
-  <script src="js/admin-auth.js"></script>
-</body>
-
+    <script src="js/main.js"></script>
+    <script src="js/admin-auth.js"></script>
+  </body>
 </html>

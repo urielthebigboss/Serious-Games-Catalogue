@@ -3,12 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="assets/Document.png" type="image/png">
+    <link rel="icon" type="image/png" sizes="60x60" href="assets/favicon.png?v=5">
+    <link rel="icon" href="assets/favicon.ico?v=5" sizes="any">
+    <link rel="apple-touch-icon" href="assets/logo-mark.png">
     <title>Serious Game Catalogue - Admin</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/admin.css">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="css/motion.css?v=2">
+  <script src="js/motion.js?v=2" defer></script>
 </head>
 <body>
 
@@ -86,6 +90,11 @@
                 <p class="admin-user-email">admin@seriousgame.com</p>
               </div>
               <div class="admin-avatar"><span class="admin-avatar-initial">A</span></div>
+              <button type="button" id="admin-logout-btn" title="Sign out"
+                style="display:inline-flex; align-items:center; gap:0.4rem; background:#fef2f2; color:#dc2626; border:1px solid #fecaca; border-radius:10px; padding:0.5rem 0.9rem; font-size:0.8rem; font-weight:800; text-transform:uppercase; letter-spacing:0.05em; cursor:pointer; margin-left:1rem;">
+                <i data-lucide="log-out" style="width:16px; height:16px;"></i>
+                <span>Logout</span>
+              </button>
             </div>
           </div>
         </div>
@@ -98,6 +107,9 @@
             </button>
             <button class="admin-tab inactive" data-target="games">
               <i data-lucide="gamepad-2" style="width:13px; height:13px;"></i> Games
+            </button>
+            <button class="admin-tab inactive" data-target="awards">
+              <i data-lucide="trophy" style="width:13px; height:13px;"></i> GALA Awards
             </button>
           </div>
 
@@ -138,6 +150,58 @@
                 <i data-lucide="gamepad-2" style="width:40px; height:40px; color:#e5e7eb; margin: 0 auto 1rem auto;"></i>
                 <p style="font-size:0.75rem; font-weight:900; text-transform:uppercase; letter-spacing:0.1em; color:#9ca3af;">No games found</p>
               </div>
+            </div>
+          </div>
+
+          <!-- GALA Awards View (admin uniquement) -->
+          <div id="view-awards" style="display:none;" class="admin-panel-card">
+            <style>
+              .aw-label{display:block;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;color:#6b7280;margin-bottom:.4rem;}
+              .aw-input{width:100%;box-sizing:border-box;padding:.7rem .9rem;border:1.5px solid #e5e7eb;border-radius:12px;font-size:.9rem;font-family:inherit;}
+              .aw-input:focus{outline:none;border-color:#f59e0b;}
+              .aw-save{padding:.8rem 1.2rem;border:none;border-radius:12px;background:#f59e0b;color:#fff;font-weight:800;font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;cursor:pointer;}
+              .aw-save:hover{background:#d97706;}
+              .aw-clear{padding:.8rem 1.2rem;border:1px solid #fecaca;border-radius:12px;background:#fff;color:#dc2626;font-weight:800;font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;cursor:pointer;}
+              .aw-clear:hover{background:#fef2f2;}
+              .aw-edit{padding:.45rem .8rem;border:1px solid #fde68a;border-radius:9px;background:#fffbeb;color:#b45309;font-weight:800;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;cursor:pointer;}
+              .aw-del{padding:.45rem .8rem;border:1px solid #fecaca;border-radius:9px;background:#fef2f2;color:#dc2626;font-weight:800;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;cursor:pointer;}
+            </style>
+            <div style="padding:1.5rem;">
+              <h3 style="font-weight:900; font-size:1rem; text-transform:uppercase; letter-spacing:0.03em; color:#111827; margin:0 0 0.25rem;">
+                <i data-lucide="trophy" style="width:18px;height:18px;color:#f59e0b;vertical-align:-3px;"></i> GALA Award Winners
+              </h3>
+              <p style="color:#9ca3af; font-weight:700; font-size:0.8rem; margin:0 0 1.5rem;">Pick a game from the database and fill in its distinction. It will appear in the home page "GALA Award Winners" hero.</p>
+
+              <div style="display:grid; gap:1rem; max-width:640px;">
+                <div>
+                  <label class="aw-label">Game</label>
+                  <select id="award-game" class="aw-input"><option value="">— Choose a game —</option></select>
+                </div>
+                <div>
+                  <label class="aw-label">Competition</label>
+                  <input type="text" id="award-competition" class="aw-input" placeholder="e.g. GALA 2024" maxlength="100">
+                </div>
+                <div>
+                  <label class="aw-label">Prize</label>
+                  <input type="text" id="award-prize" class="aw-input" placeholder="e.g. Grand Prix" maxlength="250">
+                </div>
+                <div>
+                  <label class="aw-label">Nomination year</label>
+                  <input type="text" id="award-year" class="aw-input" placeholder="e.g. 2024" maxlength="50">
+                </div>
+                <div>
+                  <label class="aw-label">Comment</label>
+                  <textarea id="award-comment" class="aw-input" rows="3" placeholder="A few words about the distinction..."></textarea>
+                </div>
+                <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+                  <button type="button" id="award-save-btn" class="aw-save">Save distinction</button>
+                  <button type="button" id="award-clear-btn" class="aw-clear">Remove distinction</button>
+                </div>
+                <div id="award-msg" style="display:none; font-size:0.82rem; font-weight:700;"></div>
+              </div>
+
+              <h4 style="font-weight:900; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em; color:#374151; margin:2rem 0 1rem;">Awarded games</h4>
+              <div id="award-list"></div>
             </div>
           </div>
         </div>
@@ -242,6 +306,15 @@
           if (!token) return false;
           try {
             const r = await fetch(`${API}/admin/me`, { headers: { Authorization: 'Bearer ' + token } });
+            if (r.ok) {
+              try {
+                const me = await r.json();
+                const el = document.querySelector('.admin-user-email');
+                if (el && me && me.mail) el.textContent = me.mail;
+                const nameEl = document.querySelector('.admin-user-name');
+                if (nameEl && me && me.mail) nameEl.textContent = me.mail.split('@')[0];
+              } catch (_) {}
+            }
             return r.ok;
           } catch (_) { return false; }
         }
@@ -291,6 +364,16 @@
       // ===== ADMIN DASHBOARD — connected to FastAPI backend =====
       const API = window.adminAuth.API_BASE;
       const authHeaders = () => window.adminAuth.authHeaders();
+
+      // Déconnexion admin : efface le token et retourne à l'accueil
+      const adminLogoutBtn = document.getElementById('admin-logout-btn');
+      if (adminLogoutBtn) {
+        adminLogoutBtn.addEventListener('click', () => {
+          if (window.adminAuth && window.adminAuth.clearToken) window.adminAuth.clearToken();
+          localStorage.removeItem('admin_token');
+          window.location.href = 'index.html';
+        });
+      }
 
       const PLACEHOLDER_IMG = 'https://placehold.co/800x600?text=No+Image';
       const titleOf = g => (g.title || (g.description ? String(g.description).slice(0, 45) : ('Game #' + g.id)));
@@ -404,6 +487,8 @@
         } catch (_) { ALL_GAMES = []; }
         renderReviews();
         renderGamesTable(document.getElementById('games-search').value);
+        renderAwardGameSelect();
+        renderAwardList();
       }
 
       function loadMoreButton(label, onClick) {
@@ -612,6 +697,108 @@
         else { showToast('Update failed (' + res.status + ').', 'error'); }
       }
 
+      /* ---------- GALA Awards (admin) ---------- */
+      function isAwardGame(g) { return !!(g.competition || g.prix || g.annee_nomination); }
+
+      function renderAwardGameSelect() {
+        const sel = document.getElementById('award-game');
+        if (!sel) return;
+        const cur = sel.value;
+        const opts = ['<option value="">— Choose a game —</option>'].concat(
+          ALL_GAMES.map(g => {
+            const flag = (g.status && g.status !== 'approved') ? ' [' + g.status + ']' : '';
+            return '<option value="' + g.id + '">' + titleOf(g) + flag + '</option>';
+          })
+        );
+        sel.innerHTML = opts.join('');
+        sel.value = cur;
+      }
+
+      function fillAwardForm(g) {
+        document.getElementById('award-competition').value = (g && g.competition) || '';
+        document.getElementById('award-prize').value = (g && g.prix) || '';
+        document.getElementById('award-year').value = (g && g.annee_nomination) || '';
+        document.getElementById('award-comment').value = (g && g.commentaire) || '';
+      }
+
+      function renderAwardList() {
+        const box = document.getElementById('award-list');
+        if (!box) return;
+        const winners = ALL_GAMES.filter(isAwardGame);
+        if (winners.length === 0) {
+          box.innerHTML = '<p style="color:#9ca3af;font-weight:700;font-size:0.8rem;">No awarded games yet.</p>';
+          return;
+        }
+        box.innerHTML = winners.map(g => {
+          const line = [g.prix, g.competition, g.annee_nomination].filter(Boolean).join(' · ');
+          return '<div style="display:flex; align-items:center; gap:1rem; padding:0.8rem 1rem; border:1px solid #f3f4f6; border-radius:12px; margin-bottom:0.6rem;">'
+            + '<img src="' + (g.image || PLACEHOLDER_IMG) + '" style="width:48px;height:48px;border-radius:8px;object-fit:cover;">'
+            + '<div style="flex:1;min-width:0;">'
+            + '<p style="margin:0;font-weight:900;color:#111827;font-size:0.9rem;">' + titleOf(g) + '</p>'
+            + '<p style="margin:0;color:#6b7280;font-size:0.78rem;font-weight:600;">🏆 ' + line + '</p>'
+            + '</div>'
+            + '<div style="display:flex; gap:0.4rem; flex-shrink:0;">'
+            + '<button type="button" class="aw-edit" data-id="' + g.id + '">Edit</button>'
+            + '<button type="button" class="aw-del" data-id="' + g.id + '">Delete</button>'
+            + '</div>'
+            + '</div>';
+        }).join('');
+        box.querySelectorAll('.aw-edit').forEach(b => b.addEventListener('click', () => {
+          const id = b.dataset.id;
+          document.getElementById('award-game').value = id;
+          fillAwardForm(ALL_GAMES.find(x => String(x.id) === String(id)));
+          document.getElementById('award-game').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }));
+        box.querySelectorAll('.aw-del').forEach(b => b.addEventListener('click', () => removeAward(b.dataset.id)));
+      }
+
+      async function removeAward(id) {
+        const g = ALL_GAMES.find(x => String(x.id) === String(id));
+        const ok = await confirmDialog('Remove distinction',
+          'Remove the GALA distinction from "' + (g ? titleOf(g) : 'this game') + '"? The game stays in the catalog.');
+        if (!ok) return;
+        try {
+          const res = await fetch(API + '/admin/games/update/' + id, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json', ...authHeaders() },
+            body: JSON.stringify({ competition: '', prix: '', annee_nomination: '', commentaire: '' })
+          });
+          if (res.ok) {
+            showToast('Distinction removed.', 'success');
+            if (document.getElementById('award-game').value === String(id)) fillAwardForm(null);
+            await loadGames();
+          } else {
+            showToast('Removal failed.', 'error');
+          }
+        } catch (_) { showToast('Server unreachable.', 'error'); }
+      }
+
+      async function saveAward(clear) {
+        const id = document.getElementById('award-game').value;
+        const msg = document.getElementById('award-msg');
+        const show = (t, ok) => { msg.style.display = 'block'; msg.textContent = t; msg.style.color = ok ? '#059669' : '#dc2626'; };
+        if (!id) { show('Choose a game.', false); return; }
+        const payload = clear
+          ? { competition: '', prix: '', annee_nomination: '', commentaire: '' }
+          : {
+              competition: document.getElementById('award-competition').value.trim(),
+              prix: document.getElementById('award-prize').value.trim(),
+              annee_nomination: document.getElementById('award-year').value.trim(),
+              commentaire: document.getElementById('award-comment').value.trim(),
+            };
+        try {
+          const res = await fetch(API + '/admin/games/update/' + id, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json', ...authHeaders() },
+            body: JSON.stringify(payload)
+          });
+          if (!res.ok) { show('Save failed.', false); return; }
+          show(clear ? 'Distinction removed.' : 'Distinction saved ✓', true);
+          await loadGames();
+          if (clear) fillAwardForm(null);
+        } catch (_) { show('Server unreachable.', false); }
+      }
+
       /* ---------- Init ---------- */
       document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
@@ -619,16 +806,28 @@
 
         const btnReviews = document.querySelector('[data-target="reviews"]');
         const btnGames = document.querySelector('[data-target="games"]');
+        const btnAwards = document.querySelector('[data-target="awards"]');
         const viewReviews = document.getElementById('view-reviews');
         const viewGames = document.getElementById('view-games');
-        btnReviews.addEventListener('click', () => {
-          btnReviews.className = 'admin-tab active'; btnGames.className = 'admin-tab inactive';
-          viewReviews.style.display = 'flex'; viewGames.style.display = 'none';
-        });
-        btnGames.addEventListener('click', () => {
-          btnGames.className = 'admin-tab active'; btnReviews.className = 'admin-tab inactive';
-          viewGames.style.display = 'block'; viewReviews.style.display = 'none';
-        });
+        const viewAwards = document.getElementById('view-awards');
+        function showTab(name) {
+          btnReviews.className = 'admin-tab ' + (name === 'reviews' ? 'active' : 'inactive');
+          btnGames.className = 'admin-tab ' + (name === 'games' ? 'active' : 'inactive');
+          if (btnAwards) btnAwards.className = 'admin-tab ' + (name === 'awards' ? 'active' : 'inactive');
+          viewReviews.style.display = name === 'reviews' ? 'flex' : 'none';
+          viewGames.style.display = name === 'games' ? 'block' : 'none';
+          if (viewAwards) viewAwards.style.display = name === 'awards' ? 'block' : 'none';
+        }
+        btnReviews.addEventListener('click', () => showTab('reviews'));
+        btnGames.addEventListener('click', () => showTab('games'));
+        if (btnAwards) btnAwards.addEventListener('click', () => { showTab('awards'); renderAwardGameSelect(); renderAwardList(); });
+
+        const awGameSel = document.getElementById('award-game');
+        if (awGameSel) awGameSel.addEventListener('change', () => fillAwardForm(ALL_GAMES.find(x => String(x.id) === String(awGameSel.value))));
+        const awSaveBtn = document.getElementById('award-save-btn');
+        if (awSaveBtn) awSaveBtn.addEventListener('click', () => saveAward(false));
+        const awClearBtn = document.getElementById('award-clear-btn');
+        if (awClearBtn) awClearBtn.addEventListener('click', () => saveAward(true));
 
         document.getElementById('games-search').addEventListener('input', e => {
           gamesShown = GAMES_PER_PAGE; renderGamesTable(e.target.value);

@@ -1,962 +1,2553 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" sizes="60x60" href="assets/favicon.png?v=5">
+    <link rel="icon" href="assets/favicon.ico?v=5" sizes="any">
+    <link rel="apple-touch-icon" href="assets/logo-mark.png">
+    <title>Serious Game Catalogue - About</title>
+    <!-- Page specific CSS mapped from Tailwind -->
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/about.css" />
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="css/motion.css?v=2" />
+    <script src="js/motion.js?v=2" defer></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="assets/Document.png" type="image/png">
-  <title>Serious Game Catalogue - About</title>
-  <!-- Page specific CSS mapped from Tailwind -->
-  <link rel="stylesheet" href="css/global.css">
-  <link rel="stylesheet" href="css/about.css">
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-</head>
-
-<body>
-
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
-
-      <!-- Logo Section -->
-      <a href="index.html" class="flex flex-col items-center min-w-[100px]">
-        <div style="display:flex; letter-spacing:-0.05em; line-height:1;">
-          <img src="assets/Document.png" alt="Logo" height="50" style="height: 50px; width: auto;"
-            onerror="this.src='https://placehold.co/100x40?text=Logo';" />
-        </div>
-      </a>
-
-      <!-- Desktop Navigation -->
-      <div class="hidden md:flex nav-desktop-container">
-        <a href="index.html" class="nav-link">
-          <i data-lucide="home" style="width: 18px; height: 18px; stroke-width: 2px;"></i>
-          <span class="nav-link-text">SEARCH FOR GAME</span>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="max-w-7xl mx-auto flex items-center justify-between">
+        <!-- Logo Section -->
+        <a href="index.html" class="flex flex-col items-center min-w-[100px]">
+          <div style="display: flex; letter-spacing: -0.05em; line-height: 1">
+            <img
+              src="assets/Document.png"
+              alt="Logo"
+              height="50"
+              style="height: 50px; width: auto"
+              onerror="this.src = 'https://placehold.co/100x40?text=Logo'"
+            />
+          </div>
         </a>
-        <a href="add-game.html" class="nav-link">
-          <i data-lucide="plus-circle" style="width: 18px; height: 18px; stroke-width: 2px;"></i>
-          <span class="nav-link-text">CONTRIBUTE</span>
-        </a>
-        <a href="about.html" class="nav-link active">
-          <i data-lucide="info" style="width: 18px; height: 18px; stroke-width: 2.5px;"></i>
-          <span class="nav-link-text">ABOUT</span>
-        </a>
-      </div>
 
-      <!-- Right Section: Profile & Mobile Menu -->
-      <div class="flex items-center gap-4 min-w-[100px] justify-end">
-        <!-- Mobile Menu Button -->
-        <button id="mobile-menu-btn" class="md:hidden mobile-menu-btn">
-          <i data-lucide="menu" id="mobile-menu-icon" style="width: 24px; height: 24px;"></i>
-        </button>
-      </div>
-    </div>
-
-    <!-- Mobile Navigation -->
-    <div id="mobile-menu" class="hidden md:hidden">
-      <div class="flex flex-col gap-1">
-        <a href="index.html" class="mobile-nav-link">
-          <i data-lucide="home" style="width: 20px; height: 20px;"></i>
-          SEARCH FOR GAME
-        </a>
-        <a href="add-game.html" class="mobile-nav-link">
-          <i data-lucide="plus-circle" style="width: 20px; height: 20px;"></i>
-          CONTRIBUTE
-        </a>
-        <a href="about.html" class="mobile-nav-link active">
-          <i data-lucide="info" style="width: 20px; height: 20px;"></i>
-          ABOUT
-        </a>
-      </div>
-    </div>
-  </nav>
-
-
-  <!-- Main Content -->
-  <main>
-    <div class="about-page-wrapper">
-
-      <!-- HÉROS -->
-      <section class="about-hero">
-        <div class="hero-blob-1"></div>
-        <div class="hero-blob-2"></div>
-        <i data-lucide="database" class="hero-icon-right"></i>
-        <i data-lucide="graduation-cap" class="hero-icon-left"></i>
-
-        <div class="section-inner">
-          <div class="eyebrow">
-            <span class="eyebrow-dot bg-blue-500"></span>
-            <span class="eyebrow-text text-blue-500">About the Project</span>
-          </div>
-
-          <h1 class="hero-title">
-            A Catalogue For <br />
-            <span class="text-blue-500">Teachers</span> & <span class="text-blue-500">Researchers</span>
-          </h1>
-
-          <div class="hero-grid">
-            <div class="hero-content">
-              <p class="hero-text">
-                The <strong style="color: #1f2937;">Serious Game Catalogue</strong> aims to provide the scientific
-                community, teachers, designers, and Serious Games enthusiasts with a centralized space to search,
-                explore, and share Learning Games according to various pedagogical, technical and gaming criteria.
-              </p>
-              <p class="hero-text">
-                The catalogue offers an advanced system for classification and automatic indexing and filtering.
-                Previously, the catalog contained over 700 SG entries from three catalogs:
-              </p>
-              <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:2rem;">
-                <span class="hero-source-tag bg-blue-50 text-blue-700 border-blue-100">SeriousGameClassification</span>
-                <span class="hero-source-tag bg-orange-50 text-orange-700 border-orange-100">MobyGames</span>
-                <span class="hero-source-tag bg-emerald-50 text-emerald-700 border-emerald-100">MIT STEM Arcade</span>
-              </div>
-              <a href="index.html" class="hero-explore-btn">
-                Explore the Catalog
-                <i data-lucide="arrow-right" style="width:18px; height:18px;"></i>
-              </a>
-            </div>
-
-            <!-- Bloc de statistiques -->
-            <div class="hero-stats">
-              <div class="hero-stat-card">
-                <p
-                  style="font-size: 2.25rem; font-weight: 900; color: #111827; width: 8rem; font-variant-numeric: tabular-nums;">
-                  <span class="animated-number" data-target="785">0</span>+
-                </p>
-                <p
-                  style="font-size: 10px; font-weight: 900; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.1em;">
-                  Referenced Games</p>
-              </div>
-              <div class="hero-stat-card">
-                <p
-                  style="font-size: 2.25rem; font-weight: 900; color: #111827; width: 8rem; font-variant-numeric: tabular-nums;">
-                  <span class="animated-number" data-target="15">0</span>+
-                </p>
-                <p
-                  style="font-size: 10px; font-weight: 900; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.1em;">
-                  Search Filters</p>
-              </div>
-              <div class="hero-stat-card">
-                <p
-                  style="font-size: 2.25rem; font-weight: 900; color: #111827; width: 8rem; font-variant-numeric: tabular-nums;">
-                  <span class="animated-number" data-target="2020">0</span>
-                </p>
-                <p
-                  style="font-size: 10px; font-weight: 900; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.1em;">
-                  Created In</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- PRINCIPE DE COLLABORATION -->
-      <section class="section-gray animate-on-scroll">
-        <div class="section-inner">
-          <div class="grid-2" style="align-items: center;">
-            <div>
-              <div class="eyebrow">
-                <span class="eyebrow-dot bg-orange-500"></span>
-                <span class="eyebrow-text text-orange-500">Open Collaboration</span>
-              </div>
-              <h2 class="section-title" style="margin-bottom: 1.5rem;">
-                Built on a Principle of<br /><span class="text-blue-500">Open Collaboration</span>
-              </h2>
-              <p class="hero-text" style="margin-bottom: 2rem;">
-                The Serious Games Catalogue is based on a principle of open collaboration. It therefore encourages the
-                community to contribute, making it a living, always-improving tool for research, discovery and sharing.
-              </p>
-              <div style="display:flex; flex-direction:column; gap:1rem;">
-                <div style="display:flex; align-items:flex-start; gap:1rem;">
-                  <div
-                    style="width:2.25rem; height:2.25rem; border-radius:0.75rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;"
-                    class="bg-blue-50 text-blue-500">
-                    <i data-lucide="plus-circle" style="width:16px; height:16px;"></i>
-                  </div>
-                  <p class="text-sm font-bold" style="color:#374151; padding-top:0.5rem; margin:0;">Add new Learning
-                    Games to the catalogue</p>
-                </div>
-                <div style="display:flex; align-items:flex-start; gap:1rem;">
-                  <div
-                    style="width:2.25rem; height:2.25rem; border-radius:0.75rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;"
-                    class="bg-emerald-50 text-emerald-500">
-                    <i data-lucide="check-circle-2" style="width:16px; height:16px;"></i>
-                  </div>
-                  <p class="text-sm font-bold" style="color:#374151; padding-top:0.5rem; margin:0;">Improve or complete
-                    information concerning referenced games</p>
-                </div>
-                <div style="display:flex; align-items:flex-start; gap:1rem;">
-                  <div
-                    style="width:2.25rem; height:2.25rem; border-radius:0.75rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;"
-                    class="bg-orange-50 text-orange-500">
-                    <i data-lucide="globe" style="width:16px; height:16px;"></i>
-                  </div>
-                  <p class="text-sm font-bold" style="color:#374151; padding-top:0.5rem; margin:0;">Contribute to the
-                    development of Learning Games worldwide</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Barres de statistiques visuelles -->
-            <div class="collab-right">
-              <div class="stats-box">
-                <div>
-                  <div style="display:flex; justify-content:space-between; margin-bottom:0.375rem;">
-                    <span
-                      style="font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:0.1em; color:#9ca3af;">Games
-                      catalogued</span>
-                    <span style="font-size:10px; font-weight:900; color:#374151;">785+</span>
-                  </div>
-                  <div style="height:0.375rem; background-color:#f3f4f6; border-radius:9999px; overflow:hidden;">
-                    <div class="bg-blue-500" style="height:100%; width:80%; border-radius:9999px;"></div>
-                  </div>
-                </div>
-                <div>
-                  <div style="display:flex; justify-content:space-between; margin-bottom:0.375rem;">
-                    <span
-                      style="font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:0.1em; color:#9ca3af;">Active
-                      contributors</span>
-                    <span style="font-size:10px; font-weight:900; color:#374151;">120+</span>
-                  </div>
-                  <div style="height:0.375rem; background-color:#f3f4f6; border-radius:9999px; overflow:hidden;">
-                    <div class="bg-orange-500" style="height:100%; width:60%; border-radius:9999px;"></div>
-                  </div>
-                </div>
-                <div>
-                  <div style="display:flex; justify-content:space-between; margin-bottom:0.375rem;">
-                    <span
-                      style="font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:0.1em; color:#9ca3af;">Search
-                      filters</span>
-                    <span style="font-size:10px; font-weight:900; color:#374151;">15+</span>
-                  </div>
-                  <div style="height:0.375rem; background-color:#f3f4f6; border-radius:9999px; overflow:hidden;">
-                    <div class="bg-emerald-500" style="height:100%; width:40%; border-radius:9999px;"></div>
-                  </div>
-                </div>
-                <div>
-                  <div style="display:flex; justify-content:space-between; margin-bottom:0.375rem;">
-                    <span
-                      style="font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:0.1em; color:#9ca3af;">Domains
-                      covered</span>
-                    <span style="font-size:10px; font-weight:900; color:#374151;">12+</span>
-                  </div>
-                  <div style="height:0.375rem; background-color:#f3f4f6; border-radius:9999px; overflow:hidden;">
-                    <div class="bg-purple-500" style="height:100%; width:50%; border-radius:9999px;"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SOUTIEN SGS -->
-      <section class="section-white animate-on-scroll">
-        <div class="section-inner">
-          <div class="sgs-banner">
-            <div
-              style="position:absolute; top:0; right:0; width:16rem; height:16rem; background-color:rgba(255,255,255,0.05); border-radius:9999px; transform:translateY(-50%) translateX(50%);">
-            </div>
-            <div
-              style="position:absolute; bottom:0; left:5rem; width:10rem; height:10rem; background-color:rgba(255,255,255,0.05); border-radius:9999px; transform:translateY(50%);">
-            </div>
-
-            <div class="grid-2" style="position:relative; z-index:10; align-items:center;">
-              <div>
-                <div class="eyebrow" style="margin-bottom:1rem;">
-                  <span class="eyebrow-dot" style="background-color:#bfdbfe;"></span>
-                  <span class="eyebrow-text" style="color:#bfdbfe;">Institutional Support</span>
-                </div>
-                <h2
-                  style="font-size:2.25rem; font-weight:900; margin-bottom:1.25rem; line-height:1.25; letter-spacing:-0.025em;">
-                  Supported by the<br />
-                  <a href="https://seriousgamessociety.org/" style="color:white; text-decoration:underline;">Serious
-                    Game Society</a>
-                </h2>
-                <p style="color:#dbeafe; line-height:1.625; font-size:0.875rem;">
-                  The Serious Game Catalogue is brought to you by the <a href="https://seriousgamessociety.org/"
-                    style="color:white; text-decoration:underline;"><strong>Serious Game Society</strong></a>, who
-                  funded several students in 2026 to improve the original research prototype. The society is also paying
-                  for maintenance and servers for a few years.
-                </p>
-              </div>
-
-              <div style="display:flex; flex-direction:column; gap:1rem;">
-                <div style="display:flex; align-items:flex-start; gap:1rem;">
-                  <div
-                    style="width:2.25rem; height:2.25rem; border-radius:0.75rem; background-color:rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-                    <i data-lucide="award" style="width:16px; height:16px; color:white;"></i>
-                  </div>
-                  <p style="color:#dbeafe; font-size:0.875rem; font-weight:500; padding-top:0.375rem; margin:0;">Games
-                    from the annual SGS competition are added for visibility</p>
-                </div>
-                <div style="display:flex; align-items:flex-start; gap:1rem;">
-                  <div
-                    style="width:2.25rem; height:2.25rem; border-radius:0.75rem; background-color:rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-                    <i data-lucide="cpu" style="width:16px; height:16px; color:white;"></i>
-                  </div>
-                  <p style="color:#dbeafe; font-size:0.875rem; font-weight:500; padding-top:0.375rem; margin:0;">A work
-                    group evaluates quality assessment methods for competition games</p>
-                </div>
-                <div style="display:flex; align-items:flex-start; gap:1rem;">
-                  <div
-                    style="width:2.25rem; height:2.25rem; border-radius:0.75rem; background-color:rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-                    <i data-lucide="database" style="width:16px; height:16px; color:white;"></i>
-                  </div>
-                  <p style="color:#dbeafe; font-size:0.875rem; font-weight:500; padding-top:0.375rem; margin:0;">Server
-                    infrastructure and long-term maintenance secured</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SCIENCE / RECHERCHE -->
-      <section class="section-gray animate-on-scroll">
-        <div class="section-inner">
-          <div class="eyebrow">
-            <span class="eyebrow-dot bg-purple-500"></span>
-            <span class="eyebrow-text text-purple-500">Research Foundation</span>
-          </div>
-          <h2 class="section-title" style="margin-bottom:2.5rem;">The Science Behind the Project</h2>
-
-          <div class="grid-3">
-            <div class="card-base card-hover">
-              <div class="card-icon bg-purple-50 text-purple-600">
-                <i data-lucide="microscope" style="width:22px; height:22px;"></i>
-              </div>
-              <h3
-                style="font-weight:900; color:#111827; text-transform:uppercase; letter-spacing:-0.025em; font-size:0.875rem; margin-bottom:0.75rem;">
-                PhD Research</h3>
-              <p style="color:#6b7280; font-size:0.75rem; line-height:1.625;">Based on Wielfrid MORIE's PhD, supervised
-                by Iza MARFISI, the platform applies cutting-edge research to automate game metadata collection and
-                enrichment.</p>
-            </div>
-
-            <div class="card-base card-hover">
-              <div class="card-icon bg-blue-50 text-blue-600">
-                <i data-lucide="cpu" style="width:22px; height:22px;"></i>
-              </div>
-              <h3
-                style="font-weight:900; color:#111827; text-transform:uppercase; letter-spacing:-0.025em; font-size:0.875rem; margin-bottom:0.75rem;">
-                ADEM Model</h3>
-              <p style="color:#6b7280; font-size:0.75rem; line-height:1.625;">The ADEM model automatically extracts
-                information about Learning Games from web pages, identifying and collecting relevant pedagogical and
-                technical data that can then be enriched by users.</p>
-            </div>
-
-            <div class="card-base card-hover">
-              <div class="card-icon bg-emerald-50 text-emerald-600">
-                <i data-lucide="search" style="width:22px; height:22px;"></i>
-              </div>
-              <h3
-                style="font-weight:900; color:#111827; text-transform:uppercase; letter-spacing:-0.025em; font-size:0.875rem; margin-bottom:0.75rem;">
-                LGMD Schema</h3>
-              <p style="color:#6b7280; font-size:0.75rem; line-height:1.625;">The LGMD (Learning Games Metadata) schema
-                facilitates the pedagogical and ludic description of Learning Games — the foundation for all filters and
-                metadata fields in the catalogue.</p>
-            </div>
-          </div>
-
-          <div
-            style="margin-top:2rem; background-color:white; border-radius:1rem; border:1px solid #f3f4f6; padding:1.75rem; box-shadow:0 1px 2px 0 rgba(0,0,0,0.05);">
-            <div style="display:flex; align-items:flex-start; gap:0.75rem; margin-bottom:0.75rem;">
-              <i data-lucide="globe" class="text-orange-500"
-                style="width:16px; height:16px; flex-shrink:0; margin-top:0.125rem;"></i>
-              <p
-                style="font-size:0.75rem; font-weight:900; color:#9ca3af; text-transform:uppercase; letter-spacing:0.1em;">
-                Collaborative Design</p>
-            </div>
-            <p style="color:#4b5563; font-size:0.875rem; line-height:1.625;">
-              The overall design of the platform and its informational organization were the subject of research
-              conducted in collaboration with teachers from <strong style="color:#1f2937;">France</strong> and <strong
-                style="color:#1f2937;">Côte d'Ivoire</strong>, ensuring the platform truly meets the needs of end-users
-              in the fields of education — covering domains such as STEM, languages, history, and social sciences.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- FONCTIONNALITÉS -->
-      <section class="section-gray animate-on-scroll" style="padding-top:0;">
-        <div class="section-inner">
-          <div style="text-align:center; margin-bottom:3.5rem;">
-            <div style="display:flex; align-items:center; justify-content:center; gap:0.5rem; margin-bottom:0.75rem;">
-              <span class="eyebrow-dot bg-blue-500"></span>
-              <span class="eyebrow-text text-blue-500">Platform Features</span>
-            </div>
-            <h2 class="section-title">Why Choose Us</h2>
-          </div>
-
-          <div class="grid-4">
-            <div class="card-base card-hover">
-              <div class="card-icon bg-blue-100 text-blue-600">
-                <i data-lucide="brain" style="width:24px; height:24px;"></i>
-              </div>
-              <h3
-                style="font-weight:900; color:#111827; text-transform:uppercase; letter-spacing:-0.025em; font-size:0.875rem; margin-bottom:0.5rem;">
-                Adaptive Classification</h3>
-              <p style="color:#6b7280; font-size:0.75rem; line-height:1.625;">Advanced automatic indexing system with
-                15+ filtering criteria for pedagogical, technical and gaming dimensions.</p>
-            </div>
-            <div class="card-base card-hover">
-              <div class="card-icon bg-emerald-100 text-emerald-600">
-                <i data-lucide="trending-up" style="width:24px; height:24px;"></i>
-              </div>
-              <h3
-                style="font-weight:900; color:#111827; text-transform:uppercase; letter-spacing:-0.025em; font-size:0.875rem; margin-bottom:0.5rem;">
-                Progress Tracking</h3>
-              <p style="color:#6b7280; font-size:0.75rem; line-height:1.625;">Comprehensive metadata and progress
-                reports aligned with the LGMD schema for researchers.</p>
-            </div>
-            <div class="card-base card-hover">
-              <div class="card-icon bg-pink-100 text-pink-600">
-                <i data-lucide="users" style="width:24px; height:24px;"></i>
-              </div>
-              <h3
-                style="font-weight:900; color:#111827; text-transform:uppercase; letter-spacing:-0.025em; font-size:0.875rem; margin-bottom:0.5rem;">
-                Collaborative Play</h3>
-              <p style="color:#6b7280; font-size:0.75rem; line-height:1.625;">Open collaboration model — add, improve,
-                and complete game entries as a community.</p>
-            </div>
-            <div class="card-base card-hover">
-              <div class="card-icon bg-orange-100 text-orange-600">
-                <i data-lucide="award" style="width:24px; height:24px;"></i>
-              </div>
-              <h3
-                style="font-weight:900; color:#111827; text-transform:uppercase; letter-spacing:-0.025em; font-size:0.875rem; margin-bottom:0.5rem;">
-                Expert Content</h3>
-              <p style="color:#6b7280; font-size:0.75rem; line-height:1.625;">All games validated by educators,
-                researchers and Serious Game Society specialists.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- PUBLICATIONS -->
-      <section class="section-white animate-on-scroll">
-        <div class="section-inner">
-          <div class="eyebrow">
-            <span class="eyebrow-dot bg-emerald-500"></span>
-            <span class="eyebrow-text text-emerald-500">Scientific Publications</span>
-          </div>
-          <h2 class="section-title" style="margin-bottom:2.5rem;">Publications</h2>
-
-          <div style="display:flex; flex-direction:column; gap:1rem;">
-
-            <!-- Pub 1 -->
-            <div class="pub-card"
-              onmouseover="this.classList.add('active'); this.querySelector('.pub-icon').classList.replace('bg-white','bg-blue-500'); this.querySelector('.pub-icon').classList.replace('text-blue-500','text-white');"
-              onmouseout="this.classList.remove('active'); this.querySelector('.pub-icon').classList.replace('bg-blue-500','bg-white'); this.querySelector('.pub-icon').classList.replace('text-white','text-blue-500');">
-              <div
-                style="display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:space-between; gap:1.25rem;">
-                <div style="display:flex; gap:1.25rem; flex:1; min-width:300px;">
-                  <div class="pub-icon bg-white text-blue-500" style="border:1px solid #f3f4f6; flex-shrink:0;">
-                    <i data-lucide="file-text" style="width:16px; height:16px;"></i>
-                  </div>
-                  <div style="flex:1; min-width:0;">
-                    <p
-                      style="font-size:0.75rem; font-weight:900; color:#111827; text-transform:uppercase; letter-spacing:-0.025em; margin-bottom:0.25rem; line-height:1.25;">
-                      JEN-Planet: an Automatically Updating Serious Game Catalogue Designed with and for Teachers</p>
-                    <p style="font-size:11px; color:#6b7280; font-weight:500; margin-bottom:0.5rem;">Maho Wielfrid
-                      Morie, Iza Marfisi-Schottman, Lancine Bamba</p>
-                    <div style="display:flex; flex-wrap:wrap; align-items:center; gap:0.75rem;">
-                      <span
-                        style="font-size:10px; font-weight:900; color:#2563eb; text-transform:uppercase; background-color:#eff6ff; padding:0.25rem 0.75rem; border-radius:9999px;">International
-                        Journal of Serious Games · 2024</span>
-                      <span style="font-size:10px; color:#9ca3af; font-weight:700;">11 (1), pp.45–62</span>
-                    </div>
-                  </div>
-                </div>
-                <div style="display:flex; align-items:center; gap:0.5rem; flex-shrink:0;">
-                  <a href="https://doi.org/10.17083/ijsg.v11i1.704" target="_blank" class="btn-doi">
-                    <i data-lucide="link-2" style="width:11px; height:11px;"></i> DOI
-                  </a>
-                  <a href="https://hal.science/hal-04530648" target="_blank" class="btn-hal">
-                    <i data-lucide="external-link" style="width:11px; height:11px;"></i> HAL
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Pub 2 -->
-            <div class="pub-card"
-              onmouseover="this.classList.add('active'); this.querySelector('.pub-icon').classList.replace('bg-white','bg-blue-500'); this.querySelector('.pub-icon').classList.replace('text-blue-500','text-white');"
-              onmouseout="this.classList.remove('active'); this.querySelector('.pub-icon').classList.replace('bg-blue-500','bg-white'); this.querySelector('.pub-icon').classList.replace('text-white','text-blue-500');">
-              <div
-                style="display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:space-between; gap:1.25rem;">
-                <div style="display:flex; gap:1.25rem; flex:1; min-width:300px;">
-                  <div class="pub-icon bg-white text-blue-500" style="border:1px solid #f3f4f6; flex-shrink:0;">
-                    <i data-lucide="file-text" style="width:16px; height:16px;"></i>
-                  </div>
-                  <div style="flex:1; min-width:0;">
-                    <p
-                      style="font-size:0.75rem; font-weight:900; color:#111827; text-transform:uppercase; letter-spacing:-0.025em; margin-bottom:0.25rem; line-height:1.25;">
-                      User-Centred Design Method for Digital Catalogue Interfaces</p>
-                    <p style="font-size:11px; color:#6b7280; font-weight:500; margin-bottom:0.5rem;">Maho Wiefrid Morie,
-                      Iza Marfisi-Schottman, Bi Tra Goore</p>
-                    <div style="display:flex; flex-wrap:wrap; align-items:center; gap:0.75rem;">
-                      <span
-                        style="font-size:10px; font-weight:900; color:#2563eb; text-transform:uppercase; background-color:#eff6ff; padding:0.25rem 0.75rem; border-radius:9999px;">International
-                        Conference on Games and Learning Alliance (GALA) · 2020</span>
-                      <span style="font-size:10px; color:#9ca3af; font-weight:700;">pp.34–44</span>
-                    </div>
-                  </div>
-                </div>
-                <div style="display:flex; align-items:center; gap:0.5rem; flex-shrink:0;">
-                  <a href="https://doi.org/10.1007/978-3-030-63464-3_4" target="_blank" class="btn-doi">
-                    <i data-lucide="link-2" style="width:11px; height:11px;"></i> DOI
-                  </a>
-                  <a href="https://hal.science/hal-03143856" target="_blank" class="btn-hal">
-                    <i data-lucide="external-link" style="width:11px; height:11px;"></i> HAL
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Pub 3 -->
-            <div class="pub-card"
-              onmouseover="this.classList.add('active'); this.querySelector('.pub-icon').classList.replace('bg-white','bg-blue-500'); this.querySelector('.pub-icon').classList.replace('text-blue-500','text-white');"
-              onmouseout="this.classList.remove('active'); this.querySelector('.pub-icon').classList.replace('bg-blue-500','bg-white'); this.querySelector('.pub-icon').classList.replace('text-white','text-blue-500');">
-              <div
-                style="display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:space-between; gap:1.25rem;">
-                <div style="display:flex; gap:1.25rem; flex:1; min-width:300px;">
-                  <div class="pub-icon bg-white text-blue-500" style="border:1px solid #f3f4f6; flex-shrink:0;">
-                    <i data-lucide="file-text" style="width:16px; height:16px;"></i>
-                  </div>
-                  <div style="flex:1; min-width:0;">
-                    <p
-                      style="font-size:0.75rem; font-weight:900; color:#111827; text-transform:uppercase; letter-spacing:-0.025em; margin-bottom:0.25rem; line-height:1.25;">
-                      LGMD: Optimal Lightweight Metadata Model for Indexing Learning Games</p>
-                    <p style="font-size:11px; color:#6b7280; font-weight:500; margin-bottom:0.5rem;">Maho Wielfrid
-                      Morie, Iza Marfisi-Schottman, Bi Tra Goore</p>
-                    <div style="display:flex; flex-wrap:wrap; align-items:center; gap:0.75rem;">
-                      <span
-                        style="font-size:10px; font-weight:900; color:#2563eb; text-transform:uppercase; background-color:#eff6ff; padding:0.25rem 0.75rem; border-radius:9999px;">SADASC
-                        — Smart Applications and Data Analysis for Smart Cyber-Physical Systems · 2020</span>
-                      <span style="font-size:10px; color:#9ca3af; font-weight:700;">Marrakech, Morocco</span>
-                    </div>
-                  </div>
-                </div>
-                <div style="display:flex; align-items:center; gap:0.5rem; flex-shrink:0;">
-                  <a href="https://hal.science/hal-02484579" target="_blank" class="btn-hal">
-                    <i data-lucide="external-link" style="width:11px; height:11px;"></i> HAL
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Pub 4 -->
-            <div class="pub-card"
-              onmouseover="this.classList.add('active'); this.querySelector('.pub-icon').classList.replace('bg-white','bg-blue-500'); this.querySelector('.pub-icon').classList.replace('text-blue-500','text-white');"
-              onmouseout="this.classList.remove('active'); this.querySelector('.pub-icon').classList.replace('bg-blue-500','bg-white'); this.querySelector('.pub-icon').classList.replace('text-white','text-blue-500');">
-              <div
-                style="display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:space-between; gap:1.25rem;">
-                <div style="display:flex; gap:1.25rem; flex:1; min-width:300px;">
-                  <div class="pub-icon bg-white text-blue-500" style="border:1px solid #f3f4f6; flex-shrink:0;">
-                    <i data-lucide="file-text" style="width:16px; height:16px;"></i>
-                  </div>
-                  <div style="flex:1; min-width:0;">
-                    <p
-                      style="font-size:0.75rem; font-weight:900; color:#111827; text-transform:uppercase; letter-spacing:-0.025em; margin-bottom:0.25rem; line-height:1.25;">
-                      Information Extraction Model to Improve Learning Game Metadata Indexing</p>
-                    <p style="font-size:11px; color:#6b7280; font-weight:500; margin-bottom:0.5rem;">Maho Wielfrid
-                      Morie, Iza Marfisi-Schottman, Bi Tra Goore</p>
-                    <div style="display:flex; flex-wrap:wrap; align-items:center; gap:0.75rem;">
-                      <span
-                        style="font-size:10px; font-weight:900; color:#2563eb; text-transform:uppercase; background-color:#eff6ff; padding:0.25rem 0.75rem; border-radius:9999px;">ISI
-                        International Journal on Information System Engineering · 2020</span>
-                      <span style="font-size:10px; color:#9ca3af; font-weight:700;">25 (1), pp.11–19</span>
-                    </div>
-                  </div>
-                </div>
-                <div style="display:flex; align-items:center; gap:0.5rem; flex-shrink:0;">
-                  <a href="https://doi.org/10.18280/isi.250102" target="_blank" class="btn-doi">
-                    <i data-lucide="link-2" style="width:11px; height:11px;"></i> DOI
-                  </a>
-                  <a href="https://hal.science/hal-02538562" target="_blank" class="btn-hal">
-                    <i data-lucide="external-link" style="width:11px; height:11px;"></i> HAL
-                  </a>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      <!-- PROJECT AUTHORS -->
-      <section class="section-gray animate-on-scroll py-20"
-        style="background-color: #F8F9FA; padding-top: 5rem; padding-bottom: 5rem;">
-        <div class="section-inner max-w-6xl mx-auto px-6">
-          <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:1rem;">
-            <span class="eyebrow-dot bg-orange-500"
-              style="width:0.375rem; height:0.375rem; border-radius:9999px; background-color:#f97316; display:inline-block;"></span>
-            <span class="eyebrow-text text-orange-500"
-              style="font-size:11px; font-weight:900; text-transform:uppercase; letter-spacing:0.25em; color:#f97316;">Project
-              Authors</span>
-          </div>
-          <h2 class="section-title"
-            style="font-size:1.875rem; font-weight:900; color:#111827; letter-spacing:-0.025em; margin-bottom:2.5rem;">
-            Authors</h2>
-
-          <div class="grid-2">
-
-            <!-- Author 1 -->
-            <div class="author-card group"
-              style="background-color:white; border-radius:1.5rem; border:1px solid #f3f4f6; box-shadow:0 1px 2px 0 rgba(0,0,0,0.05); padding:2rem; display:flex; align-items:flex-start; gap:1.5rem; transition:all 0.3s;"
-              onmouseover="this.style.boxShadow='0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)'; this.style.transform='translateY(-2px)';"
-              onmouseout="this.style.boxShadow='0 1px 2px 0 rgba(0,0,0,0.05)'; this.style.transform='translateY(0)';">
-              <div
-                style="width:4rem; height:4rem; border-radius:1rem; background:linear-gradient(to bottom right, #3b82f6, #1d4ed8); display:flex; align-items:center; justify-content:center; color:white; font-size:1.125rem; font-weight:900; flex-shrink:0; box-shadow:0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); transition:transform 0.3s;"
-                onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">IM</div>
-              <div style="min-width:0;">
-                <h3
-                  style="font-weight:900; color:#111827; font-size:0.875rem; text-transform:uppercase; letter-spacing:-0.025em; margin-bottom:0.125rem;">
-                  Iza Marfisi-Schottman</h3>
-                <p style="font-size:11px; color:#2563eb; font-weight:700; margin-bottom:0.25rem;">Professeure des
-                  Universités en Informatique</p>
-                <p style="font-size:11px; color:#9ca3af; font-weight:700; margin-bottom:1rem;">LIUM — Le Mans Université
-                </p>
-                <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
-                  <a href="https://orcid.org/0000-0002-2046-6698" target="_blank" class="author-btn orcid-btn">
-                    <i data-lucide="external-link" style="width:10px; height:10px;"></i> ORCID
-                  </a>
-                  <a href="mailto:iza.marfisi@gmail.com" class="author-btn email-btn">
-                    <i data-lucide="mail" style="width:10px; height:10px;"></i> Email
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Author 2 -->
-            <div class="author-card group"
-              style="background-color:white; border-radius:1.5rem; border:1px solid #f3f4f6; box-shadow:0 1px 2px 0 rgba(0,0,0,0.05); padding:2rem; display:flex; align-items:flex-start; gap:1.5rem; transition:all 0.3s;"
-              onmouseover="this.style.boxShadow='0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)'; this.style.transform='translateY(-2px)';"
-              onmouseout="this.style.boxShadow='0 1px 2px 0 rgba(0,0,0,0.05)'; this.style.transform='translateY(0)';">
-              <div
-                style="width:4rem; height:4rem; border-radius:1rem; background:linear-gradient(to bottom right, #f97316, #c2410c); display:flex; align-items:center; justify-content:center; color:white; font-size:1.125rem; font-weight:900; flex-shrink:0; box-shadow:0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); transition:transform 0.3s;"
-                onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">WM</div>
-              <div style="min-width:0;">
-                <h3
-                  style="font-weight:900; color:#111827; font-size:0.875rem; text-transform:uppercase; letter-spacing:-0.025em; margin-bottom:0.125rem;">
-                  Wielfrid MORIE</h3>
-                <p style="font-size:11px; color:#2563eb; font-weight:700; margin-bottom:0.25rem;">Maître-Assistant en
-                  Informatique</p>
-                <p style="font-size:11px; color:#9ca3af; font-weight:700; margin-bottom:1rem;">LMI — Université Nangui
-                  ABROGOUA</p>
-                <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
-                  <a href="https://orcid.org/0000-0003-0426-3046" target="_blank" class="author-btn orcid-btn">
-                    <i data-lucide="external-link" style="width:10px; height:10px;"></i> ORCID
-                  </a>
-                  <a href="mailto:moriemaho@gmail.com" class="author-btn email-btn">
-                    <i data-lucide="mail" style="width:10px; height:10px;"></i> Email
-                  </a>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      <!-- DEVELOPPER TEAM -->
-      <section class="section-white animate-on-scroll py-20"
-        style="background-color: white; padding-top: 5rem; padding-bottom: 5rem;">
-        <div class="section-inner max-w-6xl mx-auto px-6">
-          <!-- Header -->
-          <div
-            style="display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; gap: 1.5rem; margin-bottom: 3rem;">
-            <a href="#" target="_blank" class="dev-team-btn"
-              style="display: inline-flex; align-items: center; gap: 0.5rem; height: 2.5rem; padding: 0 1.5rem; background-color: #8b5cf6; color: white; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.1em; transition: all 0.3s; box-shadow: 0 10px 15px -3px rgba(139, 92, 246, 0.1);">
-              <span style="font-size: 1.25rem; font-weight: 900; text-transform: uppercase; letter-spacing: -0.05em;">
-                Developper Team
-              </span>
-            </a>
-          </div>
-
-          <!-- Team block -->
-          <div class="dev-team-grid"
-            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem;">
-            <!-- 1 -->
-            <div class="dev-card group">
-              <div class="dev-avatar bg-gradient-to-br from-violet-500 to-purple-700">DU</div>
-              <div class="dev-info">
-                <h3 class="dev-name">Dakaud Uriel Jean Bedel</h3>
-                <span class="dev-role bg-violet-50 text-violet-700">Developer</span>
-                <div>
-                  <a href="https://dakauduriel.netlify.app" target="_blank" class="dev-portfolio"><i
-                      data-lucide="external-link" style="width:10px; height:10px;"></i> Portfolio</a>
-                </div>
-              </div>
-            </div>
-            <!-- 2 -->
-            <div class="dev-card group">
-              <div class="dev-avatar bg-gradient-to-br from-blue-500 to-blue-700">DD</div>
-              <div class="dev-info">
-                <h3 class="dev-name">Deroux Desailly Caleb</h3>
-                <span class="dev-role bg-blue-50 text-blue-700">Developer</span>
-                <div>
-                  <a href="https://portfolio-three-lac-38.vercel.app" target="_blank" class="dev-portfolio"><i
-                      data-lucide="external-link" style="width:10px; height:10px;"></i> Portfolio</a>
-                </div>
-              </div>
-            </div>
-            <!-- 3 -->
-            <div class="dev-card group">
-              <div class="dev-avatar bg-gradient-to-br from-emerald-500 to-teal-700">GO</div>
-              <div class="dev-info">
-                <h3 class="dev-name">Graourou Olivier Grace Divine</h3>
-                <span class="dev-role bg-emerald-50 text-emerald-700">Developer</span>
-                <div>
-                  <a href="#" class="dev-portfolio"><i data-lucide="external-link" style="width:10px; height:10px;"></i>
-                    Portfolio</a>
-                </div>
-              </div>
-            </div>
-            <!-- 4 -->
-            <div class="dev-card group">
-              <div class="dev-avatar bg-gradient-to-br from-orange-500 to-amber-700"
-                style="background: linear-gradient(to bottom right, #f97316, #b45309);">AY</div>
-              <div class="dev-info">
-                <h3 class="dev-name">Assale Yao Eliakim</h3>
-                <span class="dev-role bg-orange-50 text-orange-700">Developer</span>
-                <div>
-                  <a href="https://assaleyaoeliakim.netlify.app" target="_blank" class="dev-portfolio"><i
-                      data-lucide="external-link" style="width:10px; height:10px;"></i>
-                    Portfolio</a>
-                </div>
-              </div>
-            </div>
-            <!-- 5 -->
-            <div class="dev-card group">
-              <div class="dev-avatar bg-gradient-to-br from-rose-500 to-red-700"
-                style="background: linear-gradient(to bottom right, #f43f5e, #b91c1c);">BK</div>
-              <div class="dev-info">
-                <h3 class="dev-name">Baidoo Kofi Mendes Martin</h3>
-                <span class="dev-role bg-rose-50 text-rose-700"
-                  style="background-color: #fff1f2; color: #be123c;">Developer</span>
-                <div>
-                  <a href="https://baidoomartinportfolio.netlify.app" target="_blank" class="dev-portfolio"><i
-                      data-lucide="external-link" style="width:10px; height:10px;"></i>
-                    Portfolio</a>
-                </div>
-              </div>
-            </div>
-            <!-- 6 -->
-            <div class="dev-card group">
-              <div class="dev-avatar bg-gradient-to-br from-cyan-500 to-sky-700"
-                style="background: linear-gradient(to bottom right, #06b6d4, #0369a1);">AS</div>
-              <div class="dev-info">
-                <h3 class="dev-name">Ahoussi Serge Armel</h3>
-                <span class="dev-role bg-cyan-50 text-cyan-700"
-                  style="background-color: #ecfeff; color: #0e7490;">Developer</span>
-                <div>
-                  <a href="#" class="dev-portfolio"><i data-lucide="external-link" style="width:10px; height:10px;"></i>
-                    Portfolio</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-      <!-- OUR VALUES -->
-      <section class="section-gray animate-on-scroll py-20">
-        <div class="section-inner max-w-6xl mx-auto px-6">
-          <div class="text-center mb-14" style="text-align:center; margin-bottom: 3.5rem;">
-            <h2 class="text-3xl font-black text-gray-900 tracking-tight"
-              style="font-size: 1.875rem; font-weight: 900; color: #111827; letter-spacing: -0.05em; margin-bottom: 0.5rem;">
-              Our Values
-            </h2>
-            <p class="text-gray-400 font-bold text-sm mt-2 uppercase tracking-widest"
-              style="color: #9ca3af; font-weight: 700; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.1em;">
-              The principles that guide everything we do
-            </p>
-          </div>
-
-          <div class="grid-4"
-            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
-            <!-- Value 1 -->
-            <div class="value-card group">
-              <div class="value-icon-wrap bg-yellow-100 text-yellow-600">
-                <i data-lucide="zap" style="width:28px; height:28px;"></i>
-              </div>
-              <h3 class="value-title">Innovation</h3>
-              <p class="value-desc">Pushing boundaries in educational game research and cataloguing.</p>
-            </div>
-            <!-- Value 2 -->
-            <div class="value-card group">
-              <div class="value-icon-wrap bg-red-100 text-red-600">
-                <i data-lucide="heart" style="width:28px; height:28px;"></i>
-              </div>
-              <h3 class="value-title">Accessibility</h3>
-              <p class="value-desc">Education and knowledge available to every teacher and learner.</p>
-            </div>
-            <!-- Value 3 -->
-            <div class="value-card group">
-              <div class="value-icon-wrap bg-blue-100 text-blue-600">
-                <i data-lucide="award" style="width:28px; height:28px;"></i>
-              </div>
-              <h3 class="value-title">Excellence</h3>
-              <p class="value-desc">Highest scientific and pedagogical standards in every entry.</p>
-            </div>
-            <!-- Value 4 -->
-            <div class="value-card group">
-              <div class="value-icon-wrap bg-emerald-100 text-emerald-600">
-                <i data-lucide="users" style="width:28px; height:28px;"></i>
-              </div>
-              <h3 class="value-title">Community</h3>
-              <p class="value-desc">Built by and for the global community of educators.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- APPEL À L'ACTION REJOINDRE -->
-      <section class="join-cta">
-        <div
-          style="position:absolute; inset:0; background:radial-gradient(circle at center, #E0F2FE 0%, #FFFFFF 70%); opacity:0.6;">
-        </div>
-        <div
-          style="position:relative; z-index:10; max-width:56rem; margin:0 auto; text-align:center; display:flex; flex-direction:column; align-items:center; gap:2rem;">
-          <h2 style="font-size:2.25rem; font-weight:500; color:#111827; letter-spacing:-0.025em; line-height:1.2;">
-            Join The <span class="text-blue-500" style="color:#3B82F6;">SGC</span> Community
-          </h2>
-          <p style="color:#4b5563; font-size:1.125rem; line-height:1.625; max-width:42rem; margin:0 auto;">
-            Contribute To The World's Largest Catalogue Of Serious Games. Share, Rate And Discover The Best Educational
-            Resources.
-          </p>
-          <div style="padding-top:1rem;">
-            <a href="add-game.html" class="join-btn"
-              style="text-decoration:none; display:inline-flex; margin:0 auto; border:none; cursor:pointer;">
-              <i data-lucide="plus-circle" style="width:22px; height:22px;"></i>
-              Add serious game
-            </a>
-          </div>
-          <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:2rem; padding-top:2rem;">
-            <div
-              style="display:flex; align-items:center; gap:0.75rem; color:#3B82F6; font-weight:500; font-size:1.125rem;">
-              <i data-lucide="check-circle-2" style="width:24px; height:24px; stroke-width:1.5px;"></i>
-              <span>Open Source</span>
-            </div>
-            <div
-              style="display:flex; align-items:center; gap:0.75rem; color:#3B82F6; font-weight:500; font-size:1.125rem;">
-              <i data-lucide="check-circle-2" style="width:24px; height:24px; stroke-width:1.5px;"></i>
-              <span>Community</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="max-w-7xl mx-auto footer-grid">
-      <!-- Left Column -->
-      <div class="footer-brand">
-        <h2>Serious Game<br />Catalogue</h2>
-        <p>A leading platform for<br />serious educational games.</p>
-      </div>
-
-      <!-- Middle Column -->
-      <div>
-        <h3 class="footer-heading">
-          <span class="footer-indicator-orange"></span>
-          NAVIGATION
-        </h3>
-        <nav class="footer-nav">
-          <a href="index.html" class="footer-link">
-            <i data-lucide="home" style="width:20px; height:20px;"></i>
-            HOME
+        <!-- Desktop Navigation -->
+        <div class="hidden md:flex nav-desktop-container">
+          <a href="index.html" class="nav-link">
+            <i
+              data-lucide="home"
+              style="width: 18px; height: 18px; stroke-width: 2px"
+            ></i>
+            <span class="nav-link-text">SEARCH FOR GAME</span>
           </a>
-          <a href="add-game.html" class="footer-link">
-            <i data-lucide="plus-circle" style="width:20px; height:20px;"></i>
-            ADD SERIOUS GAME
+          <a href="add-game.html" class="nav-link">
+            <i
+              data-lucide="plus-circle"
+              style="width: 18px; height: 18px; stroke-width: 2px"
+            ></i>
+            <span class="nav-link-text">CONTRIBUTE</span>
           </a>
-          <a href="about.html" class="footer-link">
-            <i data-lucide="info" style="width:20px; height:20px;"></i>
+          <a href="about.html" class="nav-link active">
+            <i
+              data-lucide="info"
+              style="width: 18px; height: 18px; stroke-width: 2.5px"
+            ></i>
+            <span class="nav-link-text">ABOUT</span>
+          </a>
+        </div>
+
+        <!-- Right Section: Profile & Mobile Menu -->
+        <div class="flex items-center gap-4 min-w-[100px] justify-end">
+          <!-- Mobile Menu Button -->
+          <button id="mobile-menu-btn" class="md:hidden mobile-menu-btn">
+            <i
+              data-lucide="menu"
+              id="mobile-menu-icon"
+              style="width: 24px; height: 24px"
+            ></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Navigation -->
+      <div id="mobile-menu" class="hidden md:hidden">
+        <div class="flex flex-col gap-1">
+          <a href="index.html" class="mobile-nav-link">
+            <i data-lucide="home" style="width: 20px; height: 20px"></i>
+            SEARCH FOR GAME
+          </a>
+          <a href="add-game.html" class="mobile-nav-link">
+            <i data-lucide="plus-circle" style="width: 20px; height: 20px"></i>
+            CONTRIBUTE
+          </a>
+          <a href="about.html" class="mobile-nav-link active">
+            <i data-lucide="info" style="width: 20px; height: 20px"></i>
             ABOUT
           </a>
-          <a href="profile.html" class="footer-link">
-            <i data-lucide="user" style="width:20px; height:20px;"></i>
-            PROFILE
-          </a>
-        </nav>
-
+        </div>
       </div>
+    </nav>
 
-      <!-- Right Column -->
-      <div style="display: flex; flex-direction: column; justify-content: space-between;">
+    <!-- Main Content -->
+    <main>
+      <div class="about-page-wrapper">
+        <!-- HÉROS -->
+        <section class="about-hero">
+          <div class="hero-blob-1"></div>
+          <div class="hero-blob-2"></div>
+          <i data-lucide="database" class="hero-icon-right"></i>
+          <i data-lucide="graduation-cap" class="hero-icon-left"></i>
+
+          <div class="section-inner">
+            <div class="eyebrow">
+              <span class="eyebrow-dot bg-blue-500"></span>
+              <span class="eyebrow-text text-blue-500">About the Project</span>
+            </div>
+
+            <h1 class="hero-title">
+              A Catalogue For <br />
+              <span class="text-blue-500">Teachers</span> &
+              <span class="text-blue-500">Researchers</span>
+            </h1>
+
+            <div class="hero-grid">
+              <div class="hero-content">
+                <p class="hero-text">
+                  The
+                  <strong style="color: #1f2937">Serious Game Catalogue</strong>
+                  aims to provide the scientific community, teachers, designers,
+                  and Serious Games enthusiasts with a centralized space to
+                  search, explore, and share Learning Games according to various
+                  pedagogical, technical and gaming criteria.
+                </p>
+                <p class="hero-text">
+                  The catalogue offers an advanced system for classification and
+                  automatic indexing and filtering. Previously, the catalog
+                  contained over 700 SG entries from three catalogs:
+                </p>
+                <div
+                  style="
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 0.5rem;
+                    margin-bottom: 2rem;
+                  "
+                >
+                  <span
+                    class="hero-source-tag bg-blue-50 text-blue-700 border-blue-100"
+                    >SeriousGameClassification</span
+                  >
+                  <span
+                    class="hero-source-tag bg-orange-50 text-orange-700 border-orange-100"
+                    >MobyGames</span
+                  >
+                  <span
+                    class="hero-source-tag bg-emerald-50 text-emerald-700 border-emerald-100"
+                    >MIT STEM Arcade</span
+                  >
+                </div>
+                <a href="index.html" class="hero-explore-btn">
+                  Explore the Catalog
+                  <i
+                    data-lucide="arrow-right"
+                    style="width: 18px; height: 18px"
+                  ></i>
+                </a>
+              </div>
+
+              <!-- Bloc de statistiques -->
+              <div class="hero-stats">
+                <div class="hero-stat-card">
+                  <p
+                    style="
+                      font-size: 2.25rem;
+                      font-weight: 900;
+                      color: #111827;
+                      width: 8rem;
+                      font-variant-numeric: tabular-nums;
+                    "
+                  >
+                    <span class="animated-number" data-target="785">0</span>+
+                  </p>
+                  <p
+                    style="
+                      font-size: 10px;
+                      font-weight: 900;
+                      color: #9ca3af;
+                      text-transform: uppercase;
+                      letter-spacing: 0.1em;
+                    "
+                  >
+                    Referenced Games
+                  </p>
+                </div>
+                <div class="hero-stat-card">
+                  <p
+                    style="
+                      font-size: 2.25rem;
+                      font-weight: 900;
+                      color: #111827;
+                      width: 8rem;
+                      font-variant-numeric: tabular-nums;
+                    "
+                  >
+                    <span class="animated-number" data-target="15">0</span>+
+                  </p>
+                  <p
+                    style="
+                      font-size: 10px;
+                      font-weight: 900;
+                      color: #9ca3af;
+                      text-transform: uppercase;
+                      letter-spacing: 0.1em;
+                    "
+                  >
+                    Search Filters
+                  </p>
+                </div>
+                <div class="hero-stat-card">
+                  <p
+                    style="
+                      font-size: 2.25rem;
+                      font-weight: 900;
+                      color: #111827;
+                      width: 8rem;
+                      font-variant-numeric: tabular-nums;
+                    "
+                  >
+                    <span class="animated-number" data-target="2020">0</span>
+                  </p>
+                  <p
+                    style="
+                      font-size: 10px;
+                      font-weight: 900;
+                      color: #9ca3af;
+                      text-transform: uppercase;
+                      letter-spacing: 0.1em;
+                    "
+                  >
+                    Created In
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PRINCIPE DE COLLABORATION -->
+        <section class="section-gray animate-on-scroll">
+          <div class="section-inner">
+            <div class="grid-2" style="align-items: center">
+              <div>
+                <div class="eyebrow">
+                  <span class="eyebrow-dot bg-orange-500"></span>
+                  <span class="eyebrow-text text-orange-500"
+                    >Open Collaboration</span
+                  >
+                </div>
+                <h2 class="section-title" style="margin-bottom: 1.5rem">
+                  Built on a Principle of<br /><span class="text-blue-500"
+                    >Open Collaboration</span
+                  >
+                </h2>
+                <p class="hero-text" style="margin-bottom: 2rem">
+                  The Serious Games Catalogue is based on a principle of open
+                  collaboration. It therefore encourages the community to
+                  contribute, making it a living, always-improving tool for
+                  research, discovery and sharing.
+                </p>
+                <div style="display: flex; flex-direction: column; gap: 1rem">
+                  <div
+                    style="display: flex; align-items: flex-start; gap: 1rem"
+                  >
+                    <div
+                      style="
+                        width: 2.25rem;
+                        height: 2.25rem;
+                        border-radius: 0.75rem;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-shrink: 0;
+                      "
+                      class="bg-blue-50 text-blue-500"
+                    >
+                      <i
+                        data-lucide="plus-circle"
+                        style="width: 16px; height: 16px"
+                      ></i>
+                    </div>
+                    <p
+                      class="text-sm font-bold"
+                      style="color: #374151; padding-top: 0.5rem; margin: 0"
+                    >
+                      Add new Learning Games to the catalogue
+                    </p>
+                  </div>
+                  <div
+                    style="display: flex; align-items: flex-start; gap: 1rem"
+                  >
+                    <div
+                      style="
+                        width: 2.25rem;
+                        height: 2.25rem;
+                        border-radius: 0.75rem;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-shrink: 0;
+                      "
+                      class="bg-emerald-50 text-emerald-500"
+                    >
+                      <i
+                        data-lucide="check-circle-2"
+                        style="width: 16px; height: 16px"
+                      ></i>
+                    </div>
+                    <p
+                      class="text-sm font-bold"
+                      style="color: #374151; padding-top: 0.5rem; margin: 0"
+                    >
+                      Improve or complete information concerning referenced
+                      games
+                    </p>
+                  </div>
+                  <div
+                    style="display: flex; align-items: flex-start; gap: 1rem"
+                  >
+                    <div
+                      style="
+                        width: 2.25rem;
+                        height: 2.25rem;
+                        border-radius: 0.75rem;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-shrink: 0;
+                      "
+                      class="bg-orange-50 text-orange-500"
+                    >
+                      <i
+                        data-lucide="globe"
+                        style="width: 16px; height: 16px"
+                      ></i>
+                    </div>
+                    <p
+                      class="text-sm font-bold"
+                      style="color: #374151; padding-top: 0.5rem; margin: 0"
+                    >
+                      Contribute to the development of Learning Games worldwide
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Barres de statistiques visuelles -->
+              <div class="collab-right">
+                <div class="stats-box">
+                  <div>
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 0.375rem;
+                      "
+                    >
+                      <span
+                        style="
+                          font-size: 10px;
+                          font-weight: 900;
+                          text-transform: uppercase;
+                          letter-spacing: 0.1em;
+                          color: #9ca3af;
+                        "
+                        >Games catalogued</span
+                      >
+                      <span
+                        style="
+                          font-size: 10px;
+                          font-weight: 900;
+                          color: #374151;
+                        "
+                        >785+</span
+                      >
+                    </div>
+                    <div
+                      style="
+                        height: 0.375rem;
+                        background-color: #f3f4f6;
+                        border-radius: 9999px;
+                        overflow: hidden;
+                      "
+                    >
+                      <div
+                        class="bg-blue-500"
+                        style="height: 100%; width: 80%; border-radius: 9999px"
+                      ></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 0.375rem;
+                      "
+                    >
+                      <span
+                        style="
+                          font-size: 10px;
+                          font-weight: 900;
+                          text-transform: uppercase;
+                          letter-spacing: 0.1em;
+                          color: #9ca3af;
+                        "
+                        >Active contributors</span
+                      >
+                      <span
+                        style="
+                          font-size: 10px;
+                          font-weight: 900;
+                          color: #374151;
+                        "
+                        >120+</span
+                      >
+                    </div>
+                    <div
+                      style="
+                        height: 0.375rem;
+                        background-color: #f3f4f6;
+                        border-radius: 9999px;
+                        overflow: hidden;
+                      "
+                    >
+                      <div
+                        class="bg-orange-500"
+                        style="height: 100%; width: 60%; border-radius: 9999px"
+                      ></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 0.375rem;
+                      "
+                    >
+                      <span
+                        style="
+                          font-size: 10px;
+                          font-weight: 900;
+                          text-transform: uppercase;
+                          letter-spacing: 0.1em;
+                          color: #9ca3af;
+                        "
+                        >Search filters</span
+                      >
+                      <span
+                        style="
+                          font-size: 10px;
+                          font-weight: 900;
+                          color: #374151;
+                        "
+                        >15+</span
+                      >
+                    </div>
+                    <div
+                      style="
+                        height: 0.375rem;
+                        background-color: #f3f4f6;
+                        border-radius: 9999px;
+                        overflow: hidden;
+                      "
+                    >
+                      <div
+                        class="bg-emerald-500"
+                        style="height: 100%; width: 40%; border-radius: 9999px"
+                      ></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 0.375rem;
+                      "
+                    >
+                      <span
+                        style="
+                          font-size: 10px;
+                          font-weight: 900;
+                          text-transform: uppercase;
+                          letter-spacing: 0.1em;
+                          color: #9ca3af;
+                        "
+                        >Domains covered</span
+                      >
+                      <span
+                        style="
+                          font-size: 10px;
+                          font-weight: 900;
+                          color: #374151;
+                        "
+                        >12+</span
+                      >
+                    </div>
+                    <div
+                      style="
+                        height: 0.375rem;
+                        background-color: #f3f4f6;
+                        border-radius: 9999px;
+                        overflow: hidden;
+                      "
+                    >
+                      <div
+                        class="bg-purple-500"
+                        style="height: 100%; width: 50%; border-radius: 9999px"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SOUTIEN SGS -->
+        <section class="section-white animate-on-scroll">
+          <div class="section-inner">
+            <div class="sgs-banner">
+              <div
+                style="
+                  position: absolute;
+                  top: 0;
+                  right: 0;
+                  width: 16rem;
+                  height: 16rem;
+                  background-color: rgba(255, 255, 255, 0.05);
+                  border-radius: 9999px;
+                  transform: translateY(-50%) translateX(50%);
+                "
+              ></div>
+              <div
+                style="
+                  position: absolute;
+                  bottom: 0;
+                  left: 5rem;
+                  width: 10rem;
+                  height: 10rem;
+                  background-color: rgba(255, 255, 255, 0.05);
+                  border-radius: 9999px;
+                  transform: translateY(50%);
+                "
+              ></div>
+
+              <div
+                class="grid-2"
+                style="position: relative; z-index: 10; align-items: center"
+              >
+                <div>
+                  <div class="eyebrow" style="margin-bottom: 1rem">
+                    <span
+                      class="eyebrow-dot"
+                      style="background-color: #bfdbfe"
+                    ></span>
+                    <span class="eyebrow-text" style="color: #bfdbfe"
+                      >Institutional Support</span
+                    >
+                  </div>
+                  <h2
+                    style="
+                      font-size: 2.25rem;
+                      font-weight: 900;
+                      margin-bottom: 1.25rem;
+                      line-height: 1.25;
+                      letter-spacing: -0.025em;
+                    "
+                  >
+                    Supported by the<br />
+                    <span
+                      style="
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 0.75rem;
+                        flex-wrap: wrap;
+                      "
+                    >
+                      <a
+                        href="https://seriousgamessociety.org/"
+                        style="color: white; text-decoration: underline"
+                        >Serious Game Society</a
+                      >
+                      <a
+                        href="https://seriousgamessociety.org/"
+                        target="_blank"
+                        rel="noopener"
+                      >
+                        <img
+                          src="assets/Document.png"
+                          alt="Serious Game Society"
+                          style="
+                            height: 2.75rem;
+                            width: auto;
+                            display: inline-block;
+                            background: #fff;
+                            border-radius: 10px;
+                            padding: 5px;
+                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+                          "
+                          onerror="this.style.display = 'none'"
+                        />
+                      </a>
+                    </span>
+                  </h2>
+                  <p
+                    style="
+                      color: #dbeafe;
+                      line-height: 1.625;
+                      font-size: 0.875rem;
+                    "
+                  >
+                    The Serious Game Catalogue is brought to you by the
+                    <a
+                      href="https://seriousgamessociety.org/"
+                      style="color: white; text-decoration: underline"
+                      ><strong>Serious Game Society</strong></a
+                    >, who funded several students in 2026 to improve the
+                    original research prototype. The society is also paying for
+                    maintenance and servers for a few years.
+                  </p>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 1rem">
+                  <div
+                    style="display: flex; align-items: flex-start; gap: 1rem"
+                  >
+                    <div
+                      style="
+                        width: 2.25rem;
+                        height: 2.25rem;
+                        border-radius: 0.75rem;
+                        background-color: rgba(255, 255, 255, 0.1);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-shrink: 0;
+                      "
+                    >
+                      <i
+                        data-lucide="award"
+                        style="width: 16px; height: 16px; color: white"
+                      ></i>
+                    </div>
+                    <p
+                      style="
+                        color: #dbeafe;
+                        font-size: 0.875rem;
+                        font-weight: 500;
+                        padding-top: 0.375rem;
+                        margin: 0;
+                      "
+                    >
+                      Games from the annual SGS competition are added for
+                      visibility
+                    </p>
+                  </div>
+                  <div
+                    style="display: flex; align-items: flex-start; gap: 1rem"
+                  >
+                    <div
+                      style="
+                        width: 2.25rem;
+                        height: 2.25rem;
+                        border-radius: 0.75rem;
+                        background-color: rgba(255, 255, 255, 0.1);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-shrink: 0;
+                      "
+                    >
+                      <i
+                        data-lucide="cpu"
+                        style="width: 16px; height: 16px; color: white"
+                      ></i>
+                    </div>
+                    <p
+                      style="
+                        color: #dbeafe;
+                        font-size: 0.875rem;
+                        font-weight: 500;
+                        padding-top: 0.375rem;
+                        margin: 0;
+                      "
+                    >
+                      A work group evaluates quality assessment methods for
+                      competition games
+                    </p>
+                  </div>
+                  <div
+                    style="display: flex; align-items: flex-start; gap: 1rem"
+                  >
+                    <div
+                      style="
+                        width: 2.25rem;
+                        height: 2.25rem;
+                        border-radius: 0.75rem;
+                        background-color: rgba(255, 255, 255, 0.1);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-shrink: 0;
+                      "
+                    >
+                      <i
+                        data-lucide="database"
+                        style="width: 16px; height: 16px; color: white"
+                      ></i>
+                    </div>
+                    <p
+                      style="
+                        color: #dbeafe;
+                        font-size: 0.875rem;
+                        font-weight: 500;
+                        padding-top: 0.375rem;
+                        margin: 0;
+                      "
+                    >
+                      Server infrastructure and long-term maintenance secured
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCIENCE / RECHERCHE -->
+        <section class="section-gray animate-on-scroll">
+          <div class="section-inner">
+            <div class="eyebrow">
+              <span class="eyebrow-dot bg-purple-500"></span>
+              <span class="eyebrow-text text-purple-500"
+                >Research Foundation</span
+              >
+            </div>
+            <h2 class="section-title" style="margin-bottom: 2.5rem">
+              The Science Behind the Project
+            </h2>
+
+            <div class="grid-3">
+              <div class="card-base card-hover">
+                <div class="card-icon bg-purple-50 text-purple-600">
+                  <i
+                    data-lucide="microscope"
+                    style="width: 22px; height: 22px"
+                  ></i>
+                </div>
+                <h3
+                  style="
+                    font-weight: 900;
+                    color: #111827;
+                    text-transform: uppercase;
+                    letter-spacing: -0.025em;
+                    font-size: 0.875rem;
+                    margin-bottom: 0.75rem;
+                  "
+                >
+                  PhD Research
+                </h3>
+                <p
+                  style="color: #6b7280; font-size: 0.75rem; line-height: 1.625"
+                >
+                  Based on Wielfrid MORIE's PhD, supervised by Iza MARFISI, the
+                  platform applies cutting-edge research to automate game
+                  metadata collection and enrichment.
+                </p>
+              </div>
+
+              <div class="card-base card-hover">
+                <div class="card-icon bg-blue-50 text-blue-600">
+                  <i data-lucide="cpu" style="width: 22px; height: 22px"></i>
+                </div>
+                <h3
+                  style="
+                    font-weight: 900;
+                    color: #111827;
+                    text-transform: uppercase;
+                    letter-spacing: -0.025em;
+                    font-size: 0.875rem;
+                    margin-bottom: 0.75rem;
+                  "
+                >
+                  ADEM Model
+                </h3>
+                <p
+                  style="color: #6b7280; font-size: 0.75rem; line-height: 1.625"
+                >
+                  The ADEM model automatically extracts information about
+                  Learning Games from web pages, identifying and collecting
+                  relevant pedagogical and technical data that can then be
+                  enriched by users.
+                </p>
+              </div>
+
+              <div class="card-base card-hover">
+                <div class="card-icon bg-emerald-50 text-emerald-600">
+                  <i data-lucide="search" style="width: 22px; height: 22px"></i>
+                </div>
+                <h3
+                  style="
+                    font-weight: 900;
+                    color: #111827;
+                    text-transform: uppercase;
+                    letter-spacing: -0.025em;
+                    font-size: 0.875rem;
+                    margin-bottom: 0.75rem;
+                  "
+                >
+                  LGMD Schema
+                </h3>
+                <p
+                  style="color: #6b7280; font-size: 0.75rem; line-height: 1.625"
+                >
+                  The LGMD (Learning Games Metadata) schema facilitates the
+                  pedagogical and ludic description of Learning Games — the
+                  foundation for all filters and metadata fields in the
+                  catalogue.
+                </p>
+              </div>
+            </div>
+
+            <div
+              style="
+                margin-top: 2rem;
+                background-color: white;
+                border-radius: 1rem;
+                border: 1px solid #f3f4f6;
+                padding: 1.75rem;
+                box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  align-items: flex-start;
+                  gap: 0.75rem;
+                  margin-bottom: 0.75rem;
+                "
+              >
+                <i
+                  data-lucide="globe"
+                  class="text-orange-500"
+                  style="
+                    width: 16px;
+                    height: 16px;
+                    flex-shrink: 0;
+                    margin-top: 0.125rem;
+                  "
+                ></i>
+                <p
+                  style="
+                    font-size: 0.75rem;
+                    font-weight: 900;
+                    color: #9ca3af;
+                    text-transform: uppercase;
+                    letter-spacing: 0.1em;
+                  "
+                >
+                  Collaborative Design
+                </p>
+              </div>
+              <p
+                style="color: #4b5563; font-size: 0.875rem; line-height: 1.625"
+              >
+                The overall design of the platform and its informational
+                organization were the subject of research conducted in
+                collaboration with teachers from
+                <strong style="color: #1f2937">France</strong> and
+                <strong style="color: #1f2937">Côte d'Ivoire</strong>, ensuring
+                the platform truly meets the needs of end-users in the fields of
+                education — covering domains such as STEM, languages, history,
+                and social sciences.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- FONCTIONNALITÉS -->
+        <section class="section-gray animate-on-scroll" style="padding-top: 0">
+          <div class="section-inner">
+            <div style="text-align: center; margin-bottom: 3.5rem">
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 0.5rem;
+                  margin-bottom: 0.75rem;
+                "
+              >
+                <span class="eyebrow-dot bg-blue-500"></span>
+                <span class="eyebrow-text text-blue-500"
+                  >Platform Features</span
+                >
+              </div>
+              <h2 class="section-title">Power-Ups &amp; Perks</h2>
+            </div>
+
+            <div class="grid-4">
+              <div class="card-base card-hover">
+                <div class="card-icon bg-blue-100 text-blue-600">
+                  <i data-lucide="brain" style="width: 24px; height: 24px"></i>
+                </div>
+                <h3
+                  style="
+                    font-weight: 900;
+                    color: #111827;
+                    text-transform: uppercase;
+                    letter-spacing: -0.025em;
+                    font-size: 0.875rem;
+                    margin-bottom: 0.5rem;
+                  "
+                >
+                  Adaptive Classification
+                </h3>
+                <p
+                  style="color: #6b7280; font-size: 0.75rem; line-height: 1.625"
+                >
+                  Advanced automatic indexing system with 15+ filtering criteria
+                  for pedagogical, technical and gaming dimensions.
+                </p>
+              </div>
+              <div class="card-base card-hover">
+                <div class="card-icon bg-emerald-100 text-emerald-600">
+                  <i
+                    data-lucide="trending-up"
+                    style="width: 24px; height: 24px"
+                  ></i>
+                </div>
+                <h3
+                  style="
+                    font-weight: 900;
+                    color: #111827;
+                    text-transform: uppercase;
+                    letter-spacing: -0.025em;
+                    font-size: 0.875rem;
+                    margin-bottom: 0.5rem;
+                  "
+                >
+                  Progress Tracking
+                </h3>
+                <p
+                  style="color: #6b7280; font-size: 0.75rem; line-height: 1.625"
+                >
+                  Comprehensive metadata and progress reports aligned with the
+                  LGMD schema for researchers.
+                </p>
+              </div>
+              <div class="card-base card-hover">
+                <div class="card-icon bg-pink-100 text-pink-600">
+                  <i data-lucide="users" style="width: 24px; height: 24px"></i>
+                </div>
+                <h3
+                  style="
+                    font-weight: 900;
+                    color: #111827;
+                    text-transform: uppercase;
+                    letter-spacing: -0.025em;
+                    font-size: 0.875rem;
+                    margin-bottom: 0.5rem;
+                  "
+                >
+                  Collaborative Play
+                </h3>
+                <p
+                  style="color: #6b7280; font-size: 0.75rem; line-height: 1.625"
+                >
+                  Open collaboration model — add, improve, and complete game
+                  entries as a community.
+                </p>
+              </div>
+              <div class="card-base card-hover">
+                <div class="card-icon bg-orange-100 text-orange-600">
+                  <i data-lucide="award" style="width: 24px; height: 24px"></i>
+                </div>
+                <h3
+                  style="
+                    font-weight: 900;
+                    color: #111827;
+                    text-transform: uppercase;
+                    letter-spacing: -0.025em;
+                    font-size: 0.875rem;
+                    margin-bottom: 0.5rem;
+                  "
+                >
+                  Expert Content
+                </h3>
+                <p
+                  style="color: #6b7280; font-size: 0.75rem; line-height: 1.625"
+                >
+                  All games validated by educators, researchers and Serious Game
+                  Society specialists.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PUBLICATIONS -->
+        <section class="section-white animate-on-scroll">
+          <div class="section-inner">
+            <div class="eyebrow">
+              <span class="eyebrow-dot bg-emerald-500"></span>
+              <span class="eyebrow-text text-emerald-500"
+                >Scientific Publications</span
+              >
+            </div>
+            <h2 class="section-title" style="margin-bottom: 2.5rem">
+              Publications
+            </h2>
+
+            <div style="display: flex; flex-direction: column; gap: 1rem">
+              <!-- Pub 1 -->
+              <div
+                class="pub-card"
+                onmouseover="
+                  this.classList.add('active');
+                  this.querySelector('.pub-icon').classList.replace(
+                    'bg-white',
+                    'bg-blue-500',
+                  );
+                  this.querySelector('.pub-icon').classList.replace(
+                    'text-blue-500',
+                    'text-white',
+                  );
+                "
+                onmouseout="
+                  this.classList.remove('active');
+                  this.querySelector('.pub-icon').classList.replace(
+                    'bg-blue-500',
+                    'bg-white',
+                  );
+                  this.querySelector('.pub-icon').classList.replace(
+                    'text-white',
+                    'text-blue-500',
+                  );
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    flex-wrap: wrap;
+                    align-items: flex-start;
+                    justify-content: space-between;
+                    gap: 1.25rem;
+                  "
+                >
+                  <div
+                    style="
+                      display: flex;
+                      gap: 1.25rem;
+                      flex: 1;
+                      min-width: 300px;
+                    "
+                  >
+                    <div
+                      class="pub-icon bg-white text-blue-500"
+                      style="border: 1px solid #f3f4f6; flex-shrink: 0"
+                    >
+                      <i
+                        data-lucide="file-text"
+                        style="width: 16px; height: 16px"
+                      ></i>
+                    </div>
+                    <div style="flex: 1; min-width: 0">
+                      <p
+                        style="
+                          font-size: 0.75rem;
+                          font-weight: 900;
+                          color: #111827;
+                          text-transform: uppercase;
+                          letter-spacing: -0.025em;
+                          margin-bottom: 0.25rem;
+                          line-height: 1.25;
+                        "
+                      >
+                        JEN-Planet: an Automatically Updating Serious Game
+                        Catalogue Designed with and for Teachers
+                      </p>
+                      <p
+                        style="
+                          font-size: 11px;
+                          color: #6b7280;
+                          font-weight: 500;
+                          margin-bottom: 0.5rem;
+                        "
+                      >
+                        Maho Wielfrid Morie, Iza Marfisi-Schottman, Lancine
+                        Bamba
+                      </p>
+                      <div
+                        style="
+                          display: flex;
+                          flex-wrap: wrap;
+                          align-items: center;
+                          gap: 0.75rem;
+                        "
+                      >
+                        <span
+                          style="
+                            font-size: 10px;
+                            font-weight: 900;
+                            color: #2563eb;
+                            text-transform: uppercase;
+                            background-color: #eff6ff;
+                            padding: 0.25rem 0.75rem;
+                            border-radius: 9999px;
+                          "
+                          >International Journal of Serious Games · 2024</span
+                        >
+                        <span
+                          style="
+                            font-size: 10px;
+                            color: #9ca3af;
+                            font-weight: 700;
+                          "
+                          >11 (1), pp.45–62</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      align-items: center;
+                      gap: 0.5rem;
+                      flex-shrink: 0;
+                    "
+                  >
+                    <a
+                      href="https://doi.org/10.17083/ijsg.v11i1.704"
+                      target="_blank"
+                      class="btn-doi"
+                    >
+                      <i
+                        data-lucide="link-2"
+                        style="width: 11px; height: 11px"
+                      ></i>
+                      DOI
+                    </a>
+                    <a
+                      href="https://hal.science/hal-04530648"
+                      target="_blank"
+                      class="btn-hal"
+                    >
+                      <i
+                        data-lucide="external-link"
+                        style="width: 11px; height: 11px"
+                      ></i>
+                      HAL
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Pub 2 -->
+              <div
+                class="pub-card"
+                onmouseover="
+                  this.classList.add('active');
+                  this.querySelector('.pub-icon').classList.replace(
+                    'bg-white',
+                    'bg-blue-500',
+                  );
+                  this.querySelector('.pub-icon').classList.replace(
+                    'text-blue-500',
+                    'text-white',
+                  );
+                "
+                onmouseout="
+                  this.classList.remove('active');
+                  this.querySelector('.pub-icon').classList.replace(
+                    'bg-blue-500',
+                    'bg-white',
+                  );
+                  this.querySelector('.pub-icon').classList.replace(
+                    'text-white',
+                    'text-blue-500',
+                  );
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    flex-wrap: wrap;
+                    align-items: flex-start;
+                    justify-content: space-between;
+                    gap: 1.25rem;
+                  "
+                >
+                  <div
+                    style="
+                      display: flex;
+                      gap: 1.25rem;
+                      flex: 1;
+                      min-width: 300px;
+                    "
+                  >
+                    <div
+                      class="pub-icon bg-white text-blue-500"
+                      style="border: 1px solid #f3f4f6; flex-shrink: 0"
+                    >
+                      <i
+                        data-lucide="file-text"
+                        style="width: 16px; height: 16px"
+                      ></i>
+                    </div>
+                    <div style="flex: 1; min-width: 0">
+                      <p
+                        style="
+                          font-size: 0.75rem;
+                          font-weight: 900;
+                          color: #111827;
+                          text-transform: uppercase;
+                          letter-spacing: -0.025em;
+                          margin-bottom: 0.25rem;
+                          line-height: 1.25;
+                        "
+                      >
+                        User-Centred Design Method for Digital Catalogue
+                        Interfaces
+                      </p>
+                      <p
+                        style="
+                          font-size: 11px;
+                          color: #6b7280;
+                          font-weight: 500;
+                          margin-bottom: 0.5rem;
+                        "
+                      >
+                        Maho Wiefrid Morie, Iza Marfisi-Schottman, Bi Tra Goore
+                      </p>
+                      <div
+                        style="
+                          display: flex;
+                          flex-wrap: wrap;
+                          align-items: center;
+                          gap: 0.75rem;
+                        "
+                      >
+                        <span
+                          style="
+                            font-size: 10px;
+                            font-weight: 900;
+                            color: #2563eb;
+                            text-transform: uppercase;
+                            background-color: #eff6ff;
+                            padding: 0.25rem 0.75rem;
+                            border-radius: 9999px;
+                          "
+                          >International Conference on Games and Learning
+                          Alliance (GALA) · 2020</span
+                        >
+                        <span
+                          style="
+                            font-size: 10px;
+                            color: #9ca3af;
+                            font-weight: 700;
+                          "
+                          >pp.34–44</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      align-items: center;
+                      gap: 0.5rem;
+                      flex-shrink: 0;
+                    "
+                  >
+                    <a
+                      href="https://doi.org/10.1007/978-3-030-63464-3_4"
+                      target="_blank"
+                      class="btn-doi"
+                    >
+                      <i
+                        data-lucide="link-2"
+                        style="width: 11px; height: 11px"
+                      ></i>
+                      DOI
+                    </a>
+                    <a
+                      href="https://hal.science/hal-03143856"
+                      target="_blank"
+                      class="btn-hal"
+                    >
+                      <i
+                        data-lucide="external-link"
+                        style="width: 11px; height: 11px"
+                      ></i>
+                      HAL
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Pub 3 -->
+              <div
+                class="pub-card"
+                onmouseover="
+                  this.classList.add('active');
+                  this.querySelector('.pub-icon').classList.replace(
+                    'bg-white',
+                    'bg-blue-500',
+                  );
+                  this.querySelector('.pub-icon').classList.replace(
+                    'text-blue-500',
+                    'text-white',
+                  );
+                "
+                onmouseout="
+                  this.classList.remove('active');
+                  this.querySelector('.pub-icon').classList.replace(
+                    'bg-blue-500',
+                    'bg-white',
+                  );
+                  this.querySelector('.pub-icon').classList.replace(
+                    'text-white',
+                    'text-blue-500',
+                  );
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    flex-wrap: wrap;
+                    align-items: flex-start;
+                    justify-content: space-between;
+                    gap: 1.25rem;
+                  "
+                >
+                  <div
+                    style="
+                      display: flex;
+                      gap: 1.25rem;
+                      flex: 1;
+                      min-width: 300px;
+                    "
+                  >
+                    <div
+                      class="pub-icon bg-white text-blue-500"
+                      style="border: 1px solid #f3f4f6; flex-shrink: 0"
+                    >
+                      <i
+                        data-lucide="file-text"
+                        style="width: 16px; height: 16px"
+                      ></i>
+                    </div>
+                    <div style="flex: 1; min-width: 0">
+                      <p
+                        style="
+                          font-size: 0.75rem;
+                          font-weight: 900;
+                          color: #111827;
+                          text-transform: uppercase;
+                          letter-spacing: -0.025em;
+                          margin-bottom: 0.25rem;
+                          line-height: 1.25;
+                        "
+                      >
+                        LGMD: Optimal Lightweight Metadata Model for Indexing
+                        Learning Games
+                      </p>
+                      <p
+                        style="
+                          font-size: 11px;
+                          color: #6b7280;
+                          font-weight: 500;
+                          margin-bottom: 0.5rem;
+                        "
+                      >
+                        Maho Wielfrid Morie, Iza Marfisi-Schottman, Bi Tra Goore
+                      </p>
+                      <div
+                        style="
+                          display: flex;
+                          flex-wrap: wrap;
+                          align-items: center;
+                          gap: 0.75rem;
+                        "
+                      >
+                        <span
+                          style="
+                            font-size: 10px;
+                            font-weight: 900;
+                            color: #2563eb;
+                            text-transform: uppercase;
+                            background-color: #eff6ff;
+                            padding: 0.25rem 0.75rem;
+                            border-radius: 9999px;
+                          "
+                          >SADASC — Smart Applications and Data Analysis for
+                          Smart Cyber-Physical Systems · 2020</span
+                        >
+                        <span
+                          style="
+                            font-size: 10px;
+                            color: #9ca3af;
+                            font-weight: 700;
+                          "
+                          >Marrakech, Morocco</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      align-items: center;
+                      gap: 0.5rem;
+                      flex-shrink: 0;
+                    "
+                  >
+                    <a
+                      href="https://hal.science/hal-02484579"
+                      target="_blank"
+                      class="btn-hal"
+                    >
+                      <i
+                        data-lucide="external-link"
+                        style="width: 11px; height: 11px"
+                      ></i>
+                      HAL
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Pub 4 -->
+              <div
+                class="pub-card"
+                onmouseover="
+                  this.classList.add('active');
+                  this.querySelector('.pub-icon').classList.replace(
+                    'bg-white',
+                    'bg-blue-500',
+                  );
+                  this.querySelector('.pub-icon').classList.replace(
+                    'text-blue-500',
+                    'text-white',
+                  );
+                "
+                onmouseout="
+                  this.classList.remove('active');
+                  this.querySelector('.pub-icon').classList.replace(
+                    'bg-blue-500',
+                    'bg-white',
+                  );
+                  this.querySelector('.pub-icon').classList.replace(
+                    'text-white',
+                    'text-blue-500',
+                  );
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    flex-wrap: wrap;
+                    align-items: flex-start;
+                    justify-content: space-between;
+                    gap: 1.25rem;
+                  "
+                >
+                  <div
+                    style="
+                      display: flex;
+                      gap: 1.25rem;
+                      flex: 1;
+                      min-width: 300px;
+                    "
+                  >
+                    <div
+                      class="pub-icon bg-white text-blue-500"
+                      style="border: 1px solid #f3f4f6; flex-shrink: 0"
+                    >
+                      <i
+                        data-lucide="file-text"
+                        style="width: 16px; height: 16px"
+                      ></i>
+                    </div>
+                    <div style="flex: 1; min-width: 0">
+                      <p
+                        style="
+                          font-size: 0.75rem;
+                          font-weight: 900;
+                          color: #111827;
+                          text-transform: uppercase;
+                          letter-spacing: -0.025em;
+                          margin-bottom: 0.25rem;
+                          line-height: 1.25;
+                        "
+                      >
+                        Information Extraction Model to Improve Learning Game
+                        Metadata Indexing
+                      </p>
+                      <p
+                        style="
+                          font-size: 11px;
+                          color: #6b7280;
+                          font-weight: 500;
+                          margin-bottom: 0.5rem;
+                        "
+                      >
+                        Maho Wielfrid Morie, Iza Marfisi-Schottman, Bi Tra Goore
+                      </p>
+                      <div
+                        style="
+                          display: flex;
+                          flex-wrap: wrap;
+                          align-items: center;
+                          gap: 0.75rem;
+                        "
+                      >
+                        <span
+                          style="
+                            font-size: 10px;
+                            font-weight: 900;
+                            color: #2563eb;
+                            text-transform: uppercase;
+                            background-color: #eff6ff;
+                            padding: 0.25rem 0.75rem;
+                            border-radius: 9999px;
+                          "
+                          >ISI International Journal on Information System
+                          Engineering · 2020</span
+                        >
+                        <span
+                          style="
+                            font-size: 10px;
+                            color: #9ca3af;
+                            font-weight: 700;
+                          "
+                          >25 (1), pp.11–19</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      align-items: center;
+                      gap: 0.5rem;
+                      flex-shrink: 0;
+                    "
+                  >
+                    <a
+                      href="https://doi.org/10.18280/isi.250102"
+                      target="_blank"
+                      class="btn-doi"
+                    >
+                      <i
+                        data-lucide="link-2"
+                        style="width: 11px; height: 11px"
+                      ></i>
+                      DOI
+                    </a>
+                    <a
+                      href="https://hal.science/hal-02538562"
+                      target="_blank"
+                      class="btn-hal"
+                    >
+                      <i
+                        data-lucide="external-link"
+                        style="width: 11px; height: 11px"
+                      ></i>
+                      HAL
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PROJECT AUTHORS -->
+        <section
+          class="section-gray animate-on-scroll py-20"
+          style="
+            background-color: #f8f9fa;
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+          "
+        >
+          <div class="section-inner max-w-6xl mx-auto px-6">
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                margin-bottom: 1rem;
+              "
+            >
+              <span
+                class="eyebrow-dot bg-orange-500"
+                style="
+                  width: 0.375rem;
+                  height: 0.375rem;
+                  border-radius: 9999px;
+                  background-color: #f97316;
+                  display: inline-block;
+                "
+              ></span>
+              <span
+                class="eyebrow-text text-orange-500"
+                style="
+                  font-size: 11px;
+                  font-weight: 900;
+                  text-transform: uppercase;
+                  letter-spacing: 0.25em;
+                  color: #f97316;
+                "
+                >Project Authors</span
+              >
+            </div>
+            <h2
+              class="section-title"
+              style="
+                font-size: 1.875rem;
+                font-weight: 900;
+                color: #111827;
+                letter-spacing: -0.025em;
+                margin-bottom: 2.5rem;
+              "
+            >
+              Authors
+            </h2>
+
+            <div class="grid-2">
+              <!-- Author 1 -->
+              <div
+                class="author-card group"
+                style="
+                  background-color: white;
+                  border-radius: 1.5rem;
+                  border: 1px solid #f3f4f6;
+                  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+                  padding: 2rem;
+                  display: flex;
+                  align-items: flex-start;
+                  gap: 1.5rem;
+                  transition: all 0.3s;
+                "
+                onmouseover="
+                  this.style.boxShadow =
+                    '0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)';
+                  this.style.transform = 'translateY(-2px)';
+                "
+                onmouseout="
+                  this.style.boxShadow = '0 1px 2px 0 rgba(0,0,0,0.05)';
+                  this.style.transform = 'translateY(0)';
+                "
+              >
+                <div
+                  style="
+                    width: 4rem;
+                    height: 4rem;
+                    border-radius: 1rem;
+                    background: linear-gradient(
+                      to bottom right,
+                      #3b82f6,
+                      #1d4ed8
+                    );
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: white;
+                    font-size: 1.125rem;
+                    font-weight: 900;
+                    flex-shrink: 0;
+                    box-shadow:
+                      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                      0 4px 6px -2px rgba(0, 0, 0, 0.05);
+                    transition: transform 0.3s;
+                  "
+                  onmouseover="this.style.transform = 'scale(1.05)'"
+                  onmouseout="this.style.transform = 'scale(1)'"
+                >
+                  IM
+                </div>
+                <div style="min-width: 0">
+                  <h3
+                    style="
+                      font-weight: 900;
+                      color: #111827;
+                      font-size: 0.875rem;
+                      text-transform: uppercase;
+                      letter-spacing: -0.025em;
+                      margin-bottom: 0.125rem;
+                    "
+                  >
+                    Iza Marfisi-Schottman
+                  </h3>
+                  <p
+                    style="
+                      font-size: 11px;
+                      color: #2563eb;
+                      font-weight: 700;
+                      margin-bottom: 0.25rem;
+                    "
+                  >
+                    Professeure des Universités en Informatique
+                  </p>
+                  <p
+                    style="
+                      font-size: 11px;
+                      color: #9ca3af;
+                      font-weight: 700;
+                      margin-bottom: 1rem;
+                    "
+                  >
+                    LIUM — Le Mans Université
+                  </p>
+                  <div style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+                    <a
+                      href="https://orcid.org/0000-0002-2046-6698"
+                      target="_blank"
+                      class="author-btn orcid-btn"
+                    >
+                      <i
+                        data-lucide="external-link"
+                        style="width: 10px; height: 10px"
+                      ></i>
+                      ORCID
+                    </a>
+                    <a
+                      href="mailto:iza.marfisi@gmail.com"
+                      class="author-btn email-btn"
+                    >
+                      <i
+                        data-lucide="mail"
+                        style="width: 10px; height: 10px"
+                      ></i>
+                      Email
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Author 2 -->
+              <div
+                class="author-card group"
+                style="
+                  background-color: white;
+                  border-radius: 1.5rem;
+                  border: 1px solid #f3f4f6;
+                  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+                  padding: 2rem;
+                  display: flex;
+                  align-items: flex-start;
+                  gap: 1.5rem;
+                  transition: all 0.3s;
+                "
+                onmouseover="
+                  this.style.boxShadow =
+                    '0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)';
+                  this.style.transform = 'translateY(-2px)';
+                "
+                onmouseout="
+                  this.style.boxShadow = '0 1px 2px 0 rgba(0,0,0,0.05)';
+                  this.style.transform = 'translateY(0)';
+                "
+              >
+                <div
+                  style="
+                    width: 4rem;
+                    height: 4rem;
+                    border-radius: 1rem;
+                    background: linear-gradient(
+                      to bottom right,
+                      #f97316,
+                      #c2410c
+                    );
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: white;
+                    font-size: 1.125rem;
+                    font-weight: 900;
+                    flex-shrink: 0;
+                    box-shadow:
+                      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                      0 4px 6px -2px rgba(0, 0, 0, 0.05);
+                    transition: transform 0.3s;
+                  "
+                  onmouseover="this.style.transform = 'scale(1.05)'"
+                  onmouseout="this.style.transform = 'scale(1)'"
+                >
+                  WM
+                </div>
+                <div style="min-width: 0">
+                  <h3
+                    style="
+                      font-weight: 900;
+                      color: #111827;
+                      font-size: 0.875rem;
+                      text-transform: uppercase;
+                      letter-spacing: -0.025em;
+                      margin-bottom: 0.125rem;
+                    "
+                  >
+                    Wielfrid MORIE
+                  </h3>
+                  <p
+                    style="
+                      font-size: 11px;
+                      color: #2563eb;
+                      font-weight: 700;
+                      margin-bottom: 0.25rem;
+                    "
+                  >
+                    Maître-Assistant en Informatique
+                  </p>
+                  <p
+                    style="
+                      font-size: 11px;
+                      color: #9ca3af;
+                      font-weight: 700;
+                      margin-bottom: 1rem;
+                    "
+                  >
+                    LMI — Université Nangui ABROGOUA
+                  </p>
+                  <div style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+                    <a
+                      href="https://orcid.org/0000-0003-0426-3046"
+                      target="_blank"
+                      class="author-btn orcid-btn"
+                    >
+                      <i
+                        data-lucide="external-link"
+                        style="width: 10px; height: 10px"
+                      ></i>
+                      ORCID
+                    </a>
+                    <a
+                      href="mailto:moriemaho@gmail.com"
+                      class="author-btn email-btn"
+                    >
+                      <i
+                        data-lucide="mail"
+                        style="width: 10px; height: 10px"
+                      ></i>
+                      Email
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- DEVELOPPER TEAM -->
+        <section
+          class="section-white animate-on-scroll py-20"
+          style="
+            background-color: white;
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+          "
+        >
+          <div class="section-inner max-w-6xl mx-auto px-6">
+            <!-- Gama Labs : un seul bloc, l'équipe se révèle au survol / clic -->
+            <style>
+              .gama-wrap {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+              }
+              .gama-trigger {
+                position: relative;
+                cursor: pointer;
+                user-select: none;
+                outline: none;
+                display: inline-flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 1.35rem 1.9rem;
+                border-radius: 1.4rem;
+                background: linear-gradient(
+                  135deg,
+                  #6d28d9,
+                  #4f46e5 55%,
+                  #2563eb
+                );
+                box-shadow: 0 24px 60px -18px rgba(79, 70, 229, 0.55);
+                transition:
+                  transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                  box-shadow 0.55s;
+              }
+              .gama-trigger::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: 1.4rem;
+                pointer-events: none;
+                background: radial-gradient(
+                  120% 120% at 0% 0%,
+                  rgba(255, 255, 255, 0.28),
+                  transparent 45%
+                );
+              }
+              .gama-trigger:hover,
+              .gama-wrap.open .gama-trigger {
+                transform: translateY(-4px) scale(1.02);
+                box-shadow: 0 34px 74px -16px rgba(79, 70, 229, 0.7);
+              }
+              .gama-trigger:focus-visible {
+                box-shadow:
+                  0 0 0 4px rgba(255, 255, 255, 0.6),
+                  0 24px 60px -18px rgba(79, 70, 229, 0.55);
+              }
+              .gama-logo-slot {
+                position: relative;
+                z-index: 1;
+                width: 52px;
+                height: 52px;
+                border-radius: 14px;
+                background: rgba(255, 255, 255, 0.16);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              }
+              .gama-logo-slot img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                border-radius: 14px;
+              }
+              .gama-logo-slot .gama-mark {
+                font-size: 1.3rem;
+                font-weight: 900;
+                color: #fff;
+                letter-spacing: -0.05em;
+              }
+              .gama-title {
+                position: relative;
+                z-index: 1;
+                color: #fff;
+                font-size: 1.15rem;
+                font-weight: 900;
+                letter-spacing: -0.04em;
+                line-height: 1;
+                text-transform: uppercase;
+              }
+              .gama-sub {
+                position: relative;
+                z-index: 1;
+                color: rgba(255, 255, 255, 0.85);
+                font-size: 0.62rem;
+                font-weight: 800;
+                letter-spacing: 0.22em;
+                text-transform: uppercase;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+              }
+              .gama-sub .chev {
+                transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+              }
+              .gama-trigger:hover .gama-sub .chev,
+              .gama-wrap.open .gama-sub .chev {
+                transform: rotate(180deg);
+              }
+
+              .gama-reveal {
+                width: 100%;
+                margin-top: 0;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 1.25rem;
+                max-height: 0;
+                opacity: 0;
+                overflow: hidden;
+                pointer-events: none;
+                transition:
+                  max-height 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                  opacity 0.55s ease,
+                  margin-top 0.55s ease;
+              }
+              .gama-wrap.open .gama-reveal {
+                max-height: 1600px;
+                opacity: 1;
+                margin-top: 0;
+                pointer-events: auto;
+              }
+              .gama-reveal .dev-card {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+                transition:
+                  opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+              }
+              .gama-wrap.open .gama-reveal .dev-card {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+              }
+              /* Le bloc Gama disparait quand l'equipe s'affiche */
+              .gama-wrap.open .gama-trigger {
+                display: none;
+              }
+              /* Petite pastille pour replier l'equipe */
+              .gama-collapse {
+                display: none;
+              }
+              .gama-wrap.open .gama-collapse {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                cursor: pointer;
+                margin-bottom: 1.75rem;
+                padding: 0.55rem 1.1rem;
+                border: none;
+                border-radius: 9999px;
+                background: linear-gradient(135deg, #6d28d9, #4f46e5);
+                color: #fff;
+                font-weight: 900;
+                font-size: 0.72rem;
+                text-transform: uppercase;
+                letter-spacing: 0.12em;
+                box-shadow: 0 10px 24px -12px rgba(79, 70, 229, 0.6);
+                transition: transform 0.25s;
+              }
+              .gama-wrap.open .gama-collapse:hover {
+                transform: translateY(-2px);
+              }
+              @media (prefers-reduced-motion: reduce) {
+                .gama-reveal,
+                .gama-reveal .dev-card,
+                .gama-trigger,
+                .gama-sub .chev {
+                  transition: none;
+                }
+              }
+            </style>
+
+            <div class="gama-wrap" id="gama-wrap">
+              <div
+                class="gama-trigger"
+                id="gama-trigger"
+                role="button"
+                tabindex="0"
+                aria-expanded="false"
+                aria-controls="gama-reveal"
+              >
+                <div class="gama-logo-slot" id="gama-logo-slot">
+                  <!-- LOGO ICI : remplacer le <span> par <img src="assets/gama-labs.png" alt="Gama L'Abs"> -->
+                  <span class="gama-mark">GL</span>
+                </div>
+                <div class="gama-title">GAMA L'ABS</div>
+                <div class="gama-sub">
+                  <span>Developper Team</span>
+                  <svg
+                    class="chev"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                class="gama-collapse"
+                id="gama-collapse"
+                aria-label="Reduire l'equipe"
+              >
+                <svg
+                  class="chev-up"
+                  width="13"
+                  height="13"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M18 15l-6-6-6 6" />
+                </svg>
+                GAMA L'ABS · Reduire
+              </button>
+
+              <!-- Team block (révélé) -->
+              <div class="gama-reveal" id="gama-reveal">
+                <!-- 1 -->
+                <div class="dev-card group">
+                  <div
+                    class="dev-avatar bg-gradient-to-br from-violet-500 to-purple-700"
+                  >
+                    DU
+                  </div>
+                  <div class="dev-info">
+                    <h3 class="dev-name">Dakaud Uriel Jean Bedel</h3>
+                    <span class="dev-role bg-violet-50 text-violet-700"
+                      >Developer</span
+                    >
+                    <div>
+                      <a
+                        href="https://dakauduriel.netlify.app"
+                        target="_blank"
+                        class="dev-portfolio"
+                        ><i
+                          data-lucide="external-link"
+                          style="width: 10px; height: 10px"
+                        ></i>
+                        Portfolio</a
+                      >
+                    </div>
+                  </div>
+                </div>
+                <!-- 2 -->
+                <div class="dev-card group">
+                  <div
+                    class="dev-avatar bg-gradient-to-br from-blue-500 to-blue-700"
+                  >
+                    DD
+                  </div>
+                  <div class="dev-info">
+                    <h3 class="dev-name">Deroux Desailly Caleb</h3>
+                    <span class="dev-role bg-blue-50 text-blue-700"
+                      >Developer</span
+                    >
+                    <div>
+                      <a
+                        href="https://portfolio-three-lac-38.vercel.app"
+                        target="_blank"
+                        class="dev-portfolio"
+                        ><i
+                          data-lucide="external-link"
+                          style="width: 10px; height: 10px"
+                        ></i>
+                        Portfolio</a
+                      >
+                    </div>
+                  </div>
+                </div>
+                <!-- 3 -->
+                <div class="dev-card group">
+                  <div
+                    class="dev-avatar bg-gradient-to-br from-emerald-500 to-teal-700"
+                  >
+                    GO
+                  </div>
+                  <div class="dev-info">
+                    <h3 class="dev-name">Graourou Olivier Grace Divine</h3>
+                    <span class="dev-role bg-emerald-50 text-emerald-700"
+                      >Developer</span
+                    >
+                    <div>
+                      <a href="#" class="dev-portfolio"
+                        ><i
+                          data-lucide="external-link"
+                          style="width: 10px; height: 10px"
+                        ></i>
+                        Portfolio</a
+                      >
+                    </div>
+                  </div>
+                </div>
+                <!-- 4 -->
+                <div class="dev-card group">
+                  <div
+                    class="dev-avatar bg-gradient-to-br from-orange-500 to-amber-700"
+                    style="
+                      background: linear-gradient(
+                        to bottom right,
+                        #f97316,
+                        #b45309
+                      );
+                    "
+                  >
+                    AY
+                  </div>
+                  <div class="dev-info">
+                    <h3 class="dev-name">Assale Yao Eliakim</h3>
+                    <span class="dev-role bg-orange-50 text-orange-700"
+                      >Developer</span
+                    >
+                    <div>
+                      <a
+                        href="https://assaleyaoeliakim.netlify.app"
+                        target="_blank"
+                        class="dev-portfolio"
+                        ><i
+                          data-lucide="external-link"
+                          style="width: 10px; height: 10px"
+                        ></i>
+                        Portfolio</a
+                      >
+                    </div>
+                  </div>
+                </div>
+                <!-- 5 -->
+                <div class="dev-card group">
+                  <div
+                    class="dev-avatar bg-gradient-to-br from-rose-500 to-red-700"
+                    style="
+                      background: linear-gradient(
+                        to bottom right,
+                        #f43f5e,
+                        #b91c1c
+                      );
+                    "
+                  >
+                    BK
+                  </div>
+                  <div class="dev-info">
+                    <h3 class="dev-name">Baidoo Kofi Mendes Martin</h3>
+                    <span
+                      class="dev-role bg-rose-50 text-rose-700"
+                      style="background-color: #fff1f2; color: #be123c"
+                      >Developer</span
+                    >
+                    <div>
+                      <a
+                        href="https://baidoomartinportfolio.netlify.app"
+                        target="_blank"
+                        class="dev-portfolio"
+                        ><i
+                          data-lucide="external-link"
+                          style="width: 10px; height: 10px"
+                        ></i>
+                        Portfolio</a
+                      >
+                    </div>
+                  </div>
+                </div>
+                <!-- 6 -->
+                <div class="dev-card group">
+                  <div
+                    class="dev-avatar bg-gradient-to-br from-cyan-500 to-sky-700"
+                    style="
+                      background: linear-gradient(
+                        to bottom right,
+                        #06b6d4,
+                        #0369a1
+                      );
+                    "
+                  >
+                    AS
+                  </div>
+                  <div class="dev-info">
+                    <h3 class="dev-name">Ahoussi Serge Armel</h3>
+                    <span
+                      class="dev-role bg-cyan-50 text-cyan-700"
+                      style="background-color: #ecfeff; color: #0e7490"
+                      >Developer</span
+                    >
+                    <div>
+                      <a href="#" class="dev-portfolio"
+                        ><i
+                          data-lucide="external-link"
+                          style="width: 10px; height: 10px"
+                        ></i>
+                        Portfolio</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <script>
+          (function () {
+            const wrap = document.getElementById("gama-wrap");
+            const trigger = document.getElementById("gama-trigger");
+            const reveal = document.getElementById("gama-reveal");
+            if (!wrap || !trigger || !reveal) return;
+            // Motion : apparition echelonnee carte par carte
+            reveal.querySelectorAll(".dev-card").forEach((c, i) => {
+              c.style.transitionDelay = i * 90 + "ms";
+            });
+            function toggle() {
+              const open = wrap.classList.toggle("open");
+              trigger.setAttribute("aria-expanded", open ? "true" : "false");
+            }
+            trigger.addEventListener("click", toggle);
+            trigger.addEventListener("keydown", (e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                toggle();
+              }
+            });
+            const collapse = document.getElementById("gama-collapse");
+            if (collapse)
+              collapse.addEventListener("click", () => {
+                wrap.classList.remove("open");
+                trigger.setAttribute("aria-expanded", "false");
+                trigger.focus();
+              });
+          })();
+        </script>
+
+        <!-- APPEL À L'ACTION REJOINDRE -->
+        <section class="join-cta">
+          <div
+            style="
+              position: absolute;
+              inset: 0;
+              background: radial-gradient(
+                circle at center,
+                #e0f2fe 0%,
+                #ffffff 70%
+              );
+              opacity: 0.6;
+            "
+          ></div>
+          <div
+            style="
+              position: relative;
+              z-index: 10;
+              max-width: 56rem;
+              margin: 0 auto;
+              text-align: center;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              gap: 2rem;
+            "
+          >
+            <h2
+              style="
+                font-size: 2.25rem;
+                font-weight: 500;
+                color: #111827;
+                letter-spacing: -0.025em;
+                line-height: 1.2;
+              "
+            >
+              Join The
+              <span class="text-blue-500" style="color: #3b82f6">SGC</span>
+              Community
+            </h2>
+            <p
+              style="
+                color: #4b5563;
+                font-size: 1.125rem;
+                line-height: 1.625;
+                max-width: 42rem;
+                margin: 0 auto;
+              "
+            >
+              Contribute To The World's Largest Catalogue Of Serious Games.
+              Share, Rate And Discover The Best Educational Resources.
+            </p>
+            <div style="padding-top: 1rem">
+              <a
+                href="add-game.html"
+                class="join-btn"
+                style="
+                  text-decoration: none;
+                  display: inline-flex;
+                  margin: 0 auto;
+                  border: none;
+                  cursor: pointer;
+                "
+              >
+                <i
+                  data-lucide="plus-circle"
+                  style="width: 22px; height: 22px"
+                ></i>
+                Add serious game
+              </a>
+            </div>
+            <div
+              style="
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 2rem;
+                padding-top: 2rem;
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 0.75rem;
+                  color: #3b82f6;
+                  font-weight: 500;
+                  font-size: 1.125rem;
+                "
+              >
+                <i
+                  data-lucide="check-circle-2"
+                  style="width: 24px; height: 24px; stroke-width: 1.5px"
+                ></i>
+                <span>Open Source</span>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 0.75rem;
+                  color: #3b82f6;
+                  font-weight: 500;
+                  font-size: 1.125rem;
+                "
+              >
+                <i
+                  data-lucide="check-circle-2"
+                  style="width: 24px; height: 24px; stroke-width: 1.5px"
+                ></i>
+                <span>Community</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="max-w-7xl mx-auto footer-grid">
+        <!-- Left Column -->
+        <div class="footer-brand">
+          <h2>Serious Game<br />Catalogue</h2>
+          <p>A leading platform for<br />serious educational games.</p>
+        </div>
+
+        <!-- Middle Column -->
         <div>
           <h3 class="footer-heading">
-            <span class="footer-indicator-red"></span>
-            PORTAL
+            <span class="footer-indicator-orange"></span>
+            NAVIGATION
           </h3>
-          <a href="admin.html" class="footer-link">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="3" stroke-width="2" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
-            </svg>
-            ADMIN ACCESS
-          </a>
+          <nav class="footer-nav">
+            <a href="index.html" class="footer-link">
+              <i data-lucide="home" style="width: 20px; height: 20px"></i>
+              HOME
+            </a>
+            <a href="add-game.html" class="footer-link">
+              <i
+                data-lucide="plus-circle"
+                style="width: 20px; height: 20px"
+              ></i>
+              ADD SERIOUS GAME
+            </a>
+            <a href="about.html" class="footer-link">
+              <i data-lucide="info" style="width: 20px; height: 20px"></i>
+              ABOUT
+            </a>
+            <a href="profile.html" class="footer-link">
+              <i data-lucide="user" style="width: 20px; height: 20px"></i>
+              PROFILE
+            </a>
+          </nav>
         </div>
-        <div style="margin-top: 2rem;">
-          <p style="color: #9ca3af; font-size: 0.875rem; margin-bottom: 0.5rem;">2026 Serious Games Society</p>
+
+        <!-- Right Column -->
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+          "
+        >
+          <div>
+            <h3 class="footer-heading">
+              <span class="footer-indicator-red"></span>
+              PORTAL
+            </h3>
+            <a href="admin.html" class="footer-link">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="3" stroke-width="2" />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"
+                />
+              </svg>
+              ADMIN ACCESS
+            </a>
+          </div>
+          <div style="margin-top: 2rem">
+            <p
+              style="color: #9ca3af; font-size: 0.875rem; margin-bottom: 0.5rem"
+            >
+              2026 Serious Games Society
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-  </footer>
+    </footer>
 
-  <script src="js/main.js"></script>
-  <script src="js/admin-auth.js"></script>
-  <script>
-    // scripts spécifiques à la page à propos et observateur d'intersection
-    document.addEventListener('DOMContentLoaded', () => {
-      if (typeof lucide !== 'undefined') lucide.createIcons();
+    <script src="js/main.js"></script>
+    <script src="js/admin-auth.js"></script>
+    <script>
+      // scripts spécifiques à la page à propos et observateur d'intersection
+      document.addEventListener("DOMContentLoaded", () => {
+        if (typeof lucide !== "undefined") lucide.createIcons();
 
-      // Logique de défilement animé
-      const elements = document.querySelectorAll('.animate-on-scroll');
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      }, { threshold: 0.08 });
-
-      elements.forEach(el => observer.observe(el));
-
-      // Logique de nombres animés
-      const numbers = document.querySelectorAll('.animated-number');
-      const numObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting && !entry.target.dataset.animated) {
-            entry.target.dataset.animated = 'true';
-            const target = parseInt(entry.target.dataset.target);
-            let start = 0;
-            const step = Math.ceil(target / 60);
-            const timer = setInterval(() => {
-              start += step;
-              if (start >= target) {
-                entry.target.textContent = target;
-                clearInterval(timer);
-              } else {
-                entry.target.textContent = start;
+        // Logique de défilement animé
+        const elements = document.querySelectorAll(".animate-on-scroll");
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
               }
-            }, 16);
-          }
-        });
-      }, { threshold: 0.4 });
+            });
+          },
+          { threshold: 0.08 },
+        );
 
-      numbers.forEach(el => numObserver.observe(el));
-    });
-  </script>
-</body>
+        elements.forEach((el) => observer.observe(el));
 
+        // Logique de nombres animés
+        const numbers = document.querySelectorAll(".animated-number");
+        const numObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting && !entry.target.dataset.animated) {
+                entry.target.dataset.animated = "true";
+                const target = parseInt(entry.target.dataset.target);
+                let start = 0;
+                const step = Math.ceil(target / 60);
+                const timer = setInterval(() => {
+                  start += step;
+                  if (start >= target) {
+                    entry.target.textContent = target;
+                    clearInterval(timer);
+                  } else {
+                    entry.target.textContent = start;
+                  }
+                }, 16);
+              }
+            });
+          },
+          { threshold: 0.4 },
+        );
+
+        numbers.forEach((el) => numObserver.observe(el));
+      });
+    </script>
+  </body>
 </html>
